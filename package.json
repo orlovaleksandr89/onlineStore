@@ -1,0 +1,31 @@
+{
+  "name": "online_store",
+  "version": "1.0.0",
+  "description": "Online store MERN",
+  "main": "index.js",
+  "scripts": {
+    "srat": "node index.js",
+    "server": "nodemon index.js",
+    "client": "npm run start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\" "
+  },
+  "keywords": [
+    "mern",
+    "react",
+    "nodejs"
+  ],
+  "author": "Oleksandr Orlov",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "config": "^3.3.6",
+    "express": "^4.17.1",
+    "express-validator": "^6.12.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.0.5"
+  },
+  "devDependencies": {
+    "concurrently": "^6.2.1",
+    "nodemon": "^2.0.12"
+  }
+}
