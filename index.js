@@ -6,7 +6,7 @@ const app = express()
 app.use(express.json({ extended: true }))
 app.use('/', require('./routes/auth.routes'))
 
-const PORT = config.PORT || 5000
+const PORT = config.PORT || proccess.env.PORT || 5000
 
 async function start() {
   try {
