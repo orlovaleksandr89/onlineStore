@@ -3,7 +3,6 @@ const Role = require('./models/Role')
 const Item = require('./models/Item')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const config = require('./config')
 const { validationResult } = require('express-validator')
 
 const generateAccessToken = (id, role) => {
