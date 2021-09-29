@@ -11,8 +11,8 @@ const generateAccessToken = (id, role) => {
     id,
     role
   }
-  return jwt.sign(payload, config.jwtSecretKey, {
-    expiresIn: '1h'
+  return jwt.sign(payload, process.env.jwtSecretKey, {
+    expiresIn: process.env.expiration
   })
 }
 
@@ -87,7 +87,7 @@ class authController {
   async getItems(req, res) {
     try {
       const items = await Item.find()
-      res.json(items)
+      res.status(200).json(items)
     } catch (error) {
       console.log(error.message)
     }

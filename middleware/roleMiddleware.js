@@ -1,4 +1,3 @@
-const config = require('../config')
 const jwt = require('jsonwebtoken')
 
 module.exports = function (roles) {
@@ -13,7 +12,7 @@ module.exports = function (roles) {
         return res.status(403).json({ message: 'Пользователь не авторизован' })
       }
 
-      const { role: userRoles } = jwt.verify(token, config.jwtSecretKey)
+      const { role: userRoles } = jwt.verify(token, process.env.jwtSecretKey)
 
       let hasAccess = false
 

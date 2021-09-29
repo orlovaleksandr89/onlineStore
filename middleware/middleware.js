@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken')
-const { jwtSecretKey } = require('../config')
 
 module.exports = function (req, res, next) {
   if (req.method === 'OPTIONS') {
@@ -12,7 +11,7 @@ module.exports = function (req, res, next) {
       return res.status(403).json({ message: 'Пользователь не авторизован' })
     }
 
-    const decodedData = jwt.verify(token, jwtSecretKey)
+    const decodedData = jwt.verify(token, process.env.jwtSecretKey)
     req.user = decodedData
     next()
   } catch (error) {
