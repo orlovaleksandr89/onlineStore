@@ -1,13 +1,42 @@
-import React from 'react'
-import { ListGroup } from 'react-bootstrap'
+import React, { useContext, useState } from 'react'
+import { ListGroup, Button, Container } from 'react-bootstrap'
+import StoreContext from '../store/store'
 
-function TypeBar() {
+function TypeBar({ setType }) {
+  const storeCtx = useContext(StoreContext)
+  const [selectedType, setSelectedType] = useState()
   return (
-    <ListGroup>
-      <ListGroup.Item>Laptop</ListGroup.Item>
-      <ListGroup.Item>Smartphone</ListGroup.Item>
-      <ListGroup.Item>Clothes</ListGroup.Item>
-    </ListGroup>
+    <Container>
+      <ListGroup>
+        {storeCtx.types.map((type) => {
+          return (
+            <ListGroup.Item
+              key={type}
+              role='button'
+              onClick={() => {
+                setSelectedType(type)
+                setType(type)
+              }}
+              className={type === selectedType ? 'list-group-item-dark' : ''}
+            >
+              {type}
+            </ListGroup.Item>
+          )
+        })}
+      </ListGroup>
+      <div className='d-flex flex-column  mt-3'>
+        <Button
+          variant={'outline-warning'}
+          onClick={() => {
+            setSelectedType(undefined)
+            setType(undefined)
+          }}
+          className='text-dark'
+        >
+          Reset
+        </Button>
+      </div>
+    </Container>
   )
 }
 

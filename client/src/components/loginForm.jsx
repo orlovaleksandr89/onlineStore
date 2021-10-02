@@ -52,6 +52,12 @@ const LoginForm = () => {
               variant={'outline-warning'}
               onClick={() => {
                 storeCtx.setAuth(true)
+                storeCtx.setUser({
+                  email: 'admin@mail.com',
+                  password: 'admin',
+                  role: 'USER',
+                  id: '1234123'
+                })
                 history.replace('/')
               }}
             >
