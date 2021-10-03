@@ -13,7 +13,9 @@ const StoreContext = createContext({
   setTypes: (type) => {},
   cart: [],
   addItemToCart: (item) => {},
-  deleteFromCart: (item) => {}
+  deleteFromCart: (item) => {},
+  incrementQty: (id) => {},
+  decrementQty: (id) => {}
 })
 
 export function StoreContextProvider(props) {
@@ -116,17 +118,41 @@ export function StoreContextProvider(props) {
       return [...prevTypes, type]
     })
   }
-  function addItemToCartHandler(item) {
-    if (cartItems.includes(item)) {
+  function addItemToCartHandler(id) {
+    if (cartItems.find((item) => item.id === id)) {
       return cartItems
     } else {
-      setCartItem((prevItems) => {
-        return [...prevItems, item]
+      const newCart = items.map((item) => {
+        if (item.id === id) {
+          return { ...item, qty: 1 }
+        }
+        return item
       })
+      const item = newCart.find((item) => item.id === id)
+      setCartItem((prev) => [...prev, item])
     }
   }
   function deleteFromCartHandler(id) {
     setCartItem([...cartItems.filter((item) => item.id !== id)])
+  }
+  function incrementQtyHandler(id) {
+    const newCart = [...cartItems]
+    const item = newCart.find((item) => item.id === id)
+
+    item.qty += 1
+
+    setCartItem(newCart)
+  }
+
+  function decrementQtyHandler(id) {
+    const newCart = [...cartItems]
+    const item = newCart.find((item) => item.id === id)
+
+    if (item.qty > 0) {
+      item.qty -= 1
+    }
+
+    setCartItem(newCart)
   }
 
   const context = {
@@ -142,7 +168,9 @@ export function StoreContextProvider(props) {
     setTypes: setTypesHandler,
     addItemToCart: addItemToCartHandler,
     deleteFromCart: deleteFromCartHandler,
-    cart: cartItems
+    cart: cartItems,
+    incrementQty: incrementQtyHandler,
+    decrementQty: decrementQtyHandler
   }
 
   return (

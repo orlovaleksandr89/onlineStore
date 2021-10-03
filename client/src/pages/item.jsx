@@ -8,6 +8,7 @@ const ItemPage = () => {
   const { id } = useParams()
   const history = useHistory()
   const storeCtx = useContext(StoreContext)
+  const { cart } = storeCtx
   const [inCart, setInCart] = useState(false)
   const [itemAddedToCart, setItemAddedToCart] = useState(false)
 
@@ -16,10 +17,10 @@ const ItemPage = () => {
   })
 
   const addToCartHandle = (item) => {
-    if (storeCtx.cart.includes(item)) {
+    if (cart.find((cartItem) => cartItem.id === item.id)) {
       return setInCart(true)
     } else {
-      storeCtx.addItemToCart(item)
+      storeCtx.addItemToCart(item.id)
       setItemAddedToCart(true)
     }
   }
