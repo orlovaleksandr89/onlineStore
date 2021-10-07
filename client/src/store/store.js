@@ -15,14 +15,15 @@ const StoreContext = createContext({
   addItemToCart: (item) => {},
   deleteFromCart: (item) => {},
   incrementQty: (id) => {},
-  decrementQty: (id) => {}
+  decrementQty: (id) => {},
+  clearCart: () => {}
 })
 
 export function StoreContextProvider(props) {
   const [user, setUser] = useState({
     email: 'admin@mail.com',
     password: 'admin',
-    role: 'USER',
+    role: 'ADMIN',
     id: '1234123'
   })
   const [types, setTypes] = useState([
@@ -155,6 +156,10 @@ export function StoreContextProvider(props) {
     setCartItem(newCart)
   }
 
+  function clearCartHandle() {
+    setCartItem([])
+  }
+
   const context = {
     isAuth: isAuth,
     items: items,
@@ -170,7 +175,8 @@ export function StoreContextProvider(props) {
     deleteFromCart: deleteFromCartHandler,
     cart: cartItems,
     incrementQty: incrementQtyHandler,
-    decrementQty: decrementQtyHandler
+    decrementQty: decrementQtyHandler,
+    clearCart: clearCartHandle
   }
 
   return (

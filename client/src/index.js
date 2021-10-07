@@ -8,13 +8,11 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { StoreContextProvider } from './store/store'
 
 ReactDOM.render(
-  <React.StrictMode>
-    <StoreContextProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </StoreContextProvider>
-  </React.StrictMode>,
+  <StoreContextProvider>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </StoreContextProvider>,
   document.getElementById('root')
 )
 

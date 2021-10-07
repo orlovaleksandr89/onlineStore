@@ -1,14 +1,15 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { Card, Col, Container, Row } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import CartItem from '../components/CartItem'
 import Total from '../components/Total'
 import StoreContext from '../store/store'
 
 const Cart = () => {
+  const history = useHistory()
   const storeCtx = useContext(StoreContext)
   const { cart } = storeCtx
-
+  console.log(cart)
   const [cartItems, setCartItems] = useState(cart)
 
   const deleteHandler = (id) => {
@@ -37,7 +38,7 @@ const Cart = () => {
           <Col md={9}>
             {cartItems.map((item) => {
               return (
-                <Card key={item.id} className='mt-2'>
+                <Card key={item.id} className='mb-3'>
                   <CartItem
                     key={item.id}
                     {...item}
@@ -54,7 +55,7 @@ const Cart = () => {
             {totlaPrice === 0 ? (
               <h2>Nothing to pay yet</h2>
             ) : (
-              <Total totlaPrice={totlaPrice} />
+              <Total totlaPrice={totlaPrice} history={history} />
             )}{' '}
           </Col>
         </Row>

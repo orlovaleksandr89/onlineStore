@@ -6,6 +6,7 @@ import StoreContext from '../store/store'
 const NavBar = () => {
   const history = useHistory()
   const storeCtx = useContext(StoreContext)
+
   return (
     <Navbar bg='dark' variant='dark' expand='md'>
       <Container className='mt-2'>
@@ -17,7 +18,7 @@ const NavBar = () => {
 
         {storeCtx.isAuth ? (
           <Nav className='d-flex justify-content-center align-items-center '>
-            {storeCtx.user.role === 'ADMIN' && (
+            {storeCtx.user.role === 'ADMIN' && storeCtx.isAuth && (
               <Button
                 className='btn me-2'
                 variant={'outline-warning'}
@@ -38,7 +39,8 @@ const NavBar = () => {
                     className='position-relative btn '
                     variant={'outline-warning'}
                   >
-                    <i className='bi bi-bag-check'></i>
+                    Cart
+                    <i className='bi bi-bag-check ms-2'></i>
                     <span className='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger'>
                       {storeCtx.cart.length}
                       <span className='visually-hidden'>unread messages</span>

@@ -12,10 +12,12 @@ function ModalWindow({
 }) {
   return (
     <Modal show={show} onHide={onHide}>
-      <Modal.Header closeButton>
+      <Modal.Header>
         <Modal.Title>{title}</Modal.Title>
       </Modal.Header>
-      <Modal.Body>{body}</Modal.Body>
+      <Modal.Body>
+        <h5>{body}</h5>
+      </Modal.Body>
       <Modal.Footer>
         <Button
           variant='outline-warning'

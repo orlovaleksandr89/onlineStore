@@ -1,27 +1,38 @@
-import React from 'react'
-import { Col, Container, Row, Card } from 'react-bootstrap'
+import React, { useContext } from 'react'
+import { Col, Row, Card } from 'react-bootstrap'
+import PaypalExpressBtn from './CheckoutButton'
+import StoreContext from '../store/store'
 
-function Total({ totlaPrice }) {
+function Total({ totlaPrice, history }) {
   const getTax = (totlaPrice) => Math.fround(totlaPrice * 0.08375).toFixed(2)
   const getTotalPrice = (totlaPrice) => {
     return (totlaPrice + Number(getTax(totlaPrice))).toFixed(2)
   }
+  const total = Number(getTotalPrice(totlaPrice))
+  const storeCtx = useContext(StoreContext)
 
   return (
     <Card>
-      <Container>
-        <Row>
-          <Col md={12}>
-            <h1>Your total</h1>
-            <h5>Cart total {totlaPrice} $</h5>
-            <h5>Tax: {getTax(totlaPrice)} $</h5>
+      <Row>
+        <Col>
+          <h4>Your total</h4>
+          <p>Cart total: {totlaPrice} $</p>
+          <p>Tax: {getTax(totlaPrice)} $</p>
 
-            <h4>Your total is {getTotalPrice(totlaPrice)} $</h4>
-          </Col>
-        </Row>
-      </Container>
+          <h4>Total is {total} $</h4>
+        </Col>
+      </Row>
+      <Row className='d-flex justify-content-center'>
+        <PaypalExpressBtn
+          total={total}
+          history={history}
+          clearCart={storeCtx.clearCart}
+          className='my-3'
+        />
+      </Row>
     </Card>
   )
 }
 
 export default Total
+/*Af31UX4r1rHO6tCzQy7QoqHj8nWxRw-JmgIRbb7TbVJrNs5hCKBcL_c9m66bcwdfbZsuWOxv_GEu-j6o */

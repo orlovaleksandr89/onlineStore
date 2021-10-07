@@ -8,7 +8,7 @@ function SearchBar({ setSearch, search }) {
         <Form className='my-3  position-relative  d-flex flex-row'>
           <Form.Control
             type='text'
-            placeholder='search'
+            placeholder='Search'
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           ></Form.Control>

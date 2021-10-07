@@ -20,15 +20,19 @@ function ItemsList({ type, search }) {
 
   return (
     <Container>
-      {type
-        ? fileterdItems
-            .filter((item) => item.type.toLowerCase() === type.toLowerCase())
-            .map((item) => {
-              return <ItemInList {...item} key={item.id} />
-            })
-        : fileterdItems.map((item) => {
+      {fileterdItems.length === 0 ? (
+        <h2>'No items found'</h2>
+      ) : type ? (
+        fileterdItems
+          .filter((item) => item.type.toLowerCase() === type.toLowerCase())
+          .map((item) => {
             return <ItemInList {...item} key={item.id} />
-          })}
+          })
+      ) : (
+        fileterdItems.map((item) => {
+          return <ItemInList {...item} key={item.id} />
+        })
+      )}
     </Container>
   )
 }
