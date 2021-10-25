@@ -8,7 +8,7 @@ const { validationResult } = require('express-validator')
 const generateAccessToken = (id, role, email) => {
   const payload = {
     id,
-    role: role[0],
+    role,
     email
   }
   return jwt.sign(payload, process.env.jwtSecretKey, {
@@ -89,11 +89,10 @@ class authController {
     try {
       const token = generateAccessToken(
         req.user.id,
-        req.user.roles,
+        req.user.role,
         req.user.email
       )
       res.json({ token })
-      next()
     } catch (error) {
       res.status(500).json({ error, message: 'Что-то пошло не так' })
     }

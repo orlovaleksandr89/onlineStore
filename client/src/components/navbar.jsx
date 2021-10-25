@@ -20,7 +20,7 @@ const NavBar = () => {
           <Navbar.Collapse id='responsive-navbar-nav' className='flex-grow-0 '>
             {storeCtx.isAuth ? (
               <Nav className=''>
-                {storeCtx.user.role === 'ADMIN' && storeCtx.isAuth && (
+                {storeCtx.user.role[0] === 'ADMIN' && storeCtx.isAuth && (
                   <Button
                     className='btn  '
                     variant={'outline-warning'}
@@ -31,7 +31,7 @@ const NavBar = () => {
                   </Button>
                 )}
 
-                {storeCtx.isAuth && storeCtx.user.role === 'USER' && (
+                {storeCtx.user.role[0] === 'USER' && (
                   <NavLink
                     to='/cart'
                     style={{ color: '#FFC107', textDecoration: 'none' }}>

@@ -21,7 +21,7 @@ router.post(
 router.post(
   '/auth/login',
   [
-    check('email', 'Введите корректный email').normalizeEmail().isEmail(),
+    check('email', 'Введите корректный email').isEmail(),
     check('password', 'Неверный пароль').exists()
   ],
   authController.login

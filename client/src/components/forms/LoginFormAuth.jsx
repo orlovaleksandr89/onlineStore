@@ -43,15 +43,14 @@ function LoginForm({ isLogin }) {
   const loginHandler = async () => {
     try {
       const data = await request('/auth/login', 'POST', { ...formData })
-
       const user = jwt_decode(data.token)
+      console.log(user)
       storeCtx.setUser(user)
       storeCtx.setAuth(true)
-      storeCtx.setRole(user.role)
+
       localStorage.setItem('token', data.token)
 
       history.push('/')
-      console.log(user)
     } catch (error) {
       if (error) {
         alert(`${error}`)

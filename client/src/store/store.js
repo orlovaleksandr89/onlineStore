@@ -105,7 +105,7 @@ export function StoreContextProvider(props) {
     return setIsAuth(bool)
   }
   function setUserHandler(user) {
-    setUser({ ...user })
+    setUser(user)
   }
   function setRoleHandler(role) {
     setUser((user) => {
