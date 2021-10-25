@@ -9,7 +9,7 @@ const Cart = () => {
   const history = useHistory()
   const storeCtx = useContext(StoreContext)
   const { cart } = storeCtx
-  console.log(cart)
+
   const [cartItems, setCartItems] = useState(cart)
 
   const deleteHandler = (id) => {
@@ -28,14 +28,14 @@ const Cart = () => {
     .reduce((a, b) => a + b, 0)
 
   return (
-    <Container className='text-center mt-4'>
+    <Container className=' text-center mt-4'>
       {cartItems.length === 0 ? (
         <h2>
           Your cart is empty. Go to <Link to='/'>main page!</Link>
         </h2>
       ) : (
-        <Row>
-          <Col md={9}>
+        <Row className=' p-0 m-0 w-100'>
+          <Col md={8} classname='p-0'>
             {cartItems.map((item) => {
               return (
                 <Card key={item.id} className='mb-3'>
@@ -50,13 +50,12 @@ const Cart = () => {
               )
             })}
           </Col>
-          <Col md={3}>
-            {' '}
+          <Col md={4}>
             {totlaPrice === 0 ? (
               <h2>Nothing to pay yet</h2>
             ) : (
               <Total totlaPrice={totlaPrice} history={history} />
-            )}{' '}
+            )}
           </Col>
         </Row>
       )}

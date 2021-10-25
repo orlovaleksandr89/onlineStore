@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Container } from 'react-bootstrap'
+import { Col, Container, Row } from 'react-bootstrap'
 import StoreContext from '../store/store'
 import ItemInList from './ItemInList'
 
@@ -19,20 +19,30 @@ function ItemsList({ type, search }) {
   const fileterdItems = getSearchResult(search)
 
   return (
-    <Container>
-      {fileterdItems.length === 0 ? (
-        <h2>'No items found'</h2>
-      ) : type ? (
-        fileterdItems
-          .filter((item) => item.type.toLowerCase() === type.toLowerCase())
-          .map((item) => {
-            return <ItemInList {...item} key={item.id} />
+    <Container className='d-flex flex-column '>
+      <Row>
+        {fileterdItems.length === 0 ? (
+          <h2>'No items found'</h2>
+        ) : type ? (
+          fileterdItems
+            .filter((item) => item.type.toLowerCase() === type.toLowerCase())
+            .map((item) => {
+              return (
+                <Col md={4} key={item.id} className='py-3'>
+                  <ItemInList {...item} key={item.id} />
+                </Col>
+              )
+            })
+        ) : (
+          fileterdItems.map((item) => {
+            return (
+              <Col md={4} className='py-3'>
+                <ItemInList {...item} key={item.id} />
+              </Col>
+            )
           })
-      ) : (
-        fileterdItems.map((item) => {
-          return <ItemInList {...item} key={item.id} />
-        })
-      )}
+        )}
+      </Row>
     </Container>
   )
 }

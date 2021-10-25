@@ -7,11 +7,13 @@ import ItemPage from './pages/item'
 import {
   ADMIN_ROUTE,
   CART_ROUTE,
+  ERROR_ROUTE,
   ITEM_ROUTE,
   LOGIN_ROUTE,
   MAIN_ROUTE,
   REGISTRATION_ROUTE
 } from './utils/consts'
+import ErrorPage from './pages/ErrorPage'
 
 export const authRoutes = [
   {
@@ -39,5 +41,9 @@ export const publicRoutes = [
   {
     path: ITEM_ROUTE,
     Component: ItemPage
+  },
+  {
+    path: ERROR_ROUTE,
+    Component: ErrorPage
   }
 ]

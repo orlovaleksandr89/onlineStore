@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { authRoutes, publicRoutes } from '../routes'
-import { MAIN_ROUTE } from '../utils/consts'
+import { ERROR_ROUTE } from '../utils/consts'
+import StoreContext from '../store/store'
+import ErrorPage from '../pages/ErrorPage'
 
-const AppRouter = () => {
-  const isAuth = true
+const AppRouter = ({ error }) => {
+  const storeCtx = useContext(StoreContext)
+  const isAuth = storeCtx.isAuth
   return (
     <Switch>
       {isAuth &&
@@ -15,7 +18,12 @@ const AppRouter = () => {
         <Route key={path} path={path} component={Component} exact />
       ))}
 
-      <Redirect to={MAIN_ROUTE} />
+      <Redirect
+        to={{
+          pathname: ERROR_ROUTE,
+          component: ErrorPage
+        }}
+      />
     </Switch>
   )
 }

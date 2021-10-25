@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+
 import { Navbar, Nav, Button, Container } from 'react-bootstrap'
 import { Link, NavLink, useHistory } from 'react-router-dom'
 import StoreContext from '../store/store'
@@ -8,69 +9,70 @@ const NavBar = () => {
   const storeCtx = useContext(StoreContext)
 
   return (
-    <Navbar bg='dark' variant='dark' expand='md'>
-      <Container className='mt-2'>
-        <div className='d-flex justify-content-center align-items-center'>
+    <>
+      <Navbar bg='dark' variant='dark' expand='md'>
+        <Container className='p-1 '>
           <NavLink to='/' style={{ color: 'orange', textDecoration: 'none' }}>
             <h3>Red Fox Market</h3>
           </NavLink>
-        </div>
 
-        {storeCtx.isAuth ? (
-          <Nav className='d-flex justify-content-center align-items-center '>
-            {storeCtx.user.role === 'ADMIN' && storeCtx.isAuth && (
-              <Button
-                className='btn me-2'
-                variant={'outline-warning'}
-                onClick={() => {
-                  history.push('/admin')
-                }}
-              >
-                Admin
-              </Button>
-            )}
-            <div className='me-3 '>
-              {storeCtx.isAuth && storeCtx.user.role === 'USER' && (
-                <NavLink
-                  to='/cart'
-                  style={{ color: '#FFC107', textDecoration: 'none' }}
-                >
+          <Navbar.Toggle aria-controls='responsive-navbar-nav' />
+          <Navbar.Collapse id='responsive-navbar-nav' className='flex-grow-0 '>
+            {storeCtx.isAuth ? (
+              <Nav className=''>
+                {storeCtx.user.role === 'ADMIN' && storeCtx.isAuth && (
                   <Button
-                    className='position-relative btn '
+                    className='btn  '
                     variant={'outline-warning'}
-                  >
-                    Cart
-                    <i className='bi bi-bag-check ms-2'></i>
-                    <span className='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger'>
-                      {storeCtx.cart.length}
-                      <span className='visually-hidden'>unread messages</span>
-                    </span>{' '}
+                    onClick={() => {
+                      history.push('/admin')
+                    }}>
+                    Admin
+                  </Button>
+                )}
+
+                {storeCtx.isAuth && storeCtx.user.role === 'USER' && (
+                  <NavLink
+                    to='/cart'
+                    style={{ color: '#FFC107', textDecoration: 'none' }}>
+                    <Button
+                      className='position-relative btn mx-2'
+                      variant={'outline-warning'}>
+                      Cart
+                      <i className='bi bi-bag-check ms-2'></i>
+                      <span className='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger'>
+                        {storeCtx.cart.length}
+                        <span className='visually-hidden'>unread messages</span>
+                      </span>{' '}
+                    </Button>
+                  </NavLink>
+                )}
+                <NavLink to='/login'>
+                  <Button
+                    className='btn mx-2'
+                    variant={'outline-warning'}
+                    onClick={() => {
+                      storeCtx.setAuth(false)
+                      storeCtx.setUser({})
+                      localStorage.clear()
+                    }}>
+                    Log out
                   </Button>
                 </NavLink>
-              )}
-            </div>
-            <Button
-              className='btn  mx-5`'
-              variant={'outline-warning'}
-              onClick={() => {
-                storeCtx.setAuth(false)
-                storeCtx.setUser({})
-              }}
-            >
-              Log out
-            </Button>
-          </Nav>
-        ) : (
-          <Nav>
-            <Link to='/login'>
-              <Button className='btn' variant={'outline-warning'}>
-                Login
-              </Button>
-            </Link>
-          </Nav>
-        )}
-      </Container>
-    </Navbar>
+              </Nav>
+            ) : (
+              <Nav>
+                <Link to='/login'>
+                  <Button className='btn' variant={'outline-warning'}>
+                    Login
+                  </Button>
+                </Link>
+              </Nav>
+            )}
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
+    </>
   )
 }
 

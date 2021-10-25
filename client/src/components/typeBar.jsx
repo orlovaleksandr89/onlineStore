@@ -6,7 +6,7 @@ function TypeBar({ setType }) {
   const storeCtx = useContext(StoreContext)
   const [selectedType, setSelectedType] = useState()
   return (
-    <Container>
+    <Container className='p-2'>
       <ListGroup>
         {storeCtx.types.map((type) => {
           return (
@@ -17,8 +17,7 @@ function TypeBar({ setType }) {
                 setSelectedType(type)
                 setType(type)
               }}
-              className={type === selectedType ? 'list-group-item-dark' : ''}
-            >
+              className={type === selectedType ? 'list-group-item-dark' : ''}>
               {type}
             </ListGroup.Item>
           )
@@ -31,8 +30,7 @@ function TypeBar({ setType }) {
             setSelectedType(undefined)
             setType(undefined)
           }}
-          className='text-dark'
-        >
+          className='text-dark'>
           Reset
         </Button>
       </div>

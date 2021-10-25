@@ -5,10 +5,11 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { validationResult } = require('express-validator')
 
-const generateAccessToken = (id, role) => {
+const generateAccessToken = (id, role, email) => {
   const payload = {
     id,
-    role
+    role: role[0],
+    email
   }
   return jwt.sign(payload, process.env.jwtSecretKey, {
     expiresIn: process.env.expiration
@@ -40,9 +41,9 @@ class authController {
       const hashedPassword = await bcrypt.hash(password, 7)
       const userRole = await Role.findOne({ value: 'USER' })
       const user = new User({
-        email,
+        email: email,
         password: hashedPassword,
-        roles: [userRole.value]
+        roles: userRole.value
       })
 
       await user.save()
@@ -77,12 +78,27 @@ class authController {
         return res.status(400).json({ message: 'Неверный пароль' })
       }
 
-      const token = generateAccessToken(user._id, user.roles)
+      const token = generateAccessToken(user._id, user.roles, user.email)
       return res.json({ token })
     } catch (error) {
       res.status(500).json({ error, message: 'Что-то пошло не так' })
     }
   }
+
+  async check(req, res, next) {
+    try {
+      const token = generateAccessToken(
+        req.user.id,
+        req.user.roles,
+        req.user.email
+      )
+      res.json({ token })
+      next()
+    } catch (error) {
+      res.status(500).json({ error, message: 'Что-то пошло не так' })
+    }
+  }
+
   async getItems(req, res) {
     try {
       const items = await Item.find()

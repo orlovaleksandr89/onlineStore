@@ -26,11 +26,13 @@ router.post(
   ],
   authController.login
 )
+// /auth
+router.get('/auth', authMiddleWare, authController.check)
 // /
-router.get('/', authController.getItems)
+router.get('/items', authController.getItems)
 
 router.post(
-  '/createitem',
+  '/auth/createitem',
   authMiddleWare,
   roleMiddleWare(['ADMIN']),
   authController.createItem

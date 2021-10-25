@@ -3,15 +3,17 @@ import { createContext, useState } from 'react'
 const StoreContext = createContext({
   isAuth: undefined,
   items: [],
+  user: { email: '', password: '', role: undefined, id: undefined },
+  types: [],
+  cart: [],
+  error: '',
+  setError: (text) => {},
   addItem: (newItem) => {},
   deleteItem: (itemId) => {},
   setAuth: (bool) => {},
-  user: { email: '', password: '', role: undefined, id: undefined },
   setUser: (user) => {},
   setRole: (role) => {},
-  types: [],
   setTypes: (type) => {},
-  cart: [],
   addItemToCart: (item) => {},
   deleteFromCart: (item) => {},
   incrementQty: (id) => {},
@@ -20,12 +22,7 @@ const StoreContext = createContext({
 })
 
 export function StoreContextProvider(props) {
-  const [user, setUser] = useState({
-    email: 'admin@mail.com',
-    password: 'admin',
-    role: 'ADMIN',
-    id: '1234123'
-  })
+  const [user, setUser] = useState({})
   const [types, setTypes] = useState([
     'Ipad',
     'Iphone',
@@ -33,6 +30,7 @@ export function StoreContextProvider(props) {
     'MacBook'
   ])
   const [cartItems, setCartItem] = useState([])
+  const [error, setError] = useState('')
 
   const [items, setItems] = useState([
     {
@@ -93,6 +91,9 @@ export function StoreContextProvider(props) {
       return [...prevItems, newItem]
     })
   }
+  function setErrorHandler(text) {
+    setError(text)
+  }
 
   function deleteItemHandler(itemId) {
     setItems((prevItems) => {
@@ -104,10 +105,7 @@ export function StoreContextProvider(props) {
     return setIsAuth(bool)
   }
   function setUserHandler(user) {
-    const { email, password, role, id } = user
-    setUser((prevUser) => {
-      return { ...prevUser, email, password, role, id }
-    })
+    setUser({ ...user })
   }
   function setRoleHandler(role) {
     setUser((user) => {
@@ -176,7 +174,9 @@ export function StoreContextProvider(props) {
     cart: cartItems,
     incrementQty: incrementQtyHandler,
     decrementQty: decrementQtyHandler,
-    clearCart: clearCartHandle
+    clearCart: clearCartHandle,
+    error: error,
+    setError: setErrorHandler
   }
 
   return (
