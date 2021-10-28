@@ -6,7 +6,7 @@ require('dotenv').config()
 const app = express()
 
 app.use(express.json({ extended: true }))
-app.use(express.static(path.join(__dirname, 'client', 'buld')))
+app.use(express.static(path.join(__dirname, 'client', 'build')))
 
 const PORT = process.env.PORT || 5000
 
