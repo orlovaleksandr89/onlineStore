@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 
-module.exports = function (roles) {
+module.exports = function (role) {
   return function (req, res, next) {
     if (req.method === 'OPTIONS') {
       next()
@@ -16,11 +16,10 @@ module.exports = function (roles) {
 
       let hasAccess = false
 
-      userRoles.forEach((role) => {
-        if (roles.includes(role)) {
-          hasAccess = true
-        }
-      })
+      if (role === userRoles) {
+        hasAccess = true
+      }
+
       if (!hasAccess) {
         return res
           .status(403)

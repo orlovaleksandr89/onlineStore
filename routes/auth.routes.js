@@ -10,8 +10,8 @@ router.post(
   '/auth/register',
   [
     check('email', 'Некоректный email').isEmail(),
-    check('password', 'Минимальная длинна пароля 6 символов').isLength({
-      min: 6
+    check('password', 'Минимальная длинна пароля 8 символов').isLength({
+      min: 8
     })
   ],
   authController.registration
@@ -28,14 +28,22 @@ router.post(
 )
 // /auth
 router.get('/auth', authMiddleWare, authController.check)
+router.post('/cart', authMiddleWare, authController.postInCart)
 // /
 router.get('/items', authController.getItems)
+router.get('/types', authController.getTypes)
 
 router.post(
   '/auth/createitem',
   authMiddleWare,
-  roleMiddleWare(['ADMIN']),
+  roleMiddleWare('ADMIN'),
   authController.createItem
+)
+router.post(
+  '/auth/createtype',
+  authMiddleWare,
+  roleMiddleWare('ADMIN'),
+  authController.createItemType
 )
 
 router.get('/item/:id', authController.getSingleItem)

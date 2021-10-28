@@ -1,11 +1,12 @@
 const User = require('./User')
 const Item = require('./Item')
 const Role = require('./Role')
-const Category = require('./Category')
+const Type = require('./Type')
+const Cart = require('./Cart')
 
 module.exports = {
   User,
-  Category,
   Item,
-  Role
+  Role,
+  Type
 }
