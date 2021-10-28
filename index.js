@@ -6,7 +6,7 @@ require('dotenv').config()
 const app = express()
 
 app.use(express.json({ extended: true }))
-app.use('/', require('./routes/auth.routes'))
+app.use(express.static(path.join(__dirname, 'client', 'buld')))
 
 const PORT = process.env.PORT || 5000
 
