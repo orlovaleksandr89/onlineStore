@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { Card, Col, Container, Row } from 'react-bootstrap'
+import { Card, Col, Row } from 'react-bootstrap'
 import { Link, useHistory } from 'react-router-dom'
 import CartItem from '../components/CartItem'
 import Total from '../components/Total'
@@ -28,19 +28,19 @@ const Cart = () => {
     .reduce((a, b) => a + b, 0)
 
   return (
-    <Container className=' text-center mt-4'>
+    <div className=' text-center mt-4'>
       {cartItems.length === 0 ? (
         <h2>
-          Your cart is empty. Go to <Link to='/'>main page!</Link>
+          Your cart is empty. Go to <Link to='/shop'>main page!</Link>
         </h2>
       ) : (
         <Row className=' p-0 m-0 w-100'>
           <Col md={8} classname='p-0'>
             {cartItems.map((item) => {
               return (
-                <Card key={item.id} className='mb-3'>
+                <Card key={item._id} className='mb-3'>
                   <CartItem
-                    key={item.id}
+                    key={item._id}
                     {...item}
                     deleteHandler={deleteHandler}
                     incrementQty={storeCtx.incrementQty}
@@ -59,7 +59,7 @@ const Cart = () => {
           </Col>
         </Row>
       )}
-    </Container>
+    </div>
   )
 }
 

@@ -2,7 +2,7 @@ import React from 'react'
 import { Card, Col, Image } from 'react-bootstrap'
 import { useHistory } from 'react-router-dom'
 
-function ItemInList({ title, price, imgUrl, id }) {
+function ItemInList({ title, price, imgURL, _id }) {
   const history = useHistory()
   return (
     <Card
@@ -10,12 +10,12 @@ function ItemInList({ title, price, imgUrl, id }) {
       style={{ minHeight: '250px', borderRadius: 15 }}>
       <Col md={12} className='d-flex p-1 my-2'>
         <Image
-          src={imgUrl}
+          src={imgURL}
           fluid
           role='button'
           className='p-1 '
           onClick={() => {
-            history.push(`/item/${id}`)
+            history.push(`/item/${_id}`)
           }}
         />
       </Col>

@@ -43,5 +43,44 @@ export const validatorConfig = {
     isRequired: {
       message: 'Поле обязательно для заполнения'
     }
+  },
+  type: {
+    isRequired: {
+      message: 'Поле тип обязательно для заполнения'
+    }
+  },
+  price: {
+    isRequired: {
+      message: 'Поле обязательно для заполнения'
+    },
+    isNumber: {
+      message: 'Должно быть числом'
+    }
+  },
+  title: {
+    isRequired: {
+      message: 'Поле обязательно для заполнения'
+    }
+  },
+  description: {
+    isRequired: {
+      message: 'Поле обязательно для заполнения'
+    }
+  },
+  quantity: {
+    isRequired: {
+      message: 'Поле обязательно для заполнения'
+    },
+    isNumber: {
+      message: 'Должно быть числом'
+    }
+  },
+  imgURL: {
+    isRequired: {
+      message: 'Поле обязательно для заполнения'
+    },
+    isValidLink: {
+      message: 'Проверьте правильность URL'
+    }
   }
 }

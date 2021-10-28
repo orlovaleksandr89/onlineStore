@@ -13,14 +13,14 @@ const ItemPage = () => {
   const [itemAddedToCart, setItemAddedToCart] = useState(false)
 
   const item = storeCtx.items.find((item) => {
-    return item.id === Number(id)
+    return item._id === id
   })
 
   const addToCartHandle = (item) => {
-    if (cart.find((cartItem) => cartItem.id === item.id)) {
+    if (cart.find((cartItem) => cartItem._id === item._id)) {
       return setInCart(true)
     } else {
-      storeCtx.addItemToCart(item.id)
+      storeCtx.addItemToCart(item._id)
       setItemAddedToCart(true)
     }
   }
@@ -42,7 +42,7 @@ const ItemPage = () => {
           <Col
             md={6}
             className='d-flex justify-content-center align-items-center mx-auto'>
-            <Image src={item.imgUrl} fluid />
+            <Image src={item.imgURL} fluid />
           </Col>
         </Row>
 

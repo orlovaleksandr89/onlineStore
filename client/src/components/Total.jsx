@@ -12,7 +12,7 @@ function Total({ totlaPrice, history }) {
   const storeCtx = useContext(StoreContext)
 
   return (
-    <Card className='shadow'>
+    <Card className='shadow d-flex justify-content-center align-items-center'>
       <Container className='m-0 p-2'>
         <Row>
           <Col md={6} sm={6} className='m-0 p-0'>
@@ -47,13 +47,22 @@ function Total({ totlaPrice, history }) {
             <p className='fw-bold m-0 p-0'>{total} $</p>
           </Col>
         </Row>
-        <Row className='d-flex justify-content-center '>
+        <Row className='d-flex justify-content-center mt-3'>
           <PaypalExpressBtn
             total={total}
             history={history}
             clearCart={storeCtx.clearCart}
             className='my-3'
           />
+        </Row>
+        <Row className='mt-2'>
+          <p>* for Paypal checkout use credentials</p>
+          <Col md={12} className='fw-bold'>
+            username : costumer111@gmail.com
+          </Col>
+          <Col md={12} className='fw-bold'>
+            password : 1234567890
+          </Col>
         </Row>
       </Container>
     </Card>

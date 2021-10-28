@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { Container, Row, Col, Image, Form, Button } from 'react-bootstrap'
+import { Row, Col, Image, Form, Button } from 'react-bootstrap'
 import ModalWindow from './Modal'
 
 function CartItem({
-  id,
+  _id,
   price,
-  imgUrl,
+  imgURL,
   title,
   deleteHandler,
   qty,
@@ -15,10 +15,10 @@ function CartItem({
   const [showModal, setShowModal] = useState(false)
 
   return (
-    <Container className='p-3 shadow'>
+    <div className='p-3 shadow'>
       <Row className='d-flex align-items-center justify-content-center'>
         <Col md={4}>
-          <Image src={imgUrl} fluid />
+          <Image src={imgURL} fluid />
         </Col>
         <Col md={7}>
           <Row>
@@ -36,7 +36,7 @@ function CartItem({
               <div className='d-flex align-items-center justify-content-between p-2'>
                 <Button
                   onClick={() => {
-                    decrementQty(id)
+                    decrementQty(_id)
                   }}
                   className='btn btn-secondary'
                   style={{ width: 50, borderRadius: 25 }}>
@@ -45,7 +45,7 @@ function CartItem({
                 <Form.Control value={qty} onChange={() => {}} />
                 <Button
                   onClick={() => {
-                    incrementQty(id)
+                    incrementQty(_id)
                   }}
                   className=' btn btn-secondary '
                   style={{ width: 50, borderRadius: 25 }}>
@@ -62,6 +62,7 @@ function CartItem({
           <h3>
             <i
               className='bi bi-trash ms-1'
+              role='button'
               onClick={() => {
                 setShowModal(true)
               }}></i>
@@ -78,10 +79,10 @@ function CartItem({
           body={'Are you shure?'}
           cancelButtonText={'Keep item'}
           confirmButtonText={'Delete!'}
-          redirect={() => deleteHandler(id)}
+          redirect={() => deleteHandler(_id)}
         />
       )}
-    </Container>
+    </div>
   )
 }
 

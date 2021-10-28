@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useHttp } from '../../hooks/httpHook'
 import { validatorConfig } from '../../utils/validatorConfig'
 import { validator } from '../../utils/validator'
-import { Card, Form, Row, Button } from 'react-bootstrap'
+import { Card, Form, Row, Button, Col, Container } from 'react-bootstrap'
 import TextField from '../common/form/TextField'
 import { NavLink } from 'react-router-dom'
 
@@ -12,8 +12,8 @@ function RegistrationForm() {
     email: '',
     password: ''
   })
-
   const [errors, setErrors] = useState({})
+  console.log(formData, errors)
   const onChangeHandle = (target) => {
     validate()
     setData((prev) => ({ ...prev, [target.name]: target.value }))
@@ -46,47 +46,53 @@ function RegistrationForm() {
 
   const isValid = Object.keys(errors).length === 0
   return (
-    <Card style={{ width: '600px' }} className='p-5'>
-      <h2 className='m-auto'> Please Sign up</h2>
-      <Form className='d-flex flex-column' onSubmit={submitHandle}>
-        <TextField
-          label='Your email'
-          name='email'
-          onChangeHandle={onChangeHandle}
-          value={formData.email}
-          error={errors.email}
-        />
-        <TextField
-          label='Your password'
-          name='password'
-          onChangeHandle={onChangeHandle}
-          value={formData.password}
-          type='password'
-          error={errors.password}
-        />
+    <Container>
+      <Row className='d-flex justify-content-center'>
+        <Col md={8}>
+          <Form className='d-flex flex-column' onSubmit={submitHandle}>
+            <Card className='p-3'>
+              <h2 className='m-auto'> Please Sign up</h2>
+              <TextField
+                label='Your email'
+                name='email'
+                onChangeHandle={onChangeHandle}
+                value={formData.email}
+                error={errors.email}
+              />
+              <TextField
+                label='Your password'
+                name='password'
+                onChangeHandle={onChangeHandle}
+                value={formData.password}
+                type='password'
+                error={errors.password}
+              />
 
-        <Row>
-          <div className='d-flex justify-content-between mt-3'>
-            <div>
-              Already registered?
-              <NavLink
-                to='/login'
-                style={{ textDecoration: 'none' }}
-                className='ms-1'>
-                Log in
-              </NavLink>
-            </div>
+              <Row>
+                <div className='d-flex justify-content-between mt-3'>
+                  <div>
+                    Already registered?
+                    <NavLink
+                      to='/login'
+                      style={{ textDecoration: 'none' }}
+                      className='ms-1'>
+                      Log in
+                    </NavLink>
+                  </div>
 
-            <Button
-              variant={'outline-warning'}
-              type={'submit'}
-              disabled={!isValid}>
-              Sign up
-            </Button>
-          </div>
-        </Row>
-      </Form>
-    </Card>
+                  <Button
+                    variant={'outline-warning'}
+                    type={'submit'}
+                    disabled={!isValid}>
+                    Sign up
+                  </Button>
+                </div>
+              </Row>
+            </Card>
+          </Form>
+        </Col>
+      </Row>
+    </Container>
   )
 }
 

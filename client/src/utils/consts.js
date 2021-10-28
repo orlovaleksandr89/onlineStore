@@ -1,4 +1,5 @@
 export const MAIN_ROUTE = '/'
+export const SHOP_ROUTE = '/shop'
 export const ADMIN_ROUTE = '/admin'
 export const LOGIN_ROUTE = '/login'
 export const CART_ROUTE = '/cart'

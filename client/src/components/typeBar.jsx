@@ -5,20 +5,25 @@ import StoreContext from '../store/store'
 function TypeBar({ setType }) {
   const storeCtx = useContext(StoreContext)
   const [selectedType, setSelectedType] = useState()
+  if (storeCtx.types.length === 0) {
+    return <p>Loading....</p>
+  }
   return (
     <Container className='p-2'>
       <ListGroup>
         {storeCtx.types.map((type) => {
           return (
             <ListGroup.Item
-              key={type}
+              key={type.id}
               role='button'
               onClick={() => {
-                setSelectedType(type)
-                setType(type)
+                setSelectedType(type.type)
+                setType(type.type)
               }}
-              className={type === selectedType ? 'list-group-item-dark' : ''}>
-              {type}
+              className={
+                type.type === selectedType ? 'list-group-item-dark' : ''
+              }>
+              {type.type}
             </ListGroup.Item>
           )
         })}

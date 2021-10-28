@@ -1,8 +1,9 @@
 import React, { useContext } from 'react'
 
-import { Navbar, Nav, Button, Container } from 'react-bootstrap'
+import { Navbar, Nav, Button, Container, Image } from 'react-bootstrap'
 import { Link, NavLink, useHistory } from 'react-router-dom'
 import StoreContext from '../store/store'
+import logo from '../assets/logo2.png'
 
 const NavBar = () => {
   const history = useHistory()
@@ -10,17 +11,23 @@ const NavBar = () => {
 
   return (
     <>
-      <Navbar bg='dark' variant='dark' expand='md'>
+      <Navbar bg='light' variant='light' expand='md'>
         <Container className='p-1 '>
-          <NavLink to='/' style={{ color: 'orange', textDecoration: 'none' }}>
-            <h3>Red Fox Market</h3>
-          </NavLink>
+          <div className='d-flex justify-content-center align-items-center'>
+            <NavLink
+              to='/shop'
+              style={{ color: 'orange', textDecoration: 'none' }}>
+              <Image
+                src={logo}
+                style={{ height: '60px', marginLeft: '10px' }}></Image>
+            </NavLink>
+          </div>
 
           <Navbar.Toggle aria-controls='responsive-navbar-nav' />
           <Navbar.Collapse id='responsive-navbar-nav' className='flex-grow-0 '>
             {storeCtx.isAuth ? (
-              <Nav className=''>
-                {storeCtx.user.role[0] === 'ADMIN' && storeCtx.isAuth && (
+              <Nav>
+                {storeCtx.user.role === 'ADMIN' && storeCtx.isAuth && (
                   <Button
                     className='btn  '
                     variant={'outline-warning'}
@@ -31,7 +38,7 @@ const NavBar = () => {
                   </Button>
                 )}
 
-                {storeCtx.user.role[0] === 'USER' && (
+                {storeCtx.user.role === 'USER' && (
                   <NavLink
                     to='/cart'
                     style={{ color: '#FFC107', textDecoration: 'none' }}>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Form, Row, Button } from 'react-bootstrap'
+import { Form, Row, Button, Container } from 'react-bootstrap'
 
 function SearchBar({ setSearch, search }) {
   return (
@@ -10,13 +10,11 @@ function SearchBar({ setSearch, search }) {
             type='text'
             placeholder='Search'
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          ></Form.Control>
+            onChange={(e) => setSearch(e.target.value)}></Form.Control>
           <Button
             className='btn position-absolute top-50 end-0 translate-middle-y me-3 p-0'
             variant={'outline'}
-            onClick={() => setSearch('')}
-          >
+            onClick={() => setSearch('')}>
             <h2 className='m-0 p-0'>
               <i className='  bi bi-x'></i>
             </h2>

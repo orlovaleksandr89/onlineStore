@@ -4,10 +4,7 @@ import LoginForm from '../components/loginForm'
 
 const Auth = () => {
   return (
-    <Container
-      className='d-flex justify-content-center align-items-center'
-      style={{ height: window.innerHeight - 54 }}
-    >
+    <Container style={{ height: window.innerHeight - 54 }} className='mt-5'>
       <LoginForm />
     </Container>
   )

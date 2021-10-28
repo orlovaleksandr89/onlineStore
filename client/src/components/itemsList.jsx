@@ -25,19 +25,21 @@ function ItemsList({ type, search }) {
           <h2>'No items found'</h2>
         ) : type ? (
           fileterdItems
-            .filter((item) => item.type.toLowerCase() === type.toLowerCase())
+            .filter((item) =>
+              item.itemType.toLowerCase().includes(type.toLowerCase())
+            )
             .map((item) => {
               return (
-                <Col md={4} key={item.id} className='py-3'>
-                  <ItemInList {...item} key={item.id} />
+                <Col md={4} key={item._id} className='py-3'>
+                  <ItemInList {...item} key={item._id} />
                 </Col>
               )
             })
         ) : (
           fileterdItems.map((item) => {
             return (
-              <Col md={4} className='py-3'>
-                <ItemInList {...item} key={item.id} />
+              <Col md={4} key={item._id} className='py-3'>
+                <ItemInList {...item} key={item._id} />
               </Col>
             )
           })

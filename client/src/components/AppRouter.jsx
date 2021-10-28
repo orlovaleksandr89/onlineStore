@@ -5,7 +5,7 @@ import { ERROR_ROUTE } from '../utils/consts'
 import StoreContext from '../store/store'
 import ErrorPage from '../pages/ErrorPage'
 
-const AppRouter = ({ error }) => {
+const AppRouter = () => {
   const storeCtx = useContext(StoreContext)
   const isAuth = storeCtx.isAuth
   return (

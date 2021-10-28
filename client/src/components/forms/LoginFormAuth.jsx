@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react'
-import { Card, Form, Row, Button } from 'react-bootstrap'
+import { Card, Form, Row, Button, Container, Col } from 'react-bootstrap'
 import { NavLink, useHistory } from 'react-router-dom'
 import { validator } from '../../utils/validator'
 import { validatorConfig } from '../../utils/validatorConfig'
@@ -50,7 +50,7 @@ function LoginForm({ isLogin }) {
 
       localStorage.setItem('token', data.token)
 
-      history.push('/')
+      history.push('/shop')
     } catch (error) {
       if (error) {
         alert(`${error}`)
@@ -59,45 +59,53 @@ function LoginForm({ isLogin }) {
   }
 
   return (
-    <Card style={{ width: '600px' }} className='p-5'>
-      <h2 className='m-auto'>{isLogin ? 'Please login' : 'Please Sign up'}</h2>
-      <Form className='d-flex flex-column' onSubmit={submitHandle}>
-        <TextField
-          label='Your email'
-          name='email'
-          onChangeHandle={onChangeHandle}
-          value={formData.email}
-        />
-        <TextField
-          label='Your password'
-          name='password'
-          onChangeHandle={onChangeHandle}
-          value={formData.password}
-          type='password'
-        />
+    <Container>
+      <Row className='d-flex justify-content-center'>
+        <Col md={8}>
+          <Form className='d-flex flex-column' onSubmit={submitHandle}>
+            <Card className='p-3'>
+              <h2 className='m-auto'>
+                {isLogin ? 'Please login' : 'Please Sign up'}
+              </h2>
+              <TextField
+                label='Your email'
+                name='email'
+                onChangeHandle={onChangeHandle}
+                value={formData.email}
+              />
+              <TextField
+                label='Your password'
+                name='password'
+                onChangeHandle={onChangeHandle}
+                value={formData.password}
+                type='password'
+              />
 
-        <Row>
-          <div className='d-flex justify-content-between mt-3'>
-            <div>
-              Don't have an account?
-              <NavLink
-                to='/registration'
-                style={{ textDecoration: 'none' }}
-                className='ms-1'>
-                Sign up
-              </NavLink>
-            </div>
+              <Row>
+                <div className='d-flex justify-content-between mt-3'>
+                  <div>
+                    Don't have an account?
+                    <NavLink
+                      to='/registration'
+                      style={{ textDecoration: 'none' }}
+                      className='ms-1'>
+                      Sign up
+                    </NavLink>
+                  </div>
 
-            <Button
-              variant={'outline-warning'}
-              type={'submit'}
-              disabled={loading}>
-              Log In
-            </Button>
-          </div>
-        </Row>
-      </Form>
-    </Card>
+                  <Button
+                    variant={'outline-warning'}
+                    type={'submit'}
+                    disabled={loading}>
+                    Log In
+                  </Button>
+                </div>
+              </Row>
+            </Card>
+          </Form>
+        </Col>
+      </Row>
+    </Container>
   )
 }
 
