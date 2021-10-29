@@ -7,6 +7,7 @@ import { useHttp } from '../../hooks/httpHook'
 import TextField from '../common/form/TextField'
 import jwt_decode from 'jwt-decode'
 import StoreContext from '../../store/store'
+import { MAIN_ROUTE } from '../../utils/consts'
 
 function LoginForm({ isLogin }) {
   const history = useHistory()
@@ -50,7 +51,7 @@ function LoginForm({ isLogin }) {
 
       localStorage.setItem('token', data.token)
 
-      history.push('/shop')
+      history.push(MAIN_ROUTE)
     } catch (error) {
       if (error) {
         alert(`${error}`)
