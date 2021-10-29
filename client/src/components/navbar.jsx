@@ -4,6 +4,7 @@ import { Navbar, Nav, Button, Container, Image } from 'react-bootstrap'
 import { Link, NavLink, useHistory } from 'react-router-dom'
 import StoreContext from '../store/store'
 import logo from '../assets/logo2.png'
+import { MAIN_ROUTE } from '../utils/consts'
 
 const NavBar = () => {
   const history = useHistory()
@@ -15,7 +16,7 @@ const NavBar = () => {
         <Container className='p-1 '>
           <div className='d-flex justify-content-center align-items-center'>
             <NavLink
-              to='/shop'
+              to={MAIN_ROUTE}
               style={{ color: 'orange', textDecoration: 'none' }}>
               <Image
                 src={logo}

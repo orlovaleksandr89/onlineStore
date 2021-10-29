@@ -4,6 +4,7 @@ import { Link, useHistory } from 'react-router-dom'
 import CartItem from '../components/CartItem'
 import Total from '../components/Total'
 import StoreContext from '../store/store'
+import { MAIN_ROUTE } from '../utils/consts'
 
 const Cart = () => {
   const history = useHistory()
@@ -31,7 +32,7 @@ const Cart = () => {
     <div className=' text-center mt-4'>
       {cartItems.length === 0 ? (
         <h2>
-          Your cart is empty. Go to <Link to='/shop'>main page!</Link>
+          Your cart is empty. Go to <Link to={MAIN_ROUTE}>main page!</Link>
         </h2>
       ) : (
         <Row className=' p-0 m-0 w-100'>

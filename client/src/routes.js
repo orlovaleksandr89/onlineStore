@@ -10,8 +10,8 @@ import {
   ERROR_ROUTE,
   ITEM_ROUTE,
   LOGIN_ROUTE,
-  REGISTRATION_ROUTE,
-  SHOP_ROUTE
+  MAIN_ROUTE,
+  REGISTRATION_ROUTE
 } from './utils/consts'
 import ErrorPage from './pages/ErrorPage'
 
@@ -32,7 +32,7 @@ export const publicRoutes = [
   },
 
   {
-    path: SHOP_ROUTE,
+    path: MAIN_ROUTE,
     Component: ShopPage
   },
   {
