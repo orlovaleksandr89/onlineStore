@@ -4,10 +4,12 @@
   "description": "Online store MERN",
   "main": "index.js",
   "scripts": {
-    "srat": "node index.js",
+    "start": "cross-env NODE_ENV=production node index.js",
     "server": "nodemon index.js",
     "client": "npm run start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\" "
+    "client:install": "npm install --prefix client",
+    "client:build": "npm run build --prefix client",
+    "dev": " cross-env NODE_ENV=development concurrently \"npm run server\" \"npm run client\" "
   },
   "keywords": [
     "mern",
@@ -29,6 +31,7 @@
   },
   "devDependencies": {
     "concurrently": "^6.2.1",
+    "cross-env": "^7.0.3",
     "nodemon": "^2.0.12"
   }
 }
