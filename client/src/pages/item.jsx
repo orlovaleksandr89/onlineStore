@@ -1,8 +1,11 @@
-import React, { useContext, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { Container, Button, Row, Col, Image, Card } from 'react-bootstrap'
 import { useParams, useHistory } from 'react-router-dom'
+import Loader from '../components/common/Loader'
 import ModalWindow from '../components/Modal'
+import { useHttp } from '../hooks/httpHook'
 import StoreContext from '../store/store'
+import { currencyFormat } from '../utils/consts'
 
 const ItemPage = () => {
   const { id } = useParams()
@@ -10,11 +13,28 @@ const ItemPage = () => {
   const storeCtx = useContext(StoreContext)
   const { cart } = storeCtx
   const [inCart, setInCart] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [item, setItem] = useState({})
   const [itemAddedToCart, setItemAddedToCart] = useState(false)
 
-  const item = storeCtx.items.find((item) => {
-    return item._id === id
-  })
+  const { request } = useHttp()
+
+  const getItemFromDB = useCallback(
+    async (id) => {
+      try {
+        setIsLoading(true)
+        const item = await request(`/singleitem/${id}`, 'GET')
+        setItem(item)
+        setIsLoading(false)
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    [request]
+  )
+  useEffect(() => {
+    getItemFromDB(id)
+  }, [getItemFromDB, id])
 
   const addToCartHandle = (item) => {
     if (cart.find((cartItem) => cartItem._id === item._id)) {
@@ -23,6 +43,10 @@ const ItemPage = () => {
       storeCtx.addItemToCart(item._id)
       setItemAddedToCart(true)
     }
+  }
+
+  if (isLoading) {
+    return <Loader />
   }
 
   return (
@@ -40,7 +64,7 @@ const ItemPage = () => {
             </Button>
           </Col>
           <Col
-            md={6}
+            md={5}
             className='d-flex justify-content-center align-items-center mx-auto'>
             <Image src={item.imgURL} fluid />
           </Col>
@@ -55,7 +79,10 @@ const ItemPage = () => {
           <Col
             md={6}
             className='d-flex flex-column  justify-content-center  align-items-center '>
-            <h2>Price : {item.price}$</h2>
+            <h2>
+              Price : {item.price}
+              {currencyFormat}
+            </h2>
           </Col>
         </Row>
         <Row className='text-center p-2'>
@@ -65,15 +92,19 @@ const ItemPage = () => {
             <p>{item.description}</p>
           </Col>
         </Row>
-        <Row className=' px-5 py-2 w-100 d-flex  justify-content-center'>
-          <Button
-            variant={'outline-warning'}
-            className='text-dark w-25'
-            onClick={() => {
-              storeCtx.isAuth ? addToCartHandle(item) : history.push('/login')
-            }}>
-            Add to cart
-          </Button>
+        <Row className=' px-5 py-2 w-100 d-flex  justify-content-center align-items-center'>
+          <Col
+            md={4}
+            className='d-flex  justify-content-center align-items-center'>
+            <Button
+              variant={'outline-warning'}
+              className='text-dark w-100'
+              onClick={() => {
+                storeCtx.isAuth ? addToCartHandle(item) : history.push('/login')
+              }}>
+              Add to cart
+            </Button>
+          </Col>
         </Row>
       </Card>
 

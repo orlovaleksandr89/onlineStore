@@ -31,6 +31,7 @@ router.get('/auth', authMiddleWare, authController.check)
 router.post('/cart', authMiddleWare, authController.postInCart)
 // /
 router.get('/items', authController.getItems)
+router.get('/singleitem/:id', authController.getSingleItem)
 router.get('/types', authController.getTypes)
 
 router.post(

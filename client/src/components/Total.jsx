@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { Col, Row, Card, Container } from 'react-bootstrap'
 import PaypalExpressBtn from './CheckoutButton'
 import StoreContext from '../store/store'
+import { currencyFormat } from '../utils/consts'
 
 function Total({ totlaPrice, history }) {
   const getTax = (totlaPrice) => Math.fround(totlaPrice * 0.08375).toFixed(2)
@@ -19,7 +20,9 @@ function Total({ totlaPrice, history }) {
             <p className='text-secondary m-0 p-0'>Your total</p>
           </Col>
           <Col md={6} sm={6}>
-            <p className='fw-bold m-0 p-0'>{totlaPrice} $</p>
+            <p className='fw-bold m-0 p-0'>
+              {totlaPrice} {currencyFormat}
+            </p>
           </Col>
         </Row>
         <Row>
@@ -27,7 +30,9 @@ function Total({ totlaPrice, history }) {
             <p className='text-secondary m-0 p-0'>VAT</p>
           </Col>
           <Col md={6} sm={6}>
-            <p className='fw-bold m-0 p-0'>{getTax(totlaPrice)} $</p>
+            <p className='fw-bold m-0 p-0'>
+              {getTax(totlaPrice)} {currencyFormat}
+            </p>
           </Col>
         </Row>
         <Row>
@@ -44,7 +49,9 @@ function Total({ totlaPrice, history }) {
             <p>Subtotal </p>
           </Col>
           <Col md={6} sm={6}>
-            <p className='fw-bold m-0 p-0'>{total} $</p>
+            <p className='fw-bold m-0 p-0'>
+              {total} {currencyFormat}
+            </p>
           </Col>
         </Row>
         <Row className='d-flex justify-content-center mt-3'>

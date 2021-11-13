@@ -51,7 +51,7 @@ const Cart = () => {
               )
             })}
           </Col>
-          <Col md={4}>
+          <Col md={4} className='mb-3'>
             {totlaPrice === 0 ? (
               <h2>Nothing to pay yet</h2>
             ) : (

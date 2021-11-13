@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState, useContext, useCallback } from 'react'
 import { Modal, Button } from 'react-bootstrap'
 import { validatorConfig } from '../../../utils/validatorConfig'
 import { validator } from '../../../utils/validator'
@@ -28,18 +28,21 @@ function ItemModal({
   const [errors, setErrors] = useState({})
 
   const onChangeHandle = ({ name, value }) => {
+    if (name === 'price' || name === 'quantity') {
+      if (value <= 0) return 1
+    }
     setData((prev) => ({ ...prev, [name]: value }))
   }
-  useEffect(() => {
-    validate()
-  }, [data])
-
-  const validate = () => {
+  const validate = useCallback((data) => {
     const errors = validator(data, validatorConfig)
     setErrors(errors)
 
     return Object.keys(errors).length === 0
-  }
+  }, [])
+  useEffect(() => {
+    validate(data)
+  }, [data, validate])
+
   const isValid = Object.keys(errors).length === 0
 
   return (

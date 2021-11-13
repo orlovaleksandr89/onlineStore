@@ -1,12 +1,13 @@
 import React, { useContext, useState } from 'react'
 import { ListGroup, Button, Container } from 'react-bootstrap'
 import StoreContext from '../store/store'
+import Loader from './common/Loader'
 
 function TypeBar({ setType }) {
   const storeCtx = useContext(StoreContext)
   const [selectedType, setSelectedType] = useState()
   if (storeCtx.types.length === 0) {
-    return <p>Loading....</p>
+    return <Loader />
   }
   return (
     <Container className='p-2'>

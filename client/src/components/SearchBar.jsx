@@ -1,20 +1,30 @@
-import React from 'react'
+import React, { useCallback, useContext } from 'react'
 import { Form, Row, Button, Container } from 'react-bootstrap'
+import StoreContext from '../store/store'
 
-function SearchBar({ setSearch, search }) {
+function SearchBar() {
+  const storeCtx = useContext(StoreContext)
+  const handleChange = useCallback(
+    (e) => {
+      storeCtx.setSearch(e.target.value)
+    },
+    [storeCtx]
+  )
+
   return (
-    <Container>
-      <Row className='d-flex justify-content-center align-items-center'>
-        <Form className='my-3  position-relative  d-flex flex-row'>
+    <Container className='px-2'>
+      <Row className='d-flex justify-content-center align-items-center p-0'>
+        <Form className=' my-2  position-relative  d-flex flex-row'>
           <Form.Control
             type='text'
             placeholder='Search'
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}></Form.Control>
+            value={storeCtx.search}
+            onChange={handleChange}
+          />
           <Button
             className='btn position-absolute top-50 end-0 translate-middle-y me-3 p-0'
             variant={'outline'}
-            onClick={() => setSearch('')}>
+            onClick={() => storeCtx.setSearch('')}>
             <h2 className='m-0 p-0'>
               <i className='  bi bi-x'></i>
             </h2>
@@ -25,4 +35,4 @@ function SearchBar({ setSearch, search }) {
   )
 }
 
-export default SearchBar
+export default React.memo(SearchBar)

@@ -5,6 +5,7 @@ import { validator } from '../../utils/validator'
 import { Card, Form, Row, Button, Col, Container } from 'react-bootstrap'
 import TextField from '../common/form/TextField'
 import { NavLink } from 'react-router-dom'
+import Loader from '../common/Loader'
 
 function RegistrationForm() {
   const { request } = useHttp()
@@ -12,8 +13,7 @@ function RegistrationForm() {
     email: '',
     password: ''
   })
-  const [errors, setErrors] = useState({})
-  console.log(formData, errors)
+  const [errors, setErrors, loading] = useState({})
   const onChangeHandle = (target) => {
     validate()
     setData((prev) => ({ ...prev, [target.name]: target.value }))
@@ -45,6 +45,10 @@ function RegistrationForm() {
   }
 
   const isValid = Object.keys(errors).length === 0
+
+  if (loading) {
+    return <Loader />
+  }
   return (
     <Container>
       <Row className='d-flex justify-content-center'>

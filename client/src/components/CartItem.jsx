@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Row, Col, Image, Form, Button } from 'react-bootstrap'
+import { currencyFormat } from '../utils/consts'
 import ModalWindow from './Modal'
 
 function CartItem({
@@ -25,7 +26,7 @@ function CartItem({
             <Col md={12}>
               {title}
               <br />
-              {`${price} $`}
+              {`${price} ${currencyFormat}`}
             </Col>
           </Row>
           <Row>

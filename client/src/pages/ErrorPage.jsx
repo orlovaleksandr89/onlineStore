@@ -1,5 +1,7 @@
 import React, { useContext } from 'react'
+import { Link } from 'react-router-dom'
 import StoreContext from '../store/store'
+import { MAIN_ROUTE } from '../utils/consts'
 
 function ErrorPage() {
   const storeCtx = useContext(StoreContext)
@@ -9,7 +11,10 @@ function ErrorPage() {
     <div
       className='d-flex justify-content-center align-items-center fw-bolt fs-3'
       style={{ minHeight: 'calc(100vh - 68px)' }}>
-      Oooops.... {storeCtx.error.message}
+      <p>
+        Oooops.... {storeCtx.error.message} Go to{' '}
+        <Link to={MAIN_ROUTE}>Home page</Link>{' '}
+      </p>
     </div>
   )
 }

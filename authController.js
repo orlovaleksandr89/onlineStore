@@ -182,8 +182,10 @@ class authController {
 
   async getSingleItem(req, res) {
     try {
-      const { id } = req.query
-      res.json(id)
+      const id = req.params.id
+      console.log(req)
+      const item = await Item.findById(id)
+      res.status(200).json(item)
     } catch (error) {
       return res.status(500).json({ message: 'Something went wrong...' })
     }

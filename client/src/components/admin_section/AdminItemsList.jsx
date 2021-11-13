@@ -6,13 +6,14 @@ import AdminHeader from './AdminHeader'
 function AdminItemsList() {
   const [items, setItems] = useState([])
   const { request } = useHttp()
-  const getItemsFromDB = async () => {
-    const data = await request('/items')
-    setItems(data)
-  }
+
   useEffect(() => {
+    const getItemsFromDB = async () => {
+      const data = await request('/items')
+      setItems(data)
+    }
     getItemsFromDB()
-  }, [])
+  }, [request])
 
   return (
     <div className=''>

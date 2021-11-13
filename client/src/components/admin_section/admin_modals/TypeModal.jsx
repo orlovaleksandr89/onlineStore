@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Modal, Button } from 'react-bootstrap'
 import { validatorConfig } from '../../../utils/validatorConfig'
 import { validator } from '../../../utils/validator'
@@ -19,16 +19,16 @@ function TypeModal({
   const onChangeHandle = ({ name, value }) => {
     setData((prev) => ({ ...prev, [name]: value }))
   }
-  useEffect(() => {
-    validate()
-  }, [data])
-
-  const validate = () => {
+  const validate = useCallback((data) => {
     const errors = validator(data, validatorConfig)
     setErrors(errors)
 
     return Object.keys(errors).length === 0
-  }
+  }, [])
+  useEffect(() => {
+    validate(data)
+  }, [data, validate])
+
   const isValid = Object.keys(errors).length === 0
   return (
     <Modal show={show} onHide={onHide}>

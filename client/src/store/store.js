@@ -21,7 +21,10 @@ const StoreContext = createContext({
   decrementQty: (id) => {},
 
   error: '',
-  setError: (text) => {}
+  setError: (text) => {},
+
+  search: '',
+  setSearch: (text) => {}
 })
 
 export function StoreContextProvider(props) {
@@ -29,6 +32,7 @@ export function StoreContextProvider(props) {
   const [types, setTypes] = useState([])
   const [cartItems, setCartItem] = useState([])
   const [error, setError] = useState('')
+  const [search, setSearch] = useState('')
 
   const [items, setItems] = useState([])
   const [isAuth, setIsAuth] = useState(false)
@@ -44,6 +48,10 @@ export function StoreContextProvider(props) {
     setItems((prevItems) => {
       return prevItems.filter((item) => item.id !== itemId)
     })
+  }
+
+  function setSearchHandler(text) {
+    setSearch(text)
   }
 
   function setAuthHandler(bool) {
@@ -99,10 +107,12 @@ export function StoreContextProvider(props) {
 
   const context = {
     isAuth: isAuth,
+
     items: items,
     setItems: setItemsHandler,
     deleteItem: deleteItemHandler,
     setAuth: setAuthHandler,
+
     user: user,
     setUser: setUserHandler,
 
@@ -110,12 +120,17 @@ export function StoreContextProvider(props) {
     setTypes: setTypesHandler,
     addItemToCart: addItemToCartHandler,
     deleteFromCart: deleteFromCartHandler,
+
     cart: cartItems,
     incrementQty: incrementQtyHandler,
     decrementQty: decrementQtyHandler,
     clearCart: clearCartHandle,
+
     error: error,
-    setError: setErrorHandler
+    setError: setErrorHandler,
+
+    search: search,
+    setSearch: setSearchHandler
   }
 
   return (

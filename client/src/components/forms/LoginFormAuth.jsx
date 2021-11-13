@@ -8,6 +8,7 @@ import TextField from '../common/form/TextField'
 import jwt_decode from 'jwt-decode'
 import StoreContext from '../../store/store'
 import { MAIN_ROUTE } from '../../utils/consts'
+import Loader from '../common/Loader'
 
 function LoginForm({ isLogin }) {
   const history = useHistory()
@@ -57,6 +58,9 @@ function LoginForm({ isLogin }) {
         alert(`${error}`)
       }
     }
+  }
+  if (loading) {
+    return <Loader />
   }
 
   return (
