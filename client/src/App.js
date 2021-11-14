@@ -10,7 +10,7 @@ import Loader from './components/common/Loader'
 function App() {
   const storeCtx = useContext(StoreContext)
   const { request, error } = useHttp()
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
   const check = async () => {
     try {
       setIsLoading(true)
