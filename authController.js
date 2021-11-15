@@ -29,7 +29,7 @@ class authController {
       if (!errors.isEmpty()) {
         return res.status(400).json({
           errors: errors.array(),
-          message: 'некоректные данные для регистрации'
+          message: 'Please check your username and password'
         })
       }
 
@@ -66,7 +66,7 @@ class authController {
       if (!errors.isEmpty()) {
         return res.status(400).json({
           errors: errors.array(),
-          message: 'Некоректные данные при входе в систему'
+          message: 'Please check your username and password'
         })
       }
 
@@ -75,12 +75,16 @@ class authController {
       const user = await User.findOne({ email })
 
       if (!user) {
-        return res.status(400).json({ message: 'Пользователь не найден' })
+        return res
+          .status(400)
+          .json({ message: 'There is no user with this email' })
       }
       const isMatch = bcrypt.compareSync(password, user.password)
 
       if (!isMatch) {
-        return res.status(400).json({ message: 'Неверный пароль' })
+        return res
+          .status(400)
+          .json({ message: 'Check your password and try again' })
       }
 
       const token = generateAccessToken(
@@ -91,7 +95,7 @@ class authController {
       )
       return res.json({ token })
     } catch (error) {
-      res.status(500).json({ error, message: 'Что-то пошло не так' })
+      res.status(500).json({ error, message: 'Something went wrong...' })
     }
   }
 
@@ -105,7 +109,7 @@ class authController {
       )
       res.json({ token })
     } catch (error) {
-      res.status(500).json({ error, message: 'Что-то пошло не так' })
+      res.status(500).json({ error, message: 'Something went wrong...' })
     }
   }
 
@@ -131,7 +135,7 @@ class authController {
       const { title, description, price, imgURL, quantity, type } = req.body
       const itemCandidate = await Item.findOne({ title })
       if (itemCandidate) {
-        return res.status(400).json({ message: 'Такой товар уже есть в базе' })
+        return res.status(400).json({ message: 'This item already exists' })
       }
       const itemType = await Type.findOne({ value: type })
       console.log(itemType)
@@ -145,7 +149,7 @@ class authController {
       })
 
       await newItem.save()
-      return res.status(201).json({ message: 'Товар успешно создан' })
+      return res.status(201).json({ message: 'You successfully created item' })
     } catch (error) {
       console.log(error.message)
       return res.status(500).json({ message: 'Something went wrong...' })
@@ -166,7 +170,7 @@ class authController {
       })
 
       await newType.save()
-      return res.status(201).json({ message: 'Тип успешно создан' })
+      return res.status(201).json({ message: 'You successfully created type' })
     } catch (error) {
       return res.status(500).json({ message: 'Something went wrong...' })
     }
@@ -186,6 +190,21 @@ class authController {
       console.log(req)
       const item = await Item.findById(id)
       res.status(200).json(item)
+    } catch (error) {
+      return res.status(500).json({ message: 'Something went wrong...' })
+    }
+  }
+
+  async deleteItem(req, res) {
+    try {
+      const id = req.body.id
+
+      const item = await Item.findById(id)
+      if (!item) {
+        return res.status(400).json({ message: 'Item does not exist' })
+      }
+      const data = await Item.deleteOne({ _id: id })
+      res.status(200).json({ message: 'Item deleted successfully' })
     } catch (error) {
       return res.status(500).json({ message: 'Something went wrong...' })
     }

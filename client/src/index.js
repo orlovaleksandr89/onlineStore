@@ -7,6 +7,7 @@ import { BrowserRouter } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { StoreContextProvider } from './store/store'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import './App.css'
 
 ReactDOM.render(
   <StoreContextProvider>

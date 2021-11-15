@@ -3,6 +3,7 @@ import Cart from './pages/cart'
 import Auth from './pages/auth'
 import ItemPage from './pages/item'
 import ShopPage from './pages/ShopPage'
+import ThankYouPage from './pages/ThankyouPage'
 
 import {
   ADMIN_ROUTE,
@@ -11,7 +12,8 @@ import {
   ITEM_ROUTE,
   LOGIN_ROUTE,
   MAIN_ROUTE,
-  REGISTRATION_ROUTE
+  REGISTRATION_ROUTE,
+  THANKYOU_ROUTE
 } from './utils/consts'
 import ErrorPage from './pages/ErrorPage'
 
@@ -23,6 +25,10 @@ export const authRoutes = [
   {
     path: CART_ROUTE,
     Component: Cart
+  },
+  {
+    path: THANKYOU_ROUTE,
+    Component: ThankYouPage
   }
 ]
 export const publicRoutes = [

@@ -5,7 +5,8 @@ import { Link, NavLink } from 'react-router-dom'
 import StoreContext from '../store/store'
 import logo from '../assets/logo.png'
 import { ADMIN_ROUTE, MAIN_ROUTE } from '../utils/consts'
-import SearchBar from './SearchBar'
+// import SearchBar from './SearchBar'
+import DropdownList from './common/dropdown/Dropdown'
 
 const NavBar = () => {
   const storeCtx = useContext(StoreContext)
@@ -27,8 +28,8 @@ const NavBar = () => {
               src={logo}
               style={{ height: '60px', marginLeft: '10px' }}></Image>
           </NavLink>
-          <div className='ms-3 d-none d-md-block' style={{ width: '300px' }}>
-            <SearchBar />
+          <div className='ms-4 d-none d-md-block' style={{ width: '350px' }}>
+            <DropdownList />
           </div>
         </div>
 

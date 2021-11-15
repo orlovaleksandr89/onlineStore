@@ -8,7 +8,8 @@ function MultiSelectField({
   onChangeHandle,
   label,
   defaultValue = [],
-  error
+  error,
+  ...rest
 }) {
   const optionsArr =
     !Array.isArray(options) && typeof options === 'object'
@@ -36,19 +37,20 @@ function MultiSelectField({
   }
 
   return (
-    <div className="mb-4">
-      <label className="form-label me-3">{label}</label>
+    <div className='mb-4'>
+      <label className='form-label me-3'>{label}</label>
       <Select
         closeMenuOnSelect={true}
         isMulti
         name={name}
         options={optionsArr}
-        classNamePrefix="select"
+        classNamePrefix='select'
         onChange={handleChange}
         defaultValue={defaultValueToArray}
         className={getInputClasses()}
+        {...rest}
       />
-      {error && <div className="invalid-feedback">{error}</div>}
+      {error && <div className='invalid-feedback'>{error}</div>}
     </div>
   )
 }

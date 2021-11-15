@@ -8,11 +8,7 @@ const LoginForm = () => {
   const location = useLocation()
   const isLogin = location.pathname === '/login'
 
-  return (
-    <div>
-      {isLogin ? <LoginFormAuth isLogin={isLogin} /> : <RegistrationForm />}
-    </div>
-  )
+  return <div>{isLogin ? <LoginFormAuth /> : <RegistrationForm />}</div>
 }
 
 export default LoginForm

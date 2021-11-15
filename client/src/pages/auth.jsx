@@ -4,7 +4,7 @@ import LoginForm from '../components/loginForm'
 
 const Auth = () => {
   return (
-    <Container style={{ height: window.innerHeight - 54 }} className='mt-5'>
+    <Container style={{ height: window.innerHeight - 76 }} className='pt-5'>
       <LoginForm />
     </Container>
   )

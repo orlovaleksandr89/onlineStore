@@ -1,52 +1,34 @@
 import React, { useState, useContext } from 'react'
-import { Card, Form, Row, Button, Container, Col } from 'react-bootstrap'
+import { Card, Row, Container, Col } from 'react-bootstrap'
 import { NavLink, useHistory } from 'react-router-dom'
-import { validator } from '../../utils/validator'
-import { validatorConfig } from '../../utils/validatorConfig'
 import { useHttp } from '../../hooks/httpHook'
-import TextField from '../common/form/TextField'
+
 import jwt_decode from 'jwt-decode'
 import StoreContext from '../../store/store'
 import { MAIN_ROUTE } from '../../utils/consts'
-import Loader from '../common/Loader'
+import FormComponent, { TextField } from '../common/form'
 
-function LoginForm({ isLogin }) {
+function LoginForm() {
   const history = useHistory()
   const storeCtx = useContext(StoreContext)
   const { loading, error, request } = useHttp()
-  const [formData, setData] = useState({
-    email: '',
-    password: ''
-  })
+  const [, setData] = useState({})
+  const [httperror, setHttperror] = useState({})
 
-  const [, setErrors] = useState({})
-  const onChangeHandle = (target) => {
-    validate()
-    setData((prev) => ({ ...prev, [target.name]: target.value }))
-  }
-
-  const validate = () => {
-    const errors = validator(formData, validatorConfig)
-    setErrors(errors)
-
-    return Object.keys(errors).length === 0
-  }
-  const submitHandle = (e) => {
-    e.preventDefault()
-
-    loginHandler()
+  const submitHandle = (data) => {
+    setHttperror({})
+    loginHandler(data)
 
     setData({ email: '', password: '' })
     if (error) {
-      alert(`${error}`)
+      setHttperror(error)
     }
   }
 
-  const loginHandler = async () => {
+  const loginHandler = async (formData) => {
     try {
       const data = await request('/auth/login', 'POST', { ...formData })
       const user = jwt_decode(data.token)
-      console.log(user)
       storeCtx.setUser(user)
       storeCtx.setAuth(true)
 
@@ -55,59 +37,53 @@ function LoginForm({ isLogin }) {
       history.push(MAIN_ROUTE)
     } catch (error) {
       if (error) {
-        alert(`${error}`)
+        setHttperror(error)
       }
     }
-  }
-  if (loading) {
-    return <Loader />
   }
 
   return (
     <Container>
       <Row className='d-flex justify-content-center'>
         <Col md={8}>
-          <Form className='d-flex flex-column' onSubmit={submitHandle}>
-            <Card className='p-3'>
-              <h2 className='m-auto'>
-                {isLogin ? 'Please login' : 'Please Sign up'}
-              </h2>
+          <Card className='p-3'>
+            <h2 className='m-auto'>Please Login</h2>
+            <FormComponent onSubmit={submitHandle} setHttperror={setHttperror}>
               <TextField
-                label='Your email'
+                label='Your Email'
                 name='email'
-                onChangeHandle={onChangeHandle}
-                value={formData.email}
+                httperror={httperror.message}
               />
               <TextField
-                label='Your password'
-                name='password'
-                onChangeHandle={onChangeHandle}
-                value={formData.password}
+                label='Your Password'
                 type='password'
+                name='password'
               />
-
-              <Row>
-                <div className='d-flex justify-content-between mt-3'>
-                  <div>
-                    Don't have an account?
-                    <NavLink
-                      to='/registration'
-                      style={{ textDecoration: 'none' }}
-                      className='ms-1'>
-                      Sign up
-                    </NavLink>
-                  </div>
-
-                  <Button
-                    variant={'outline-warning'}
-                    type={'submit'}
+              <div className='d-flex justify-content-end py-2 mt-3'>
+                <div className='col-12 col-sm-3 ms-auto'>
+                  <button
+                    type='submit'
+                    className='btn btn btn-warning w-100'
                     disabled={loading}>
-                    Log In
-                  </Button>
+                    Login
+                  </button>
                 </div>
-              </Row>
-            </Card>
-          </Form>
+              </div>
+            </FormComponent>
+            <Row>
+              <div className='d-flex justify-content-center'>
+                <div>
+                  Don't have an account?
+                  <NavLink
+                    to='/registration'
+                    style={{ textDecoration: 'none' }}
+                    className='ms-2 fw-bold'>
+                    Sign up
+                  </NavLink>
+                </div>
+              </div>
+            </Row>
+          </Card>
         </Col>
       </Row>
     </Container>

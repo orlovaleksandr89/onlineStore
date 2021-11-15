@@ -5,24 +5,25 @@ function TextArea({
   label,
   placeholder,
   name,
-  onChangeHandle,
+  onChange,
   value,
   rows = 3,
-  error
+  error,
+  ...rest
 }) {
   const getInputClasses = () => {
     return `${error ? 'form-control p-1 is-invalid' : 'form-control p-1'} `
   }
   const handleChange = ({ target }) => {
-    onChangeHandle({ name: target.id, value: target.value })
+    onChange({ name: target.id, value: target.value })
   }
   return (
-    <div className="my-3">
-      <label htmlFor={name} className="mb-3">
+    <div className='my-3'>
+      <label htmlFor={name} className='mb-3'>
         {label}
       </label>
 
-      <div className="form-floating ">
+      <div className='form-floating '>
         <textarea
           className={getInputClasses()}
           placeholder={placeholder}
@@ -30,8 +31,8 @@ function TextArea({
           style={{ height: rows * 24 + 'px' }}
           value={value}
           onChange={handleChange}
-        ></textarea>
-        {error && <div className="invalid-feedback text-danger">{error}</div>}
+          {...rest}></textarea>
+        {error && <div className='invalid-feedback text-danger'>{error}</div>}
       </div>
     </div>
   )

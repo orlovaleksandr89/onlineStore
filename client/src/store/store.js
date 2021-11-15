@@ -38,7 +38,7 @@ export function StoreContextProvider(props) {
   const [isAuth, setIsAuth] = useState(false)
 
   function setItemsHandler(arr) {
-    setItems(arr)
+    setItems((prev) => [...prev, ...arr])
   }
   function setErrorHandler(text) {
     setError(text)

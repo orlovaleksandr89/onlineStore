@@ -31,7 +31,7 @@ function ShopPage() {
         </Parallax>
       </div>
       <div className='page'>
-        <Row className='m-0 p-2'>
+        <Row className='m-0 mt-3 p-2'>
           <Col md={3}>
             <TypeBar setType={(type) => setType(type)} />
           </Col>

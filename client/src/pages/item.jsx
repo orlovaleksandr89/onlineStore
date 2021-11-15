@@ -88,8 +88,8 @@ const ItemPage = () => {
         <Row className='text-center p-2'>
           <Col
             md={12}
-            className='d-flex flex-column  justify-content-center w-100 align-items-center '>
-            <p>{item.description}</p>
+            className='d-flex flex-column p-3 justify-content-center w-100 align-items-center '>
+            <p className='p-3'>{item.description}</p>
           </Col>
         </Row>
         <Row className=' px-5 py-2 w-100 d-flex  justify-content-center align-items-center'>
@@ -98,7 +98,7 @@ const ItemPage = () => {
             className='d-flex  justify-content-center align-items-center'>
             <Button
               variant={'outline-warning'}
-              className='text-dark w-100'
+              className='text-dark w-100 mb-3'
               onClick={() => {
                 storeCtx.isAuth ? addToCartHandle(item) : history.push('/login')
               }}>

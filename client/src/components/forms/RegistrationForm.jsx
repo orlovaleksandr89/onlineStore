@@ -1,102 +1,103 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useHttp } from '../../hooks/httpHook'
-import { validatorConfig } from '../../utils/validatorConfig'
-import { validator } from '../../utils/validator'
-import { Card, Form, Row, Button, Col, Container } from 'react-bootstrap'
-import TextField from '../common/form/TextField'
+import jwt_decode from 'jwt-decode'
+import { useHistory } from 'react-router'
+import StoreContext from '../../store/store'
 import { NavLink } from 'react-router-dom'
-import Loader from '../common/Loader'
+import { Card, Col, Container, Row } from 'react-bootstrap'
+import FormComponent, { TextField } from '../common/form'
+import { MAIN_ROUTE } from '../../utils/consts'
 
 function RegistrationForm() {
-  const { request } = useHttp()
-  const [formData, setData] = useState({
-    email: '',
-    password: ''
-  })
-  const [errors, setErrors, loading] = useState({})
-  const onChangeHandle = (target) => {
-    validate()
-    setData((prev) => ({ ...prev, [target.name]: target.value }))
+  const history = useHistory()
+  const storeCtx = useContext(StoreContext)
+  const { request, loading } = useHttp()
+  const [successMessage, setSuccessMessage] = useState({})
+  const [httperror, setHttperror] = useState({})
+
+  const submitHandle = (data) => {
+    setHttperror({})
+    setSuccessMessage({})
+    registrationHandle(data)
   }
 
-  const validate = () => {
-    const errors = validator(formData, validatorConfig)
-    setErrors(errors)
-
-    return Object.keys(errors).length === 0
-  }
-  const submitHandle = (e) => {
-    e.preventDefault()
-    if (!isValid) {
-      return
-    }
-    console.log(formData)
-    registerHandler()
-
-    setData({ email: '', password: '' })
-    setErrors({})
-  }
-
-  const registerHandler = async () => {
+  const registrationHandle = async (formData) => {
     try {
       const data = await request('/auth/register', 'POST', { ...formData })
-      console.log('data', data)
-    } catch (error) {}
+      setSuccessMessage(data)
+      loginHandler(formData)
+    } catch (error) {
+      setHttperror(error)
+    }
   }
 
-  const isValid = Object.keys(errors).length === 0
+  const loginHandler = async (formData) => {
+    try {
+      const data = await request('/auth/login', 'POST', { ...formData })
+      const user = jwt_decode(data.token)
+      storeCtx.setUser(user)
+      storeCtx.setAuth(true)
 
-  if (loading) {
-    return <Loader />
+      localStorage.setItem('token', data.token)
+
+      history.push(MAIN_ROUTE)
+    } catch (error) {
+      if (error) {
+        setHttperror(error)
+      }
+    }
   }
+
   return (
-    <Container>
-      <Row className='d-flex justify-content-center'>
-        <Col md={8}>
-          <Form className='d-flex flex-column' onSubmit={submitHandle}>
+    <div>
+      <Container>
+        <Row className='d-flex justify-content-center'>
+          <Col md={8}>
             <Card className='p-3'>
-              <h2 className='m-auto'> Please Sign up</h2>
-              <TextField
-                label='Your email'
-                name='email'
-                onChangeHandle={onChangeHandle}
-                value={formData.email}
-                error={errors.email}
-              />
-              <TextField
-                label='Your password'
-                name='password'
-                onChangeHandle={onChangeHandle}
-                value={formData.password}
-                type='password'
-                error={errors.password}
-              />
-
+              <h2 className='m-auto'>Please Sign up</h2>
+              <FormComponent
+                onSubmit={submitHandle}
+                setHttperror={setHttperror}>
+                <TextField
+                  label='Your Email'
+                  name='email'
+                  httperror={httperror.message}
+                  success={successMessage.message}
+                />
+                <TextField
+                  label='Your Password'
+                  type='password'
+                  name='password'
+                />
+                <div className='d-flex justify-content-center justify-content-sm-end py-2 mt-3'>
+                  <div className='col-12 col-sm-3 ms-auto'>
+                    <button
+                      type='submit'
+                      className='btn btn btn-warning w-100'
+                      disabled={loading}>
+                      Sign Up
+                    </button>
+                  </div>
+                </div>
+              </FormComponent>
               <Row>
-                <div className='d-flex justify-content-between mt-3'>
+                <div className='d-flex justify-content-center '>
                   <div>
                     Already registered?
                     <NavLink
                       to='/login'
                       style={{ textDecoration: 'none' }}
-                      className='ms-1'>
-                      Log in
+                      className='ms-2 fw-bold'>
+                      Log In
                     </NavLink>
                   </div>
-
-                  <Button
-                    variant={'outline-warning'}
-                    type={'submit'}
-                    disabled={!isValid}>
-                    Sign up
-                  </Button>
                 </div>
               </Row>
             </Card>
-          </Form>
-        </Col>
-      </Row>
-    </Container>
+          </Col>
+        </Row>
+      </Container>
+    </div>
   )
 }
 

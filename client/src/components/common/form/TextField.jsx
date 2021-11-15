@@ -1,15 +1,28 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import PropTypes from 'prop-types'
 
-function TextField({ label, name, onChangeHandle, value, type, error }) {
+function TextField({
+  label,
+  name,
+  onChange,
+  value,
+  type,
+  error,
+  success,
+  httperror,
+  ...rest
+}) {
   const getInputClasses = () => {
     return `${error ? 'form-control is-invalid' : 'form-control'} `
   }
   const [showPassword, setShowPassword] = useState(false)
 
-  const handleChange = ({ target }) => {
-    onChangeHandle({ name: target.name, value: target.value })
-  }
+  const handleChange = useCallback(
+    ({ target }) => {
+      onChange({ name: target.name, value: target.value })
+    },
+    [onChange]
+  )
 
   const toggleShowPassword = () => {
     setShowPassword((prev) => !prev)
@@ -28,6 +41,7 @@ function TextField({ label, name, onChangeHandle, value, type, error }) {
           name={name}
           onChange={handleChange}
           className={getInputClasses()}
+          {...rest}
         />
         {type === 'password' && (
           <span
@@ -37,9 +51,10 @@ function TextField({ label, name, onChangeHandle, value, type, error }) {
             <i className={showPassword ? 'bi bi-eye' : 'bi bi-eye-slash'}></i>
           </span>
         )}
-
         {error && <div className='invalid-feedback text-danger'>{error}</div>}
       </div>
+      {httperror && <div className='text-danger'>{httperror}</div>}
+      {success && <div className='text-success'>{success}</div>}
     </div>
   )
 }
@@ -47,10 +62,11 @@ TextField.defaultProps = { type: 'text' }
 TextField.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string,
-  onChangeHandle: PropTypes.func,
+  onChange: PropTypes.func,
   value: PropTypes.string,
   type: PropTypes.string,
-  error: PropTypes.string
+  error: PropTypes.string,
+  success: PropTypes.string
 }
 
-export default TextField
+export default React.memo(TextField)

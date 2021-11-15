@@ -8,7 +8,8 @@ function SelectField({
   label,
   value,
   error,
-  name
+  name,
+  ...rest
 }) {
   const getInputClasses = () => {
     return `${error ? 'form-select is-invalid' : 'form-select'} `
@@ -42,7 +43,8 @@ function SelectField({
         id='validationCustom04'
         value={value}
         onChange={handleChange}
-        name={name}>
+        name={name}
+        {...rest}>
         <option disabled value=''>
           {defaultOption}
         </option>

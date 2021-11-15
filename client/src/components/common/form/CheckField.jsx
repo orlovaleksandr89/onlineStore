@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-function CheckField({ name, value, onChangeHandle, children, error }) {
+function CheckField({ name, value, onChangeHandle, children, error, ...rest }) {
   const handleChange = () => {
     onChangeHandle({ name: name, value: !value })
   }
@@ -10,20 +10,21 @@ function CheckField({ name, value, onChangeHandle, children, error }) {
   }
 
   return (
-    <div className="form-check my-3">
+    <div className='form-check my-3'>
       <input
-        className="form-check-input"
-        type="checkbox"
-        value=""
+        className='form-check-input'
+        type='checkbox'
+        value=''
         checked={value}
         id={name}
         onChange={handleChange}
+        {...rest}
       />
       <label className={getInputClasses()} htmlFor={name}>
         {children}
       </label>
 
-      {error && <div className="invalid-feedback">{error}</div>}
+      {error && <div className='invalid-feedback'>{error}</div>}
     </div>
   )
 }

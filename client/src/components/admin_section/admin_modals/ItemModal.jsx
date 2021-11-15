@@ -6,14 +6,14 @@ import StoreContext from '../../../store/store'
 import TextField from '../../common/form/TextField'
 import TextArea from '../../common/form/TextArea'
 import SelectField from '../../common/form/SelectField'
+import { useHttp } from '../../../hooks/httpHook'
 
 function ItemModal({
   show,
   onHide,
   title,
   cancelButtonText,
-  confirmButtonText,
-  createTypeInDB
+  confirmButtonText
 }) {
   const storeCtx = useContext(StoreContext)
 
@@ -26,24 +26,53 @@ function ItemModal({
     description: ''
   })
   const [errors, setErrors] = useState({})
+  const { request, loading } = useHttp()
+  const [httperror, setHttperror] = useState({})
+  const [successMessage, setSuccessMessage] = useState({})
 
   const onChangeHandle = ({ name, value }) => {
+    setHttperror({})
+    setSuccessMessage({})
     if (name === 'price' || name === 'quantity') {
       if (value <= 0) return 1
     }
     setData((prev) => ({ ...prev, [name]: value }))
   }
+
   const validate = useCallback((data) => {
     const errors = validator(data, validatorConfig)
     setErrors(errors)
 
     return Object.keys(errors).length === 0
   }, [])
+
   useEffect(() => {
     validate(data)
   }, [data, validate])
 
   const isValid = Object.keys(errors).length === 0
+
+  const createItemInDB = async (item) => {
+    try {
+      const token = localStorage.getItem('token')
+      const data = await request(
+        '/auth/createitem',
+        'POST',
+        { ...item },
+        {
+          Authorization: `Bearer ${token}`
+        }
+      )
+      setSuccessMessage(data)
+
+      const items = await request('/items')
+      storeCtx.setItems(items)
+
+      setTimeout(() => onHide(), 1000)
+    } catch (error) {
+      setHttperror(error)
+    }
+  }
 
   return (
     <Modal show={show} onHide={onHide}>
@@ -54,9 +83,11 @@ function ItemModal({
         <TextField
           label='Title'
           name='title'
-          onChangeHandle={onChangeHandle}
+          onChange={onChangeHandle}
           value={data.title}
           error={errors.title}
+          httperror={httperror.message}
+          success={successMessage.message}
         />
         <SelectField
           label='Type'
@@ -70,14 +101,14 @@ function ItemModal({
         <TextArea
           label='Description'
           name='description'
-          onChangeHandle={onChangeHandle}
+          onChange={onChangeHandle}
           value={data.description}
           error={errors.description}
         />
         <TextField
           label='Price'
           name='price'
-          onChangeHandle={onChangeHandle}
+          onChange={onChangeHandle}
           value={data.price}
           error={errors.price}
           type='number'
@@ -85,7 +116,7 @@ function ItemModal({
         <TextField
           label='Quantity'
           name='quantity'
-          onChangeHandle={onChangeHandle}
+          onChange={onChangeHandle}
           value={data.quantity}
           error={errors.quantity}
           type='number'
@@ -93,7 +124,7 @@ function ItemModal({
         <TextField
           label='Image URL'
           name='imgURL'
-          onChangeHandle={onChangeHandle}
+          onChange={onChangeHandle}
           value={data.imgURL}
           error={errors.imgURL}
         />
@@ -108,10 +139,9 @@ function ItemModal({
         <Button
           variant='outline-success'
           className='text-dark'
-          disabled={!isValid}
+          disabled={!isValid || loading}
           onClick={() => {
-            onHide()
-            createTypeInDB(data)
+            createItemInDB(data)
           }}>
           {confirmButtonText}
         </Button>

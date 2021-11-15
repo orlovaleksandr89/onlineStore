@@ -6,33 +6,34 @@ function RadioField({
   name,
   onChangeHandle,
   value,
-  label = 'Выбирите пол'
+  label = 'Выбирите пол',
+  ...rest
 }) {
   const handleChange = ({ target }) => {
     onChangeHandle({ name: target.name, value: target.value })
   }
 
   return (
-    <div className="mt-3 mb-3">
-      <label className="form-label me-3">{label}</label>
+    <div className='mt-3 mb-3'>
+      <label className='form-label me-3'>{label}</label>
       <div>
         {options &&
           options.map((option, i) => {
             return (
-              <div key={i} className="form-check form-check-inline">
+              <div key={i} className='form-check form-check-inline'>
                 <input
-                  className="form-check-input"
-                  type="radio"
+                  className='form-check-input'
+                  type='radio'
                   name={name}
                   id={option.name + '_' + option.value}
                   value={option.value}
                   checked={option.value === value}
                   onChange={handleChange}
+                  {...rest}
                 />
                 <label
-                  className="form-check-label"
-                  htmlFor={option.name + '_' + option.value}
-                >
+                  className='form-check-label'
+                  htmlFor={option.name + '_' + option.value}>
                   {option.name}
                 </label>
               </div>
@@ -44,7 +45,7 @@ function RadioField({
 }
 
 RadioField.propTypes = {
-  options: PropTypes.PropTypes.array,
+  options: PropTypes.array,
   name: PropTypes.string,
   onChangeHandle: PropTypes.func,
   value: PropTypes.string,

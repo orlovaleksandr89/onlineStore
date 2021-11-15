@@ -29,11 +29,12 @@ router.post(
 // /auth
 router.get('/auth', authMiddleWare, authController.check)
 router.post('/cart', authMiddleWare, authController.postInCart)
-// /
+// /items
 router.get('/items', authController.getItems)
 router.get('/singleitem/:id', authController.getSingleItem)
 router.get('/types', authController.getTypes)
 
+// admin section
 router.post(
   '/auth/createitem',
   authMiddleWare,
@@ -46,7 +47,13 @@ router.post(
   roleMiddleWare('ADMIN'),
   authController.createItemType
 )
+router.post(
+  '/auth/deleteitem',
+  authMiddleWare,
+  roleMiddleWare('ADMIN'),
+  authController.deleteItem
+)
 
-router.get('/item/:id', authController.getSingleItem)
+// router.get('/item/:id', authController.getSingleItem)
 
 module.exports = router

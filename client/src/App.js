@@ -28,20 +28,21 @@ function App() {
       storeCtx.setAuth(false)
       storeCtx.setError(e)
       console.log(e)
+      setIsLoading(false)
     }
   }
 
   const getTypesAndItemsFromDB = async () => {
     try {
       const items = await request('/items')
+      storeCtx.setItems(items)
       const types = await request('/types')
       storeCtx.setTypes(types)
-      storeCtx.setItems(items)
     } catch (error) {}
   }
 
   useEffect(() => {
-    isLoading && check()
+    check()
     return () => setIsLoading(false)
   }, [])
 

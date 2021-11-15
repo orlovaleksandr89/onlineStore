@@ -3,7 +3,7 @@ import { Col, Row } from 'react-bootstrap'
 
 function AdminHeader() {
   return (
-    <Row className='border'>
+    <Row className='border d-none d-md-flex mx-3'>
       <Col md={1} className='d-flex justify-content-center '>
         id
       </Col>
