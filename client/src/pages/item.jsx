@@ -51,8 +51,8 @@ const ItemPage = () => {
 
   return (
     <Container style={{ minHeight: 'calc(100vh - 65px)' }} className='p-4'>
-      <Card className=' shadow d-flex flex-column justify-content-center'>
-        <Row style={{ minHeight: '50vh' }} className='p-3'>
+      <Card className=' shadow d-flex flex-column justify-content-center align-items-center'>
+        <Row style={{ minHeight: '50vh' }} className='p-3 w-100'>
           <Col md={1}>
             <Button
               variant={'outline-secondary'}
@@ -70,22 +70,22 @@ const ItemPage = () => {
           </Col>
         </Row>
 
-        <Row className='text-center p-2'>
+        <Row className='text-center w-100'>
           <Col
             md={6}
-            className='d-flex flex-column  justify-content-center  align-items-center '>
+            className='d-flex flex-column  justify-content-center my-1 align-items-center '>
             <h2>{item.title}</h2>
           </Col>
           <Col
             md={6}
-            className='d-flex flex-column  justify-content-center  align-items-center '>
+            className='d-flex flex-column  justify-content-center my-1 align-items-center '>
             <h2>
               Price : {item.price}
               {currencyFormat}
             </h2>
           </Col>
         </Row>
-        <Row className='text-center p-2'>
+        <Row style={{ textAlign: 'justify' }}>
           <Col
             md={12}
             className='d-flex flex-column p-3 justify-content-center w-100 align-items-center '>

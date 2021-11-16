@@ -1,1 +1,0 @@
-{"version":3,"sources":["webpack://src/App.css"],"names":[],"mappings":"AAAA,WACE,gCAA6B,CAA7B,4BACF,CAEA,MACE,uBACF","file":"main.4bd106f6.chunk.css","sourcesContent":[".shop_page {\n  scroll-snap-type: y mandatory;\n}\n\n.page {\n  scroll-snap-align: start;\n}\n"]}

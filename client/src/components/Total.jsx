@@ -21,7 +21,7 @@ function Total({ totlaPrice, history }) {
           </Col>
           <Col md={6} sm={6}>
             <p className='fw-bold m-0 p-0'>
-              {totlaPrice} {currencyFormat}
+              {totlaPrice.toFixed(2)} {currencyFormat}
             </p>
           </Col>
         </Row>
