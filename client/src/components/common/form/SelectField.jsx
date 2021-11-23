@@ -19,20 +19,20 @@ function SelectField({
       ? Object.keys(options).map((optionName) => ({
           name: optionName,
           value: options[optionName].value,
-          key: options[optionName].id
+          key: options[optionName]._id
         }))
       : options.map((item) => ({
-          name: item.type,
-          id: item.id,
-          key: item.id
+          name: item.value,
+          id: item._id,
+          key: item._id
         }))
   const handleChange = ({ target }) => {
     onChangeHandle({ name: target.name, value: target.value })
   }
-  if (typeof value === 'object') {
-    value = value.id
-  }
 
+  if (typeof value === 'object') {
+    value = value._id
+  }
   return (
     <div className='d-flex flex-column mt-3'>
       <label htmlFor='validationCustom04' className='form-label'>

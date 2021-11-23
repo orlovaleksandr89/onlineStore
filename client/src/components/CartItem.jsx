@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Row, Col, Image, Form, Button } from 'react-bootstrap'
 import { currencyFormat } from '../utils/consts'
-import ModalWindow from './Modal'
+import ModalWindow from './common/Modal'
 
 function CartItem({
   _id,
@@ -18,12 +18,12 @@ function CartItem({
   return (
     <div className='p-3 shadow'>
       <Row className='d-flex align-items-center justify-content-center'>
-        <Col md={4}>
+        <Col xs={6} sm={4} lg={2}>
           <Image src={imgURL} fluid />
         </Col>
-        <Col md={7}>
+        <Col xs={12} sm={7}>
           <Row>
-            <Col md={12}>
+            <Col xs={12}>
               {title}
               <br />
               {`${price} ${currencyFormat}`}
@@ -31,7 +31,7 @@ function CartItem({
           </Row>
           <Row>
             <Col
-              md={12}
+              xs={12}
               className='d-flex flex-column text-center justifu-content-center align-items-center mt-3 p-0'>
               Quantity
               <div className='d-flex align-items-center justify-content-between p-2'>
@@ -58,11 +58,12 @@ function CartItem({
         </Col>
 
         <Col
-          md={1}
+          xs={12}
+          sm={1}
           className='d-flex align-items-center justify-content-center text-center text-danger'>
           <h3>
             <i
-              className='bi bi-trash ms-1'
+              className='bi bi-trash '
               role='button'
               onClick={() => {
                 setShowModal(true)

@@ -1,51 +1,43 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Container, Button, Row, Col, Image, Card } from 'react-bootstrap'
 import { useParams, useHistory } from 'react-router-dom'
 import Loader from '../components/common/Loader'
-import ModalWindow from '../components/Modal'
-import { useHttp } from '../hooks/httpHook'
-import StoreContext from '../store/store'
-import { currencyFormat } from '../utils/consts'
+import ModalWindow from '../components/common/Modal'
+import { useItems } from '../hooks/useItems'
+import { useUser } from '../hooks/useUser'
+import itemsService from '../services/items.service'
+import { CART_ROUTE, currencyFormat, LOGIN_ROUTE } from '../utils/consts'
 
 const ItemPage = () => {
   const { id } = useParams()
   const history = useHistory()
-  const storeCtx = useContext(StoreContext)
-  const { cart } = storeCtx
   const [inCart, setInCart] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
-  const [item, setItem] = useState({})
   const [itemAddedToCart, setItemAddedToCart] = useState(false)
+  const [loading, setLoading] = useState(false)
 
-  const { request } = useHttp()
+  const { isAuth } = useUser()
+  const { cartItems, addItemToCart } = useItems()
+  const [item, setItem] = useState({})
 
-  const getItemFromDB = useCallback(
-    async (id) => {
-      try {
-        setIsLoading(true)
-        const item = await request(`/singleitem/${id}`, 'GET')
-        setItem(item)
-        setIsLoading(false)
-      } catch (error) {
-        console.log(error)
-      }
-    },
-    [request]
-  )
   useEffect(() => {
-    getItemFromDB(id)
-  }, [getItemFromDB, id])
+    setLoading(true)
+    itemsService.getItemById(id).then((item) => {
+      setItem(item)
+      setLoading(false)
+    })
+
+    return () => setLoading(false)
+  }, [id])
 
   const addToCartHandle = (item) => {
-    if (cart.find((cartItem) => cartItem._id === item._id)) {
+    if (cartItems.find((cartItem) => cartItem._id === item._id)) {
       return setInCart(true)
     } else {
-      storeCtx.addItemToCart(item._id)
+      addItemToCart(item._id)
       setItemAddedToCart(true)
     }
   }
-
-  if (isLoading) {
+  if (loading) {
     return <Loader />
   }
 
@@ -100,7 +92,7 @@ const ItemPage = () => {
               variant={'outline-warning'}
               className='text-dark w-100 mb-3'
               onClick={() => {
-                storeCtx.isAuth ? addToCartHandle(item) : history.push('/login')
+                isAuth ? addToCartHandle(item) : history.push(LOGIN_ROUTE)
               }}>
               Add to cart
             </Button>
@@ -119,7 +111,7 @@ const ItemPage = () => {
           cancelButtonText={'Keep shopping'}
           confirmButtonText={'Go to cart!'}
           redirect={() => {
-            history.push('/cart')
+            history.push(CART_ROUTE)
           }}
         />
       )}
@@ -134,7 +126,7 @@ const ItemPage = () => {
           cancelButtonText={'Keep shopping'}
           confirmButtonText={'Go to cart!'}
           redirect={() => {
-            history.push('/cart')
+            history.push(CART_ROUTE)
           }}
         />
       )}

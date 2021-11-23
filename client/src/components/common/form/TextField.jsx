@@ -8,8 +8,7 @@ function TextField({
   value,
   type,
   error,
-  success,
-  httperror,
+
   ...rest
 }) {
   const getInputClasses = () => {
@@ -53,8 +52,6 @@ function TextField({
         )}
         {error && <div className='invalid-feedback text-danger'>{error}</div>}
       </div>
-      {httperror && <div className='text-danger'>{httperror}</div>}
-      {success && <div className='text-success'>{success}</div>}
     </div>
   )
 }

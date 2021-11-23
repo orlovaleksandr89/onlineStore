@@ -1,13 +1,7 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState
-} from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Button, Col, Form, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import StoreContext from '../../../store/store'
+import { useItems } from '../../../hooks/useItems'
 import { debounce } from '../../../utils/debounceFunction'
 import styles from './Dropdown.module.css'
 
@@ -15,8 +9,7 @@ function DropdownList() {
   const [search, setSearch] = useState('')
 
   const [focus, setFocus] = useState(false)
-  const storeCtx = useContext(StoreContext)
-  let items = storeCtx.items
+  let { items } = useItems()
   const inputRef = useRef(null)
 
   const toggleFocus = () => {
@@ -87,7 +80,7 @@ function DropdownList() {
           className={
             focus ? `${styles.active} ${styles.options}` : styles.options
           }>
-          {fileterdItems ? (
+          {fileterdItems.length > 0 ? (
             fileterdItems.map((item) => {
               return (
                 <Link
@@ -101,8 +94,8 @@ function DropdownList() {
                     color: 'black',
                     overflowX: 'hidden'
                   }}>
-                  <Row className=' d-flex justify-content-center align-items-center w-100'>
-                    <Col md={4}>
+                  <Row className=' d-flex justify-content-center align-items-center w-100 m-0'>
+                    <Col md={4} className=''>
                       <img
                         src={item.imgURL}
                         className='img-fluid '
@@ -117,7 +110,11 @@ function DropdownList() {
               )
             })
           ) : (
-            <div>No items found</div>
+            <Row className=' d-flex justify-content-center align-items-center w-100'>
+              <Col md={12}>
+                <div className={styles.option}>No items found...</div>
+              </Col>
+            </Row>
           )}
         </div>
       )}

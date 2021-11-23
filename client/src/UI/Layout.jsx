@@ -1,11 +1,11 @@
 import React from 'react'
 
-import NavBar from '../components/navbar'
+import AppNavBar from '../components/navbar'
 
 const Layout = (props) => {
   return (
     <div>
-      <NavBar />
+      <AppNavBar />
       {props.children}
     </div>
   )

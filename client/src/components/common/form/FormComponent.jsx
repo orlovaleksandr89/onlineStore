@@ -2,17 +2,13 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { validator } from '../../../utils/validator'
 import { validatorConfig } from '../../../utils/validatorConfig'
 
-function FormComponent({ children, onSubmit, setHttperror }) {
+function FormComponent({ children, onSubmit }) {
   const [data, setData] = useState({})
   const [errors, setErrors] = useState({})
 
-  const handleChange = useCallback(
-    (target) => {
-      setData((prevState) => ({ ...prevState, [target.name]: target.value }))
-      setHttperror({})
-    },
-    [setHttperror]
-  )
+  const handleChange = useCallback((target) => {
+    setData((prevState) => ({ ...prevState, [target.name]: target.value }))
+  }, [])
 
   const validate = useCallback(
     (data) => {

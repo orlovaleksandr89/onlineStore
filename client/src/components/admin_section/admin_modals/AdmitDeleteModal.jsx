@@ -1,9 +1,6 @@
-import React, { useContext, useState } from 'react'
+import React from 'react'
 import { Modal, Button } from 'react-bootstrap'
-import { useHttp } from '../../../hooks/httpHook'
-import StoreContext from '../../../store/store'
-import Loader from '../../common/Loader'
-
+import { useItems } from '../../../hooks/useItems'
 function ItemModal({
   show,
   onHide,
@@ -13,46 +10,21 @@ function ItemModal({
   confirmButtonText,
   id
 }) {
-  const { request, loading } = useHttp()
-  const [httperror, setHttperror] = useState('')
-  const [successMessage, setSuccessMessage] = useState('')
-  const storeCtx = useContext(StoreContext)
+  const { loading, deleteItemFromDB } = useItems()
 
   const deleteItemHandler = async (id) => {
-    try {
-      const token = localStorage.getItem('token')
-      const data = await request(
-        '/auth/deleteitem',
-        'POST',
-        {
-          id: id
-        },
-        {
-          Authorization: `Bearer ${token}`
-        }
-      )
-      setSuccessMessage(data.message)
-      const items = await request('/items')
-      storeCtx.setItems(items)
-
+    const response = await deleteItemFromDB(id)
+    if (response.status === 200) {
       setTimeout(() => onHide(), 1000)
-    } catch (error) {
-      setHttperror(error.message)
     }
   }
-  if (loading) {
-    return <Loader />
-  }
+
   return (
     <Modal show={show} onHide={onHide}>
       <Modal.Header>
         <Modal.Title>{title}</Modal.Title>
       </Modal.Header>
-      <Modal.Body>
-        {body}
-        {httperror && <div className='text-danger'>{httperror}</div>}
-        {successMessage && <div className='text-success'>{successMessage}</div>}
-      </Modal.Body>
+      <Modal.Body>{body}</Modal.Body>
       <Modal.Footer>
         <Button
           variant='outline-warning'

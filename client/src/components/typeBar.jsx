@@ -1,47 +1,57 @@
-import React, { useContext, useState } from 'react'
-import { ListGroup, Button, Container } from 'react-bootstrap'
-import StoreContext from '../store/store'
-import Loader from './common/Loader'
+import React, { useState } from 'react'
+import {
+  Button,
+  Container,
+  Row,
+  Col,
+  Dropdown,
+  DropdownButton
+} from 'react-bootstrap'
+import { useTypes } from '../hooks/useTypes'
 
 function TypeBar({ setType }) {
-  const storeCtx = useContext(StoreContext)
-  const [selectedType, setSelectedType] = useState()
-  if (storeCtx.types.length === 0) {
-    return <Loader />
-  }
+  const [, setSelectedType] = useState()
+  const { types } = useTypes()
+
   return (
     <Container className='p-2'>
-      <ListGroup>
-        {storeCtx.types.map((type) => {
-          return (
-            <ListGroup.Item
-              key={type.id}
-              role='button'
+      <Row className='w-100'>
+        <Col className='d-flex justify-content-center'>
+          <DropdownButton
+            id='dropdown-basic-button'
+            title='Types'
+            variant='warning'
+            className='mx-2 '>
+            {types.map((type) => {
+              return (
+                <Dropdown.Item
+                  onClick={() => {
+                    setSelectedType(type.value)
+                    setType(type.value)
+                  }}
+                  key={type._id}>
+                  {type.value}
+                </Dropdown.Item>
+              )
+            })}
+          </DropdownButton>
+        </Col>
+        <Col>
+          <div className='d-flex flex-column w-100'>
+            <Button
+              variant={'outline-warning'}
               onClick={() => {
-                setSelectedType(type.type)
-                setType(type.type)
+                setSelectedType(undefined)
+                setType(undefined)
               }}
-              className={
-                type.type === selectedType ? 'list-group-item-dark' : ''
-              }>
-              {type.type}
-            </ListGroup.Item>
-          )
-        })}
-      </ListGroup>
-      <div className='d-flex flex-column  mt-3'>
-        <Button
-          variant={'outline-warning'}
-          onClick={() => {
-            setSelectedType(undefined)
-            setType(undefined)
-          }}
-          className='text-dark'>
-          Reset
-        </Button>
-      </div>
+              className='text-dark'>
+              Reset
+            </Button>
+          </div>
+        </Col>
+      </Row>
     </Container>
   )
 }
 
-export default TypeBar
+export default React.memo(TypeBar)

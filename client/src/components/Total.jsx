@@ -1,8 +1,8 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Col, Row, Card, Container } from 'react-bootstrap'
 import PaypalExpressBtn from './CheckoutButton'
-import StoreContext from '../store/store'
 import { currencyFormat } from '../utils/consts'
+import { useItems } from '../hooks/useItems'
 
 function Total({ totlaPrice, history }) {
   const getTax = (totlaPrice) => Math.fround(totlaPrice * 0.08375).toFixed(2)
@@ -10,7 +10,7 @@ function Total({ totlaPrice, history }) {
     return (totlaPrice + Number(getTax(totlaPrice))).toFixed(2)
   }
   const total = Number(getTotalPrice(totlaPrice))
-  const storeCtx = useContext(StoreContext)
+  const { clearCart } = useItems()
 
   return (
     <Card className='shadow d-flex justify-content-center align-items-center'>
@@ -58,7 +58,7 @@ function Total({ totlaPrice, history }) {
           <PaypalExpressBtn
             total={total}
             history={history}
-            clearCart={storeCtx.clearCart}
+            clearCart={clearCart}
             className='my-3'
           />
         </Row>

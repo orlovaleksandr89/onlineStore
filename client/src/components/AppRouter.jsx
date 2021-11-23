@@ -1,21 +1,24 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { authRoutes, publicRoutes } from '../routes'
 import { ERROR_ROUTE } from '../utils/consts'
-import StoreContext from '../store/store'
 import ErrorPage from '../pages/ErrorPage'
+import { useUser } from '../hooks/useUser'
 
 const AppRouter = () => {
-  const storeCtx = useContext(StoreContext)
-  const isAuth = storeCtx.isAuth
+  const { isAuth } = useUser()
   return (
     <Switch>
       {isAuth &&
         authRoutes.map(({ path, Component }) => (
-          <Route key={path} path={path} component={Component} exact />
+          <Route key={path} path={path} exact>
+            <Component />
+          </Route>
         ))}
       {publicRoutes.map(({ path, Component }) => (
-        <Route key={path} path={path} component={Component} exact />
+        <Route key={path} path={path} exact>
+          <Component />
+        </Route>
       ))}
 
       <Redirect

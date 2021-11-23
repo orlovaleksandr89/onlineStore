@@ -5,6 +5,7 @@ const authController = require('../authController')
 const authMiddleWare = require('../middleware/middleware')
 const roleMiddleWare = require('../middleware/roleMiddleware')
 
+router.get('/auth', authMiddleWare, authController.check)
 // /auth/register
 router.post(
   '/auth/register',
@@ -27,12 +28,11 @@ router.post(
   authController.login
 )
 // /auth
-router.get('/auth', authMiddleWare, authController.check)
-router.post('/cart', authMiddleWare, authController.postInCart)
+router.post('/auth/cart', authMiddleWare, authController.postInCart)
 // /items
-router.get('/items', authController.getItems)
-router.get('/singleitem/:id', authController.getSingleItem)
-router.get('/types', authController.getTypes)
+router.get('/auth/items', authController.getItems)
+router.get('/auth/singleitem/:id', authController.getSingleItem)
+router.get('/auth/types', authController.getTypes)
 
 // admin section
 router.post(
@@ -53,7 +53,5 @@ router.post(
   roleMiddleWare('ADMIN'),
   authController.deleteItem
 )
-
-// router.get('/item/:id', authController.getSingleItem)
 
 module.exports = router

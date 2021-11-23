@@ -1,7 +1,25 @@
-.shop_page {
-  scroll-snap-type: y mandatory;
+.item_in_list {
+  transition: all 0.4s ease-in-out;
 }
 
-.page {
-  scroll-snap-align: start;
+.item_in_list:hover {
+  transform: scale(1.1);
+}
+.parallax {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  background: transparent;
+  padding: 15px;
+  color: #ffff;
+  font-size: 5.5rem;
+  transform: translate(-50%, -50%);
+  font-family: 'sans-serif';
+  width: 100%;
+  text-align: center;
+  opacity: 0;
+  transition: all 1.5s ease-in-out;
+}
+.parallax.hide {
+  opacity: 1;
 }

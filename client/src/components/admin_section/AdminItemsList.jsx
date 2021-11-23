@@ -1,22 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { useHttp } from '../../hooks/httpHook'
+import React from 'react'
 import AdminItem from './AdminItem'
 import AdminHeader from './AdminHeader'
-import StoreContext from '../../store/store'
 import Loader from '../common/Loader'
+import { useItems } from '../../hooks/useItems'
 
 function AdminItemsList() {
-  const [items, setItems] = useState([])
-  const { request, loading } = useHttp()
-  const storeCtx = useContext(StoreContext)
+  const { items, loading } = useItems()
 
-  const getItemsFromDB = async () => {
-    const data = await request('/items')
-    setItems(data)
-  }
-  useEffect(() => {
-    getItemsFromDB()
-  }, [storeCtx.items])
   if (loading) {
     return <Loader />
   }

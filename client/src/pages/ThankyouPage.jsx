@@ -9,7 +9,7 @@ function ThankyouPage() {
       <Row style={{ height: 'calc(100vh - 78px' }}>
         <Col
           md={12}
-          className='d-flex flex-column align-items-center justify-content-center'>
+          className='d-flex flex-column align-items-center justify-content-center text-center'>
           <h2>Thank you</h2>
           <p>
             We appreciate your purchase of our products. You will receive your

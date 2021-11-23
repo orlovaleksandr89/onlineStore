@@ -1,10 +1,9 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Modal, Button } from 'react-bootstrap'
 import { validatorConfig } from '../../../utils/validatorConfig'
 import { validator } from '../../../utils/validator'
 import TextField from '../../common/form/TextField'
-import { useHttp } from '../../../hooks/httpHook'
-import StoreContext from '../../../store/store'
+import { useTypes } from '../../../hooks/useTypes'
 
 function TypeModal({
   show,
@@ -15,48 +14,31 @@ function TypeModal({
 }) {
   const [data, setData] = useState({ type: '' })
   const [errors, setErrors] = useState({})
-  const { request, loading } = useHttp()
-  const [httperror, setHttperror] = useState({})
-  const [successMessage, setSuccessMessage] = useState({})
-  const storeCtx = useContext(StoreContext)
 
-  const createTypeInDB = async (text) => {
-    try {
-      const token = localStorage.getItem('token')
-      const data = await request(
-        '/auth/createtype',
-        'POST',
-        {
-          type: text.trim()
-        },
-        {
-          Authorization: `Bearer ${token}`
-        }
-      )
-      setSuccessMessage(data)
-      const types = await request('/types')
-      storeCtx.setTypes(types)
-      setTimeout(() => onHide(), 1000)
-    } catch (error) {
-      setHttperror(error)
-    }
-  }
+  const { loading, createTypeInDB } = useTypes()
 
-  const onChangeHandle = ({ name, value }) => {
-    setHttperror({})
-    setSuccessMessage({})
-    setData((prev) => ({ ...prev, [name]: value }))
-  }
+  const onChangeHandle = useCallback((target) => {
+    setData((prev) => ({ ...prev, [target.name]: target.value }))
+  }, [])
   const validate = useCallback((data) => {
     const errors = validator(data, validatorConfig)
     setErrors(errors)
 
     return Object.keys(errors).length === 0
   }, [])
+  const createTypeHandle = async (data) => {
+    const response = await createTypeInDB(data)
+    if (response.status === 201) {
+      setTimeout(() => {
+        onHide()
+      }, 700)
+    }
+  }
 
   useEffect(() => {
     validate(data)
   }, [data, validate])
+  console.log('render')
 
   const isValid = Object.keys(errors).length === 0
   return (
@@ -70,8 +52,6 @@ function TypeModal({
           onChange={onChangeHandle}
           value={data.type}
           error={errors.type}
-          httperror={httperror.message}
-          success={successMessage.message}
         />
       </Modal.Body>
       <Modal.Footer>
@@ -85,7 +65,7 @@ function TypeModal({
           variant='outline-success'
           className='text-dark'
           disabled={!isValid || loading}
-          onClick={() => createTypeInDB(data.type)}>
+          onClick={() => createTypeHandle(data.type)}>
           {confirmButtonText}
         </Button>
       </Modal.Footer>

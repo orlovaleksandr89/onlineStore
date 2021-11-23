@@ -1,10 +1,10 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
-import StoreContext from '../store/store'
+import { useItems } from '../hooks/useItems'
 import ItemInList from './ItemInList'
 
 function ItemsList({ type, search }) {
-  const { items } = useContext(StoreContext)
+  const { items } = useItems()
 
   const getSearchResult = (search) => {
     const result = items.filter((item) =>
@@ -30,7 +30,7 @@ function ItemsList({ type, search }) {
             )
             .map((item) => {
               return (
-                <Col md={4} key={item._id} className='py-3'>
+                <Col lg={3} md={4} sm={6} key={item._id} className='py-3'>
                   <ItemInList {...item} key={item._id} />
                 </Col>
               )
@@ -38,7 +38,7 @@ function ItemsList({ type, search }) {
         ) : (
           fileterdItems.map((item) => {
             return (
-              <Col md={4} key={item._id} className='py-3'>
+              <Col lg={3} md={4} sm={6} key={item._id} className='py-3'>
                 <ItemInList {...item} key={item._id} />
               </Col>
             )

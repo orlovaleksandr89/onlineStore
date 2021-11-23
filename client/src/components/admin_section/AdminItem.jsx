@@ -13,7 +13,9 @@ function AdminItem({ _id, price, imgURL, quantity, title, itemType, i }) {
         className='d-flex align-items-center justify-content-center mt-4 mt-md-0'>
         {i + 1}
       </Col>
-      <Col md={2} className='d-flex align-items-center justify-content-center'>
+      <Col
+        md={2}
+        className='d-flex align-items-center justify-content-center fw-bold'>
         {title}
       </Col>
       <Col md={2} className='d-flex align-items-center justify-content-center'>
@@ -27,7 +29,8 @@ function AdminItem({ _id, price, imgURL, quantity, title, itemType, i }) {
       </Col>
       <Col
         md={2}
-        sm={8}
+        sm={5}
+        xs={8}
         className='d-flex align-items-center justify-content-center '>
         <Image src={imgURL} fluid alt={title} />
       </Col>
