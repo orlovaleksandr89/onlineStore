@@ -7,5 +7,6 @@ export const ITEM_ROUTE = '/item/:id?'
 export const REGISTRATION_ROUTE = '/registration'
 export const ERROR_ROUTE = '/error'
 export const THANKYOU_ROUTE = '/thankyou'
+export const USER_SETTINGS_ROUTE = '/settings'
 
 export const currencyFormat = '$'

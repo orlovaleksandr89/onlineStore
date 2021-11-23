@@ -1,12 +1,18 @@
 import React from 'react'
 
-import { Navbar, Nav, Container, Image } from 'react-bootstrap'
+import { Navbar, Nav, Container, Image, Row, Col } from 'react-bootstrap'
 import { NavLink } from 'react-router-dom'
 import logo from '../../assets/logo.png'
 import { MAIN_ROUTE } from '../../utils/consts'
 import DropdownList from '../common/dropdown'
 import { useUser } from '../../hooks/useUser'
-import { AdminNavBtn, CartNavBtn, LogOutNavBtn, LoginNavBtn } from '../navbar'
+import {
+  AdminNavBtn,
+  CartNavBtn,
+  LogOutNavBtn,
+  LoginNavBtn,
+  UserNavBtn
+} from '../navbar'
 
 const AppNavBar = () => {
   const { user, isAuth, loguotUser } = useUser()
@@ -14,18 +20,20 @@ const AppNavBar = () => {
   return (
     <Navbar bg='dark' variant='dark' expand='md' className='p-0'>
       <Container>
-        <div className='d-flex justify-content-center align-items-center my-2'>
-          <NavLink
-            to={MAIN_ROUTE}
-            style={{ color: 'orange', textDecoration: 'none' }}>
-            <Image
-              src={logo}
-              style={{ height: '60px', marginLeft: '10px' }}></Image>
-          </NavLink>
-          <div className='ms-4 d-none d-md-block' style={{ width: '350px' }}>
+        <Row className='d-flex justify-content-center align-items-center my-2 w-50'>
+          <Col md={2}>
+            <NavLink
+              to={MAIN_ROUTE}
+              style={{ color: 'orange', textDecoration: 'none' }}>
+              <Image
+                src={logo}
+                style={{ height: '60px', marginLeft: '15px' }}></Image>
+            </NavLink>
+          </Col>
+          <Col md={10} className=' d-none d-md-block mx-0 '>
             <DropdownList />
-          </div>
-        </div>
+          </Col>
+        </Row>
 
         <Navbar.Toggle aria-controls='responsive-navbar-nav' />
         <Navbar.Collapse id='responsive-navbar-nav' className='flex-grow-0'>
@@ -33,7 +41,12 @@ const AppNavBar = () => {
             <Nav>
               {user.role === 'ADMIN' && isAuth && <AdminNavBtn />}
 
-              {user.role === 'USER' && <CartNavBtn />}
+              <div className='d-none d-md-flex justify-content-center align-items-center position-relative me-2'>
+                {user.role === 'USER' && <UserNavBtn />}
+              </div>
+              <div className='d-flex d-md-none '>
+                {user.role === 'USER' && <CartNavBtn />}
+              </div>
 
               <LogOutNavBtn loguotUser={loguotUser} />
             </Nav>

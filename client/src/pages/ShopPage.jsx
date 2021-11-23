@@ -35,7 +35,7 @@ function ShopPage() {
         </Parallax>
       </div>
 
-      <Row className='m-0 mt-3 p-2'>
+      <Row className='m-0 mt-3 p-2 align-items-center justify-content-center d-flex'>
         <Col md={12}>
           <TypeBar setType={(type) => setType(type)} />
         </Col>

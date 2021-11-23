@@ -53,7 +53,7 @@ function DropdownList() {
   }, [])
 
   return (
-    <div className={styles.dropdown}>
+    <div className={styles.dropdown} style={{ width: '100%' }}>
       <Form className=' my-2  position-relative  d-flex flex-row'>
         <Form.Control
           type='text'
