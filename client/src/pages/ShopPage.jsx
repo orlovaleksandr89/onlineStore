@@ -14,11 +14,14 @@ function ShopPage() {
   const [showMessage, setShowMessage] = useState(false)
   const storeCtx = useContext(StoreContext)
   const { loading } = useItems()
-
   useEffect(() => {
-    setTimeout(() => {
+    let timer
+    timer = setTimeout(() => {
       setShowMessage(true)
     }, 500)
+    return () => {
+      clearTimeout(timer)
+    }
   })
   if (loading) {
     return <Loader />

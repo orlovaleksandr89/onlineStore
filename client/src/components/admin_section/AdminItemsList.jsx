@@ -14,7 +14,7 @@ function AdminItemsList() {
     <div>
       <AdminHeader />
       {items.map((item, i) => {
-        return <AdminItem key={item._id} i={i} {...item} />
+        return <AdminItem key={item._id} i={i} item={item} />
       })}
     </div>
   )

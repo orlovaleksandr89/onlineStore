@@ -28,6 +28,7 @@ function DropdownList() {
     return result
   }
   const fileterdItems = getSearchResult(search)
+
   useEffect(() => {
     getSearchResult(search)
     return () => {
@@ -53,8 +54,8 @@ function DropdownList() {
   }, [])
 
   return (
-    <div className={styles.dropdown} style={{ width: '100%' }}>
-      <Form className=' my-2  position-relative  d-flex flex-row'>
+    <div className={styles.dropdown}>
+      <Form className=' my-0 w-100  position-relative  d-flex flex-row'>
         <Form.Control
           type='text'
           placeholder='Search'

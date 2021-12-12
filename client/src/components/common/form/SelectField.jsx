@@ -14,6 +14,7 @@ function SelectField({
   const getInputClasses = () => {
     return `${error ? 'form-select is-invalid' : 'form-select'} `
   }
+
   const optionsArr =
     !Array.isArray(options) && typeof options === 'object'
       ? Object.keys(options).map((optionName) => ({

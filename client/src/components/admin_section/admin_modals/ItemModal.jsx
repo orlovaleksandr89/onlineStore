@@ -6,26 +6,39 @@ import TextField from '../../common/form/TextField'
 import TextArea from '../../common/form/TextArea'
 import SelectField from '../../common/form/SelectField'
 import { useTypes } from '../../../hooks/useTypes'
-import { useItems } from '../../../hooks/useItems'
 
 function ItemModal({
   show,
   onHide,
   title,
   cancelButtonText,
-  confirmButtonText
+  confirmButtonText,
+  sumbitHandler,
+  loading,
+  defaultData
 }) {
-  const [data, setData] = useState({
-    title: '',
-    type: '',
-    price: '',
-    quantity: '',
-    imgURL: '',
-    description: ''
-  })
+  const [data, setData] = useState(
+    defaultData || {
+      title: '',
+      itemType: '',
+      price: '',
+      quantity: '',
+      imgURL: '',
+      description: ''
+    }
+  )
   const [errors, setErrors] = useState({})
   const { types } = useTypes()
-  const { createItemInDB, loading } = useItems()
+
+  const onSubmitHandler = async (data) => {
+    const response = await sumbitHandler(data)
+    console.log(response)
+    if (response.status === 201 || response.status === 200) {
+      setTimeout(() => {
+        onHide(false)
+      }, 500)
+    }
+  }
 
   const onChangeHandle = ({ name, value }) => {
     if (name === 'price' || name === 'quantity') {
@@ -47,23 +60,6 @@ function ItemModal({
 
   const isValid = Object.keys(errors).length === 0
 
-  const createItemInDBHandler = async (item) => {
-    try {
-      const response = await createItemInDB(item)
-      if (response.status === 201) {
-        setData({
-          title: '',
-          type: '',
-          price: '',
-          quantity: '',
-          imgURL: '',
-          description: ''
-        })
-        setTimeout(() => onHide(), 700)
-      }
-    } catch (error) {}
-  }
-
   return (
     <Modal show={show} onHide={onHide}>
       <Modal.Header>
@@ -81,10 +77,10 @@ function ItemModal({
           label='Type'
           options={types}
           defaultOption='Choose type...'
-          value={data.type}
+          value={data.itemType}
           error={errors.type}
           onChangeHandle={onChangeHandle}
-          name='type'
+          name='itemType'
         />
         <TextArea
           label='Description'
@@ -129,7 +125,7 @@ function ItemModal({
           className='text-dark'
           disabled={!isValid || loading}
           onClick={() => {
-            createItemInDBHandler(data)
+            onSubmitHandler(data)
           }}>
           {confirmButtonText}
         </Button>

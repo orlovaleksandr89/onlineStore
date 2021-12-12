@@ -1,8 +1,19 @@
 const { Schema, model, Types } = require('mongoose')
 
-const Cart = new Schema({
-  owner: { type: Types.ObjectId, ref: 'User' },
-  value: { type: String, required: true }
-})
+const Cart = {
+  owner: {
+    type: Types.ObjectId,
+    required: true,
+    ref: 'User'
+  },
+  products: [
+    {
+      productId: String,
+      quantity: Number,
+      name: String,
+      price: Number
+    }
+  ]
+}
 
 module.exports = model('Cart', Cart)

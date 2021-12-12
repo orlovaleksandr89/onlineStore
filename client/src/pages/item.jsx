@@ -5,6 +5,7 @@ import Loader from '../components/common/Loader'
 import ModalWindow from '../components/common/Modal'
 import { useItems } from '../hooks/useItems'
 import { useUser } from '../hooks/useUser'
+
 import itemsService from '../services/items.service'
 import { CART_ROUTE, currencyFormat, LOGIN_ROUTE } from '../utils/consts'
 
@@ -30,19 +31,21 @@ const ItemPage = () => {
   }, [id])
 
   const addToCartHandle = (item) => {
+    console.log(cartItems)
     if (cartItems.find((cartItem) => cartItem._id === item._id)) {
       return setInCart(true)
     } else {
-      addItemToCart(item._id)
+      addItemToCart(item)
       setItemAddedToCart(true)
     }
   }
+
   if (loading) {
     return <Loader />
   }
 
   return (
-    <Container style={{ minHeight: 'calc(100vh - 65px)' }} className='p-4'>
+    <Container className='p-4'>
       <Card className=' shadow d-flex flex-column justify-content-center align-items-center'>
         <Row style={{ minHeight: '50vh' }} className='p-3 w-100'>
           <Col md={1}>

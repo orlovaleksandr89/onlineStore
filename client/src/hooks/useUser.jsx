@@ -16,7 +16,6 @@ const UserProvider = ({ children }) => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [isAuth, setIsAuth] = useState(false)
-
   const history = useHistory()
 
   useEffect(() => {
@@ -44,6 +43,7 @@ const UserProvider = ({ children }) => {
 
         setUserInStore(response)
       }
+
       setLoading(false)
     } catch (error) {
       errorCatcher(error)

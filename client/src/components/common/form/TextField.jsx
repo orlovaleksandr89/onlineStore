@@ -1,16 +1,7 @@
 import React, { useCallback, useState } from 'react'
 import PropTypes from 'prop-types'
 
-function TextField({
-  label,
-  name,
-  onChange,
-  value,
-  type,
-  error,
-
-  ...rest
-}) {
+function TextField({ label, name, onChange, value, type, error, ...rest }) {
   const getInputClasses = () => {
     return `${error ? 'form-control is-invalid' : 'form-control'} `
   }

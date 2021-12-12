@@ -9,7 +9,7 @@ module.exports = function (role) {
     try {
       const token = req.headers.authorization.split(' ')[1]
       if (!token) {
-        return res.status(403).json({ message: 'Пользователь не авторизован' })
+        return res.status(403).json({ message: 'Not authorized' })
       }
 
       const { role: userRoles } = jwt.verify(token, process.env.jwtSecretKey)
@@ -21,16 +21,11 @@ module.exports = function (role) {
       }
 
       if (!hasAccess) {
-        return res
-          .status(403)
-          .json({ message: 'Пользователь не имеет доступа' })
+        return res.status(403).json({ message: 'Not authorized' })
       }
       next()
     } catch (error) {
-      console.log(error)
-      return res
-        .status(403)
-        .json({ message: 'У вас нет прав для просмотра этой страницы' })
+      return res.status(403).json({ message: 'Not authorized' })
     }
   }
 }

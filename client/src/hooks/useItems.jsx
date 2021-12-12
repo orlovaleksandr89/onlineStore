@@ -1,7 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
-import httpServise from '../services/http.service'
+// import httpServise from '../services/http.service'
 import itemsService from '../services/items.service'
+import adminService from '../services/admin.service'
+import cartService from '../services/cart.service'
 
 const ItemsContext = React.createContext()
 
@@ -20,7 +22,7 @@ const ItemsProvider = ({ children }) => {
     if (error !== null) {
       toast.error(error, {
         position: 'top-center',
-        autoClose: 4000,
+        autoClose: 3000,
         closeOnClick: true,
         draggable: true,
         progress: undefined
@@ -31,6 +33,7 @@ const ItemsProvider = ({ children }) => {
 
   useEffect(() => {
     getItems()
+    getCart()
     return () => {
       setLoading(false)
     }
@@ -52,6 +55,18 @@ const ItemsProvider = ({ children }) => {
     return items.find((item) => item._id === id)
   }
 
+  async function getCart() {
+    try {
+      setLoading(true)
+      const { products } = await cartService.get()
+      setCartItem(products)
+      setLoading(false)
+    } catch (error) {
+      errorCatcher(error.response.data.message)
+      setLoading(false)
+    }
+  }
+
   async function getItemFromDB(id) {
     try {
       setLoading(true)
@@ -66,9 +81,8 @@ const ItemsProvider = ({ children }) => {
   async function createItemInDB(data) {
     try {
       setLoading(true)
-      const response = await httpServise.post('/createitem', { ...data })
+      const response = await adminService.post('/createitem', { ...data })
       toast.success(response.data.message)
-      setLoading(false)
       if (response.status === 201) {
         getItems()
       }
@@ -78,10 +92,30 @@ const ItemsProvider = ({ children }) => {
       setLoading(false)
     }
   }
+
+  async function updateItemInDB(id, data) {
+    try {
+      setLoading(true)
+      const response = await adminService.post('/updateitem', {
+        id,
+        data
+      })
+      toast.success(response.data.message)
+
+      if (response.status === 200) {
+        getItems()
+      }
+      return response
+    } catch (error) {
+      errorCatcher(error.response.data.message)
+      setLoading(false)
+    }
+  }
+
   async function deleteItemFromDB(id) {
     try {
       setLoading(true)
-      const response = await httpServise.post('/deleteitem', { id: id })
+      const response = await adminService.post('/deleteitem', { id: id })
       toast.success(response.data.message)
       getItems()
       setLoading(false)
@@ -92,20 +126,22 @@ const ItemsProvider = ({ children }) => {
     }
   }
 
-  function addItemToCart(id) {
-    if (cartItems.find((item) => item._id === id)) {
-      return cartItems
-    } else {
-      const newCart = items.map((item) => {
-        if (item._id === id) {
-          return { ...item, qty: 1 }
-        }
-        return item
+  async function addItemToCart(data) {
+    try {
+      await cartService.addItem({
+        _id: data._id,
+        quantity: 1,
+        name: data.title,
+        price: data.price
       })
-      const item = newCart.find((item) => item._id === id)
-      setCartItem((prev) => [...prev, item])
+
+      await getCart()
+    } catch (error) {
+      errorCatcher(error.response.data.message)
+      setLoading(false)
     }
   }
+
   function deleteItemFromCart(id) {
     setCartItem([...cartItems.filter((item) => item._id !== id)])
   }
@@ -157,7 +193,8 @@ const ItemsProvider = ({ children }) => {
         getItemFromDB,
         itemFromDb,
         deleteItemFromDB,
-        createItemInDB
+        createItemInDB,
+        updateItemInDB
       }}>
       {children}
     </ItemsContext.Provider>

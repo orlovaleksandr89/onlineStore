@@ -4,6 +4,7 @@ import { Link, useHistory } from 'react-router-dom'
 import CartItem from '../components/CartItem'
 import Total from '../components/Total'
 import { useItems } from '../hooks/useItems'
+
 import { MAIN_ROUTE } from '../utils/consts'
 
 const Cart = () => {
@@ -14,23 +15,33 @@ const Cart = () => {
     deleteItemFromCart,
     incrementQty,
     decrementQty,
-    clearCart
+    clearCart,
+    items
   } = useItems()
 
   const deleteHandler = (id) => {
     deleteItemFromCart(id)
   }
 
+  const cartItemsForOrder = cartItems.map((item) => item._id)
   const totlaPrice = cartItems
     .map((item) => item.qty * item.price)
     .reduce((a, b) => a + b, 0)
 
+  const newCartItems = items.filter((item) =>
+    cartItems.find((x) => x._id === item._id)
+  )
+
   return (
-    <div className=' text-center mt-3'>
+    <div className='text-center mt-3'>
       {cartItems.length === 0 ? (
-        <h2>
-          Your cart is empty. Go to <Link to={MAIN_ROUTE}>main page!</Link>
-        </h2>
+        <div
+          className='d-flex justify-content-center align-items-center h-100'
+          style={{ minHeight: 'calc(100vh - 76px)' }}>
+          <h2>
+            Your cart is empty. Go to <Link to={MAIN_ROUTE}>main page!</Link>
+          </h2>
+        </div>
       ) : (
         <>
           <Row className='p-0 m-0 d-flex justifu-content-center align-items-center'>
@@ -45,7 +56,7 @@ const Cart = () => {
           </Row>
           <Row className='p-0 m-0 w-100'>
             <Col md={8} classname='p-0'>
-              {cartItems.map((item) => {
+              {newCartItems.map((item) => {
                 return (
                   <Card key={item._id} className='mb-3'>
                     <CartItem
@@ -63,7 +74,11 @@ const Cart = () => {
               {totlaPrice === 0 ? (
                 <h2>Nothing to pay yet</h2>
               ) : (
-                <Total totlaPrice={totlaPrice} history={history} />
+                <Total
+                  totlaPrice={totlaPrice}
+                  history={history}
+                  cartItemsForOrder={cartItemsForOrder}
+                />
               )}
             </Col>
           </Row>

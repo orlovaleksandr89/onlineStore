@@ -1,7 +1,6 @@
 import httpService from './http.service'
 
 const itemsEndpoint = '/items'
-const singleItemEndpoint = '/singleitem'
 
 const itemsService = {
   get: async () => {
@@ -9,7 +8,7 @@ const itemsService = {
     return data
   },
   getItemById: async (id) => {
-    const { data } = await httpService.get(singleItemEndpoint + `/${id}`)
+    const { data } = await httpService.get(itemsEndpoint + `/${id}`)
     return data
   }
 }

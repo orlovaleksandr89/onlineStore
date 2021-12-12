@@ -6,7 +6,11 @@ require('dotenv').config()
 const app = express()
 
 app.use(express.json({ extended: true }))
-app.use('/', require('./routes/auth.routes'))
+app.use('/auth', require('./routes/auth.routes'))
+app.use('/auth/admin', require('./routes/admin.routes'))
+app.use('/auth/items', require('./routes/items.routes'))
+app.use('/auth/types', require('./routes/types.routes'))
+app.use('/auth/cart', require('./routes/cart.routes'))
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, 'build')))

@@ -6,7 +6,7 @@ const Layout = (props) => {
   return (
     <div>
       <AppNavBar />
-      {props.children}
+      <div style={{ minHeight: 'calc(100vh - 76px' }}>{props.children}</div>
     </div>
   )
 }

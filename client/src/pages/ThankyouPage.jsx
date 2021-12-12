@@ -5,8 +5,8 @@ import { MAIN_ROUTE } from '../utils/consts'
 
 function ThankyouPage() {
   return (
-    <Container>
-      <Row style={{ height: 'calc(100vh - 78px' }}>
+    <Container style={{ minHeight: 'calc(100vh - 76px)' }}>
+      <Row>
         <Col
           md={12}
           className='d-flex flex-column align-items-center justify-content-center text-center'>

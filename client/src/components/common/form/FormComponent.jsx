@@ -2,8 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { validator } from '../../../utils/validator'
 import { validatorConfig } from '../../../utils/validatorConfig'
 
-function FormComponent({ children, onSubmit }) {
-  const [data, setData] = useState({})
+function FormComponent({ children, onSubmit, formData }) {
+  const [data, setData] = useState({} || formData)
   const [errors, setErrors] = useState({})
 
   const handleChange = useCallback((target) => {

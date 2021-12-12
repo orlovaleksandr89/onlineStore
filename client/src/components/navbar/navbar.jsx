@@ -25,12 +25,10 @@ const AppNavBar = () => {
             <NavLink
               to={MAIN_ROUTE}
               style={{ color: 'orange', textDecoration: 'none' }}>
-              <Image
-                src={logo}
-                style={{ height: '60px', marginLeft: '15px' }}></Image>
+              <Image src={logo} style={{ height: '60px' }}></Image>
             </NavLink>
           </Col>
-          <Col md={10} className=' d-none d-md-block mx-0 '>
+          <Col md={10} className=' d-none d-md-block  '>
             <DropdownList />
           </Col>
         </Row>

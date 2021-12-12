@@ -18,7 +18,6 @@ const TypesProvider = ({ children }) => {
     getTypes()
     return () => setLoading(false)
   }, [])
-
   useEffect(() => {
     if (error !== null) {
       toast.error(error, {

@@ -1,16 +1,27 @@
 import React from 'react'
-import { Col, Row, Card, Container } from 'react-bootstrap'
+import { Col, Row, Card, Container, Button } from 'react-bootstrap'
 import PaypalExpressBtn from './CheckoutButton'
 import { currencyFormat } from '../utils/consts'
 import { useItems } from '../hooks/useItems'
+import httpServise from '../services/http.service'
 
-function Total({ totlaPrice, history }) {
+function Total({ totlaPrice, history, cartItemsForOrder }) {
   const getTax = (totlaPrice) => Math.fround(totlaPrice * 0.08375).toFixed(2)
   const getTotalPrice = (totlaPrice) => {
     return (totlaPrice + Number(getTax(totlaPrice))).toFixed(2)
   }
   const total = Number(getTotalPrice(totlaPrice))
   const { clearCart } = useItems()
+
+  const postToDB = async () => {
+    const dataToPost = {
+      cartItemsForOrder,
+      totlaPrice
+    }
+
+    const response = await httpServise.post('/order', dataToPost)
+    console.log(response)
+  }
 
   return (
     <Card className='shadow d-flex justify-content-center align-items-center'>
@@ -60,7 +71,11 @@ function Total({ totlaPrice, history }) {
             history={history}
             clearCart={clearCart}
             className='my-3'
+            cartItemsForOrder={cartItemsForOrder}
           />
+        </Row>
+        <Row>
+          <Button onClick={postToDB}>Post to db</Button>
         </Row>
         <Row className='mt-2'>
           <p>* for Paypal checkout use credentials</p>

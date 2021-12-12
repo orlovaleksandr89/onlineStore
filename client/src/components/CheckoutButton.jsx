@@ -4,7 +4,6 @@ import { THANKYOU_ROUTE } from '../utils/consts'
 
 export default class MyApp extends React.Component {
   render() {
-    console.log()
     const onSuccess = (payment) => {
       // Congratulation, it came here means everything's fine!
       console.log('The payment was succeeded!', payment)
