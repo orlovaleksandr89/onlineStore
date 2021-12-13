@@ -12,25 +12,20 @@ const Cart = () => {
 
   const {
     cartItems,
-    deleteItemFromCart,
+    deleteItemFromCartDB,
     incrementQty,
     decrementQty,
-    clearCart,
-    items
+    clearCart
   } = useItems()
 
   const deleteHandler = (id) => {
-    deleteItemFromCart(id)
+    deleteItemFromCartDB(id)
   }
 
-  const cartItemsForOrder = cartItems.map((item) => item._id)
+  // const cartItemsForOrder = cartItems.map((item) => item._id)
   const totlaPrice = cartItems
-    .map((item) => item.qty * item.price)
+    .map((item) => item.quantity * item.price)
     .reduce((a, b) => a + b, 0)
-
-  const newCartItems = items.filter((item) =>
-    cartItems.find((x) => x._id === item._id)
-  )
 
   return (
     <div className='text-center mt-3'>
@@ -56,7 +51,7 @@ const Cart = () => {
           </Row>
           <Row className='p-0 m-0 w-100'>
             <Col md={8} classname='p-0'>
-              {newCartItems.map((item) => {
+              {cartItems.map((item) => {
                 return (
                   <Card key={item._id} className='mb-3'>
                     <CartItem
@@ -77,7 +72,7 @@ const Cart = () => {
                 <Total
                   totlaPrice={totlaPrice}
                   history={history}
-                  cartItemsForOrder={cartItemsForOrder}
+                  // cartItemsForOrder={cartItemsForOrder}
                 />
               )}
             </Col>

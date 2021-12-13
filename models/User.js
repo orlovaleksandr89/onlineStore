@@ -4,9 +4,7 @@ const schema = new Schema({
   name: { type: String },
   email: { type: String, unique: true, required: true },
   password: { type: String, required: true },
-  roles: { type: String, ref: 'Role' },
-  order: [{ type: Types.ObjectId, ref: 'Order' }],
-  cart: [{ type: Types.ObjectId, ref: 'Cart' }]
+  roles: { type: String, ref: 'Role' }
 })
 
 module.exports = model('User', schema)

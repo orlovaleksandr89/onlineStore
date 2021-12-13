@@ -31,7 +31,6 @@ const ItemPage = () => {
   }, [id])
 
   const addToCartHandle = (item) => {
-    console.log(cartItems)
     if (cartItems.find((cartItem) => cartItem._id === item._id)) {
       return setInCart(true)
     } else {

@@ -32,7 +32,7 @@ function ItemModal({
 
   const onSubmitHandler = async (data) => {
     const response = await sumbitHandler(data)
-    console.log(response)
+
     if (response.status === 201 || response.status === 200) {
       setTimeout(() => {
         onHide(false)

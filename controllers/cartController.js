@@ -3,36 +3,15 @@ const Cart = require('../models/Cart')
 class CartController {
   async addItemToCart(req, res, next) {
     const { id } = req.user
-    const { _id, quantity, name, price } = req.body
+    const { _id, quantity, title, price, imgURL } = req.body
     try {
-      let cart = await Cart.findOne({ owner: id })
+      await Cart.updateOne(
+        { owner: id },
+        { $push: { products: { _id, quantity, title, price, imgURL } } },
+        { upsert: true }
+      )
 
-      if (cart) {
-        //cart exists for user
-        let itemIndex = cart.products.findIndex((p) => p._id == _id)
-
-        if (itemIndex > -1) {
-          //product exists in the cart, update the quantity
-          let productItem = cart.products[itemIndex]
-          productItem.quantity = quantity
-          cart.products[itemIndex] = productItem
-        } else {
-          //product does not exists in cart, add new item
-          cart.products.push({ _id, quantity, name, price })
-        }
-        cart = await cart.save()
-        return res
-          .status(201)
-          .json({ message: 'You successfully added product to cart', cart })
-      } else {
-        //no cart for user, create new cart
-        const newCart = await Cart.create({
-          owner: id,
-          products: [{ _id, quantity, name, price }]
-        })
-
-        return res.status(201).json(newCart)
-      }
+      return res.status(200).json({ message: 'Cart updated successfully' })
     } catch (error) {
       console.log(error)
       res.status(500).send('Something went wrong')
@@ -42,15 +21,31 @@ class CartController {
   async getCart(req, res, next) {
     try {
       const { id } = req.user
+
       if (!id) {
-        return res.status(403).jspn({ message: 'Not Authorized' })
+        return res.status(403).json({ message: 'Not Authorized' })
       }
       const userCart = await Cart.findOne({ owner: id })
 
       return res.status(200).json(userCart)
     } catch (error) {
-      console.log(error)
-      res.status(500).send('Something went wrong')
+      res.status(500).json({ message: 'Something went wrong' })
+    }
+  }
+
+  async deleteItemInCart(req, res) {
+    const { id } = req.user
+    const { itemId } = req.params
+
+    try {
+      await Cart.updateOne(
+        { owner: id },
+        { $pull: { products: { _id: itemId } } },
+        { new: true }
+      )
+      return res.status(200).json({ message: 'Item deleted from cart' })
+    } catch (error) {
+      res.status(500).json({ message: 'Something went wrong' })
     }
   }
 }

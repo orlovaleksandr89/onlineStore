@@ -29,6 +29,7 @@ class ItemController {
       })
 
       await newItem.save()
+
       return res.status(201).json({ message: 'You successfully created item' })
     } catch (error) {
       console.log(error.message)

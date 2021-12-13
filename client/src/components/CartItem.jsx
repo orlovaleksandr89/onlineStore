@@ -9,7 +9,7 @@ function CartItem({
   imgURL,
   title,
   deleteHandler,
-  qty,
+  quantity,
   decrementQty,
   incrementQty
 }) {
@@ -43,7 +43,7 @@ function CartItem({
                   style={{ width: 50, borderRadius: 25 }}>
                   <i className='bi bi-dash'></i>
                 </Button>
-                <Form.Control value={qty} onChange={() => {}} />
+                <Form.Control value={quantity} onChange={() => {}} />
                 <Button
                   onClick={() => {
                     incrementQty(_id)

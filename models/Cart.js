@@ -10,8 +10,9 @@ const Cart = {
     {
       productId: String,
       quantity: Number,
-      name: String,
-      price: Number
+      title: String,
+      price: Number,
+      imgURL: String
     }
   ]
 }

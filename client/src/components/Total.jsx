@@ -3,7 +3,6 @@ import { Col, Row, Card, Container, Button } from 'react-bootstrap'
 import PaypalExpressBtn from './CheckoutButton'
 import { currencyFormat } from '../utils/consts'
 import { useItems } from '../hooks/useItems'
-import httpServise from '../services/http.service'
 
 function Total({ totlaPrice, history, cartItemsForOrder }) {
   const getTax = (totlaPrice) => Math.fround(totlaPrice * 0.08375).toFixed(2)
@@ -13,22 +12,12 @@ function Total({ totlaPrice, history, cartItemsForOrder }) {
   const total = Number(getTotalPrice(totlaPrice))
   const { clearCart } = useItems()
 
-  const postToDB = async () => {
-    const dataToPost = {
-      cartItemsForOrder,
-      totlaPrice
-    }
-
-    const response = await httpServise.post('/order', dataToPost)
-    console.log(response)
-  }
-
   return (
     <Card className='shadow d-flex justify-content-center align-items-center'>
       <Container className='m-0 p-2'>
         <Row>
           <Col md={6} sm={6} className='m-0 p-0'>
-            <p className='text-secondary m-0 p-0'>Your total</p>
+            <p className='text-secondary m-0 p-0'>Sub Total</p>
           </Col>
           <Col md={6} sm={6}>
             <p className='fw-bold m-0 p-0'>
@@ -38,7 +27,7 @@ function Total({ totlaPrice, history, cartItemsForOrder }) {
         </Row>
         <Row>
           <Col md={6} sm={6}>
-            <p className='text-secondary m-0 p-0'>VAT</p>
+            <p className='text-secondary m-0 p-0'>Tax</p>
           </Col>
           <Col md={6} sm={6}>
             <p className='fw-bold m-0 p-0'>
@@ -57,7 +46,7 @@ function Total({ totlaPrice, history, cartItemsForOrder }) {
         <hr />
         <Row>
           <Col md={6} sm={6}>
-            <p>Subtotal </p>
+            <p className='fw-bold'>Total </p>
           </Col>
           <Col md={6} sm={6}>
             <p className='fw-bold m-0 p-0'>
@@ -74,9 +63,7 @@ function Total({ totlaPrice, history, cartItemsForOrder }) {
             cartItemsForOrder={cartItemsForOrder}
           />
         </Row>
-        <Row>
-          <Button onClick={postToDB}>Post to db</Button>
-        </Row>
+
         <Row className='mt-2'>
           <p>* for Paypal checkout use credentials</p>
           <Col md={12} className='fw-bold'>

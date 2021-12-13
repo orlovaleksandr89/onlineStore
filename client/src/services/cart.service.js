@@ -8,9 +8,13 @@ const cartService = {
     return data
   },
   addItem: async (item) => {
-    const { data } = await httpService.post(cartEndpoint + '/addItem', {
+    const data = await httpService.post(cartEndpoint + '/addItem', {
       ...item
     })
+    return data
+  },
+  deleteItemFromCart: async (_id) => {
+    const data = await httpService.delete(cartEndpoint + '/delete/' + _id)
     return data
   }
 }

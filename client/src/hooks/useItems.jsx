@@ -4,6 +4,7 @@ import { toast } from 'react-toastify'
 import itemsService from '../services/items.service'
 import adminService from '../services/admin.service'
 import cartService from '../services/cart.service'
+import { useUser } from './useUser'
 
 const ItemsContext = React.createContext()
 
@@ -17,6 +18,7 @@ const ItemsProvider = ({ children }) => {
   const [cartItems, setCartItem] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+  const { user } = useUser()
 
   useEffect(() => {
     if (error !== null) {
@@ -33,7 +35,10 @@ const ItemsProvider = ({ children }) => {
 
   useEffect(() => {
     getItems()
-    getCart()
+
+    if (user.role !== 'ADMIN') {
+      getCart()
+    }
     return () => {
       setLoading(false)
     }
@@ -55,18 +60,6 @@ const ItemsProvider = ({ children }) => {
     return items.find((item) => item._id === id)
   }
 
-  async function getCart() {
-    try {
-      setLoading(true)
-      const { products } = await cartService.get()
-      setCartItem(products)
-      setLoading(false)
-    } catch (error) {
-      errorCatcher(error.response.data.message)
-      setLoading(false)
-    }
-  }
-
   async function getItemFromDB(id) {
     try {
       setLoading(true)
@@ -86,6 +79,7 @@ const ItemsProvider = ({ children }) => {
       if (response.status === 201) {
         getItems()
       }
+
       return response
     } catch (error) {
       errorCatcher(error.response.data.message)
@@ -126,24 +120,57 @@ const ItemsProvider = ({ children }) => {
     }
   }
 
-  async function addItemToCart(data) {
+  //cart services
+  async function getCart() {
     try {
-      await cartService.addItem({
-        _id: data._id,
-        quantity: 1,
-        name: data.title,
-        price: data.price
-      })
-
-      await getCart()
+      setLoading(true)
+      const { products } = await cartService.get()
+      setCartItem(products)
+      setLoading(false)
     } catch (error) {
       errorCatcher(error.response.data.message)
       setLoading(false)
     }
   }
 
-  function deleteItemFromCart(id) {
-    setCartItem([...cartItems.filter((item) => item._id !== id)])
+  async function addItemToCart(data) {
+    if (cartItems.find((item) => item._id === data._id)) {
+      return
+    }
+    try {
+      setLoading(true)
+      const response = await cartService.addItem({
+        _id: data._id,
+        quantity: 1,
+        title: data.title,
+        price: data.price,
+        imgURL: data.imgURL
+      })
+      if (response.status === 200) {
+        await getCart()
+      }
+      setLoading(false)
+    } catch (error) {
+      errorCatcher(error.response.data.message)
+      setLoading(false)
+    }
+  }
+
+  async function deleteItemFromCartDB(id) {
+    try {
+      setLoading(true)
+      const response = await cartService.deleteItemFromCart(id)
+
+      if (response.status === 200) {
+        cartItems.filter((item) => item._id !== id)
+      }
+
+      await getCart()
+      setLoading(false)
+    } catch (error) {
+      errorCatcher(error.response.data.message)
+      setLoading(false)
+    }
   }
 
   function incrementQty(id) {
@@ -184,7 +211,7 @@ const ItemsProvider = ({ children }) => {
         items,
         addItemToCart,
         cartItems,
-        deleteItemFromCart,
+        deleteItemFromCartDB,
         incrementQty,
         decrementQty,
         clearCart,

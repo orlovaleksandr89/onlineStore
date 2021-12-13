@@ -7,9 +7,9 @@ const adminService = {
     const { data } = await httpServise.get(adminEndpoint)
     return data
   },
-  post: async (url, data) => {
-    const { response } = await httpServise.post(adminEndpoint + url, data)
-    return response
+  post: async (url, item) => {
+    const data = await httpServise.post(adminEndpoint + url, item)
+    return data
   }
 }
 
