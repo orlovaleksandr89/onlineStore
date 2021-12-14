@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Container, Button, Row, Col, Image, Card } from 'react-bootstrap'
 import { useParams, useHistory } from 'react-router-dom'
-import Loader from '../components/common/Loader'
 import ModalWindow from '../components/common/Modal'
-import { useItems } from '../hooks/useItems'
 import { useUser } from '../hooks/useUser'
 
 import itemsService from '../services/items.service'
@@ -16,8 +14,7 @@ const ItemPage = () => {
   const [itemAddedToCart, setItemAddedToCart] = useState(false)
   const [loading, setLoading] = useState(false)
 
-  const { isAuth } = useUser()
-  const { cartItems, addItemToCart } = useItems()
+  const { isAuth, addItemToCart } = useUser()
   const [item, setItem] = useState({})
 
   useEffect(() => {
@@ -31,16 +28,8 @@ const ItemPage = () => {
   }, [id])
 
   const addToCartHandle = (item) => {
-    if (cartItems.find((cartItem) => cartItem._id === item._id)) {
-      return setInCart(true)
-    } else {
-      addItemToCart(item)
-      setItemAddedToCart(true)
-    }
-  }
-
-  if (loading) {
-    return <Loader />
+    addItemToCart(item)
+    setItemAddedToCart(true)
   }
 
   return (
@@ -93,6 +82,7 @@ const ItemPage = () => {
             <Button
               variant={'outline-warning'}
               className='text-dark w-100 mb-3'
+              disabled={loading}
               onClick={() => {
                 isAuth ? addToCartHandle(item) : history.push(LOGIN_ROUTE)
               }}>

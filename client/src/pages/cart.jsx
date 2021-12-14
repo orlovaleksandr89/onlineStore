@@ -3,7 +3,7 @@ import { Button, Card, Col, Row } from 'react-bootstrap'
 import { Link, useHistory } from 'react-router-dom'
 import CartItem from '../components/CartItem'
 import Total from '../components/Total'
-import { useItems } from '../hooks/useItems'
+import { useUser } from '../hooks/useUser'
 
 import { MAIN_ROUTE } from '../utils/consts'
 
@@ -16,13 +16,12 @@ const Cart = () => {
     incrementQty,
     decrementQty,
     clearCart
-  } = useItems()
+  } = useUser()
 
   const deleteHandler = (id) => {
     deleteItemFromCartDB(id)
   }
 
-  // const cartItemsForOrder = cartItems.map((item) => item._id)
   const totlaPrice = cartItems
     .map((item) => item.quantity * item.price)
     .reduce((a, b) => a + b, 0)

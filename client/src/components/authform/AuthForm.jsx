@@ -4,6 +4,7 @@ import { NavLink, useLocation } from 'react-router-dom'
 import { useUser } from '../../hooks/useUser'
 import { LOGIN_ROUTE, REGISTRATION_ROUTE } from '../../utils/consts'
 import FormComponent, { TextField } from '../common/form'
+import Loader from '../common/Loader'
 
 function AuthForm() {
   const location = useLocation()
@@ -12,6 +13,10 @@ function AuthForm() {
   const isLogin = location.pathname === '/login'
   const submitHandle = (data) => {
     isLogin ? loginUser(data) : registerUser(data)
+  }
+
+  if (loading) {
+    return <Loader />
   }
   return (
     <div>

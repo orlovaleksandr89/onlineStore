@@ -25,7 +25,7 @@ router.post(
   controller.ItemController.updateItem
 )
 
-router.post(
+router.delete(
   '/deleteitem',
   authMiddleWare,
   roleMiddleWare('ADMIN'),

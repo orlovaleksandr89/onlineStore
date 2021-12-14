@@ -1,12 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { useItems } from '../../hooks/useItems'
 import { useUser } from '../../hooks/useUser'
 import { CART_ROUTE, USER_SETTINGS_ROUTE } from '../../utils/consts'
 
 function UserNavBtn() {
-  const { cartItems } = useItems()
-  const { user } = useUser()
+  const { user, cartItems } = useUser()
   return (
     <div className=''>
       <div className='dropdown'>

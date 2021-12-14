@@ -4,7 +4,8 @@ const cartEndpoint = '/cart'
 
 const cartService = {
   get: async () => {
-    const { data } = await httpService.get(cartEndpoint)
+    const data = await httpService.get(cartEndpoint)
+
     return data
   },
   addItem: async (item) => {

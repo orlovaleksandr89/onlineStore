@@ -15,7 +15,7 @@ import {
 } from '../navbar'
 
 const AppNavBar = () => {
-  const { user, isAuth, loguotUser } = useUser()
+  const { user, isAuth, loguotUser, clearCart } = useUser()
 
   return (
     <Navbar bg='dark' variant='dark' expand='md' className='p-0'>
@@ -46,7 +46,7 @@ const AppNavBar = () => {
                 {user.role === 'USER' && <CartNavBtn />}
               </div>
 
-              <LogOutNavBtn loguotUser={loguotUser} />
+              <LogOutNavBtn loguotUser={loguotUser} clearCart={clearCart} />
             </Nav>
           ) : (
             <Nav>

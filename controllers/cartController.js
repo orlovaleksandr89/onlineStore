@@ -19,14 +19,12 @@ class CartController {
   }
 
   async getCart(req, res, next) {
+    const { id } = req.user
     try {
-      const { id } = req.user
-
-      if (!id) {
-        return res.status(403).json({ message: 'Not Authorized' })
-      }
+      // if (!id) {
+      //   return res.status(403).json({ message: 'Not Authorized' })
+      // }
       const userCart = await Cart.findOne({ owner: id })
-
       return res.status(200).json(userCart)
     } catch (error) {
       res.status(500).json({ message: 'Something went wrong' })

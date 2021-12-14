@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, Row, Card, Container, Button } from 'react-bootstrap'
+import { Col, Row, Card, Container } from 'react-bootstrap'
 import PaypalExpressBtn from './CheckoutButton'
 import { currencyFormat } from '../utils/consts'
 import { useItems } from '../hooks/useItems'

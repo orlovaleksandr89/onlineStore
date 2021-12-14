@@ -1,10 +1,10 @@
 import React from 'react'
 import { Button } from 'react-bootstrap'
 import { NavLink } from 'react-router-dom'
-import { useItems } from '../../hooks/useItems'
+import { useUser } from '../../hooks/useUser'
 
 function CartNavBtn() {
-  const { cartItems } = useItems()
+  const { cartItems } = useUser()
   return (
     <NavLink to='/cart' style={{ color: '#FFC107', textDecoration: 'none' }}>
       <Button className='position-relative btn m-2' variant={'outline-warning'}>
