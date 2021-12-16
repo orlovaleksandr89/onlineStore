@@ -101,12 +101,13 @@ const ItemsProvider = ({ children }) => {
   async function deleteItemFromDB(id) {
     try {
       setLoading(true)
-      const response = await adminService.post('/deleteitem', { id: id })
+      const response = await adminService.delete(id)
       toast.success(response.data.message)
       if (response.status === 200) {
         getItems()
       }
       setLoading(false)
+      console.log(response)
       return response
     } catch (error) {
       errorCatcher(error.response.data.message)

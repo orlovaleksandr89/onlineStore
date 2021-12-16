@@ -15,11 +15,12 @@ const Cart = () => {
     deleteItemFromCartDB,
     incrementQty,
     decrementQty,
-    clearCart
+    clearCart,
+    user
   } = useUser()
 
   const deleteHandler = (id) => {
-    deleteItemFromCartDB(id)
+    deleteItemFromCartDB(user.id, id)
   }
 
   const totlaPrice = cartItems
@@ -68,11 +69,7 @@ const Cart = () => {
               {totlaPrice === 0 ? (
                 <h2>Nothing to pay yet</h2>
               ) : (
-                <Total
-                  totlaPrice={totlaPrice}
-                  history={history}
-                  // cartItemsForOrder={cartItemsForOrder}
-                />
+                <Total totlaPrice={totlaPrice} history={history} />
               )}
             </Col>
           </Row>

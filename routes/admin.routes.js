@@ -26,7 +26,7 @@ router.post(
 )
 
 router.delete(
-  '/deleteitem',
+  '/deleteitem/:id',
   authMiddleWare,
   roleMiddleWare('ADMIN'),
   controller.ItemController.deleteItem

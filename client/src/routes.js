@@ -21,10 +21,6 @@ import UserSettings from './pages/userSettings'
 
 export const authRoutes = [
   {
-    path: ADMIN_ROUTE,
-    Component: Admin
-  },
-  {
     path: CART_ROUTE,
     Component: Cart
   },
@@ -37,6 +33,13 @@ export const authRoutes = [
     Component: UserSettings
   }
 ]
+export const adminRoutes = [
+  {
+    path: ADMIN_ROUTE,
+    Component: Admin
+  }
+]
+
 export const publicRoutes = [
   {
     path: LOGIN_ROUTE,

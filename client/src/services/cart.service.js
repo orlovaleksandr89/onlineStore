@@ -3,19 +3,24 @@ import httpService from './http.service'
 const cartEndpoint = '/cart'
 
 const cartService = {
-  get: async () => {
-    const data = await httpService.get(cartEndpoint)
+  get: async (userId) => {
+    const data = await httpService.get(cartEndpoint + '/' + userId)
 
     return data
   },
-  addItem: async (item) => {
-    const data = await httpService.post(cartEndpoint + '/addItem', {
-      ...item
-    })
+  addItem: async (userId, item) => {
+    const data = await httpService.post(
+      cartEndpoint + '/' + userId + '/addItem',
+      {
+        ...item
+      }
+    )
     return data
   },
-  deleteItemFromCart: async (_id) => {
-    const data = await httpService.delete(cartEndpoint + '/delete/' + _id)
+  deleteItemFromCart: async (userId, _id) => {
+    const data = await httpService.delete(
+      cartEndpoint + '/' + userId + '/delete/' + _id
+    )
     return data
   }
 }

@@ -86,9 +86,16 @@ class AuthController {
           .status(400)
           .json({ message: 'Check your password and try again' })
       }
+      console.log(user.roles)
+
+      if (user.roles === 'ADMIN') {
+        const token = generateAccessToken(user._id, user.roles, user.email)
+        return res.json({ token })
+      }
 
       const token = generateAccessToken(user._id, user.roles, user.email)
-      return res.json({ token })
+      const userCart = await Cart.findOne({ owner: user._id })
+      return res.json({ token, userCart })
     } catch (error) {
       res.status(500).json({ error, message: 'Something went wrong...' })
     }
@@ -101,7 +108,8 @@ class AuthController {
         req.user.role,
         req.user.email
       )
-      res.json({ token })
+      const userCart = await Cart.findOne({ owner: req.user.id })
+      res.json({ token, userCart })
     } catch (error) {
       res.status(500).json({ error, message: 'Something went wrong...' })
     }

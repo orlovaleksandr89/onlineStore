@@ -64,7 +64,7 @@ class ItemController {
 
   async deleteItem(req, res) {
     try {
-      const id = req.body.id
+      const { id } = req.params
 
       const item = await Item.findById(id)
       if (!item) {

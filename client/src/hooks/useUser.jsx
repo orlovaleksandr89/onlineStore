@@ -5,7 +5,6 @@ import { toast } from 'react-toastify'
 import { useHistory } from 'react-router-dom'
 import { LOGIN_ROUTE, MAIN_ROUTE } from '../utils/consts'
 import cartService from '../services/cart.service'
-import Loader from '../components/common/Loader'
 
 const UserContext = React.createContext()
 
@@ -47,7 +46,7 @@ const UserProvider = ({ children }) => {
         const response = await httpServise.get()
 
         setUserInStore(response)
-        await getCart()
+        setCartItem(response.data.userCart.products)
       }
 
       setLoading(false)
@@ -58,11 +57,11 @@ const UserProvider = ({ children }) => {
   }
 
   // cart services
-  async function getCart() {
+  async function getCart(userId) {
     try {
       setLoading(true)
 
-      const response = await cartService.get()
+      const response = await cartService.get(userId)
       setCartItem(response.data.products)
       setLoading(false)
     } catch (error) {
@@ -70,22 +69,20 @@ const UserProvider = ({ children }) => {
     }
   }
 
-  async function addItemToCart(data) {
-    if (cartItems.find((item) => item._id === data._id)) {
-      return
-    }
+  async function addItemToCart(userId, data) {
     try {
       setLoading(true)
 
-      const response = await cartService.addItem({
+      const response = await cartService.addItem(userId, {
         _id: data._id,
         quantity: 1,
         title: data.title,
         price: data.price,
         imgURL: data.imgURL
       })
+      console.log(response.status === 200)
       if (response.status === 200) {
-        await getCart()
+        getCart(user.id)
       }
       setLoading(false)
     } catch (error) {
@@ -93,15 +90,15 @@ const UserProvider = ({ children }) => {
     }
   }
 
-  async function deleteItemFromCartDB(id) {
+  async function deleteItemFromCartDB(userId, id) {
     try {
       setLoading(true)
 
-      const response = await cartService.deleteItemFromCart(id)
+      const response = await cartService.deleteItemFromCart(userId, id)
 
       if (response.status === 200) {
         cartItems.filter((item) => item._id !== id)
-        await getCart()
+        getCart(user.id)
       }
 
       setLoading(false)
@@ -140,7 +137,11 @@ const UserProvider = ({ children }) => {
       setLoading(true)
 
       const response = await httpServise.post(LOGIN_ROUTE, { ...formData })
-      setUserInStore(response)
+      const isAdmin = setUserInStore(response)
+      if (isAdmin === 'USER') {
+        const { products } = response.data.userCart
+        setCartItem(products)
+      }
 
       history.push(MAIN_ROUTE)
 
@@ -179,7 +180,8 @@ const UserProvider = ({ children }) => {
     setIsAuth(true)
     setLoading(false)
 
-    return localStorage.setItem('token', token)
+    localStorage.setItem('token', token)
+    return user.role
   }
 
   function errorCatcher(message) {

@@ -5,10 +5,14 @@ const authMiddleWare = require('../middleware/middleware')
 
 const controller = require('../controllers')
 
-router.get('/', authMiddleWare, controller.CartController.getCart)
-router.post('/additem', authMiddleWare, controller.CartController.addItemToCart)
+router.get('/:userId', authMiddleWare, controller.CartController.getCart)
+router.post(
+  '/:userId/additem',
+  authMiddleWare,
+  controller.CartController.addItemToCart
+)
 router.delete(
-  '/delete/:itemId',
+  '/:userId/delete/:itemId',
   authMiddleWare,
   controller.CartController.deleteItemInCart
 )

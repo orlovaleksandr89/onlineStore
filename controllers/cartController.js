@@ -1,14 +1,14 @@
 const Cart = require('../models/Cart')
 
 class CartController {
-  async addItemToCart(req, res, next) {
-    const { id } = req.user
+  async addItemToCart(req, res) {
+    const { userId } = req.params
+    console.log('user', userId)
     const { _id, quantity, title, price, imgURL } = req.body
     try {
-      await Cart.updateOne(
-        { owner: id },
-        { $push: { products: { _id, quantity, title, price, imgURL } } },
-        { upsert: true }
+      await Cart.findOneAndUpdate(
+        { owner: userId },
+        { $push: { products: { _id, quantity, title, price, imgURL } } }
       )
 
       return res.status(200).json({ message: 'Cart updated successfully' })
@@ -19,12 +19,9 @@ class CartController {
   }
 
   async getCart(req, res, next) {
-    const { id } = req.user
+    const { userId } = req.params
     try {
-      // if (!id) {
-      //   return res.status(403).json({ message: 'Not Authorized' })
-      // }
-      const userCart = await Cart.findOne({ owner: id })
+      const userCart = await Cart.findOne({ owner: userId })
       return res.status(200).json(userCart)
     } catch (error) {
       res.status(500).json({ message: 'Something went wrong' })
@@ -32,16 +29,18 @@ class CartController {
   }
 
   async deleteItemInCart(req, res) {
-    const { id } = req.user
-    const { itemId } = req.params
+    const { userId, itemId } = req.params
+    console.log('params', itemId)
 
     try {
-      await Cart.updateOne(
-        { owner: id },
+      const deletedItem = await Cart.findOneAndUpdate(
+        { owner: userId },
         { $pull: { products: { _id: itemId } } },
         { new: true }
       )
-      return res.status(200).json({ message: 'Item deleted from cart' })
+      return res
+        .status(200)
+        .json({ message: 'Item deleted from cart', deletedItem })
     } catch (error) {
       res.status(500).json({ message: 'Something went wrong' })
     }

@@ -10,6 +10,10 @@ const adminService = {
   post: async (url, item) => {
     const data = await httpServise.post(adminEndpoint + url, item)
     return data
+  },
+  delete: async (id) => {
+    const data = await httpServise.delete(adminEndpoint + '/deleteitem/' + id)
+    return data
   }
 }
 

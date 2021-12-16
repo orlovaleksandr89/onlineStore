@@ -14,7 +14,7 @@ const ItemPage = () => {
   const [itemAddedToCart, setItemAddedToCart] = useState(false)
   const [loading, setLoading] = useState(false)
 
-  const { isAuth, addItemToCart } = useUser()
+  const { isAuth, addItemToCart, cartItems, user } = useUser()
   const [item, setItem] = useState({})
 
   useEffect(() => {
@@ -28,7 +28,10 @@ const ItemPage = () => {
   }, [id])
 
   const addToCartHandle = (item) => {
-    addItemToCart(item)
+    if (cartItems.find((i) => i._id === item._id)) {
+      return setInCart(true)
+    }
+    addItemToCart(user.id, item)
     setItemAddedToCart(true)
   }
 
