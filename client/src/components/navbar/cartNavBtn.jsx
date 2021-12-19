@@ -19,4 +19,4 @@ function CartNavBtn() {
   )
 }
 
-export default CartNavBtn
+export default React.memo(CartNavBtn)

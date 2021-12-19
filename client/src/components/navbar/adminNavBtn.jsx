@@ -15,4 +15,4 @@ function AdminNav() {
   )
 }
 
-export default AdminNav
+export default React.memo(AdminNav)

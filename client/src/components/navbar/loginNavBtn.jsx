@@ -12,4 +12,4 @@ function LoginNavBtn() {
   )
 }
 
-export default LoginNavBtn
+export default React.memo(LoginNavBtn)

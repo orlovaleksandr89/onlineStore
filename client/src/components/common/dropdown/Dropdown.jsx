@@ -123,4 +123,4 @@ function DropdownList() {
   )
 }
 
-export default DropdownList
+export default React.memo(DropdownList)

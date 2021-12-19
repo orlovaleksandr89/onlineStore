@@ -80,9 +80,8 @@ const UserProvider = ({ children }) => {
         price: data.price,
         imgURL: data.imgURL
       })
-      console.log(response.status === 200)
       if (response.status === 200) {
-        getCart(user.id)
+        await getCart(user.id)
       }
       setLoading(false)
     } catch (error) {
@@ -108,28 +107,70 @@ const UserProvider = ({ children }) => {
     }
   }
 
-  function incrementQty(id) {
-    const newCart = [...cartItems]
-    const item = newCart.find((item) => item._id === id)
-
-    item.qty += 1
-
-    setCartItem(newCart)
-  }
-
-  function decrementQty(id) {
-    const newCart = [...cartItems]
-    const item = newCart.find((item) => item._id === id)
-
-    if (item.qty > 0) {
-      item.qty -= 1
+  async function incrementCartItemQuantity(userId, itemId, quantity) {
+    try {
+      setLoading(true)
+      const response = await cartService.updateCartItemQuantity(
+        userId,
+        itemId,
+        quantity
+      )
+      if (response.status === 200) {
+        setCartItem(
+          cartItems.map((item) => {
+            if (item._id === itemId) {
+              return { ...item, quantity: item.quantity + 1 }
+            }
+            return item
+          })
+        )
+        await getCart(userId)
+      }
+      setLoading(false)
+    } catch (error) {
+      errorCatcher(error.response.data.message)
     }
-
-    setCartItem(newCart)
   }
 
-  function clearCart() {
-    setCartItem([])
+  async function decrementCartItemQuantity(userId, itemId, quantity) {
+    try {
+      setLoading(true)
+      const response = await cartService.updateCartItemQuantity(
+        userId,
+        itemId,
+        quantity
+      )
+      if (response.status === 200) {
+        setCartItem(
+          cartItems.map((item) => {
+            if (item._id === itemId) {
+              return { ...item, quantity: item.quantity - 1 }
+            }
+            return item
+          })
+        )
+        await getCart(userId)
+      }
+      setLoading(false)
+    } catch (error) {
+      errorCatcher(error.response.data.message)
+    }
+  }
+
+  async function clearCart(userId) {
+    try {
+      setLoading(true)
+      const response = await cartService.clearCart(userId)
+      if (response.status === 200) {
+        setCartItem([])
+        toast.success(response.data.message)
+      }
+
+      setLoading(false)
+    } catch (error) {
+      errorCatcher(error.response.data.message)
+      setLoading(false)
+    }
   }
 
   async function loginUser(formData) {
@@ -196,9 +237,7 @@ const UserProvider = ({ children }) => {
   function loguotUser() {
     setIsAuth(false)
     setLoading(false)
-    setCartItem([])
     setUser({})
-
     localStorage.clear()
   }
 
@@ -217,8 +256,8 @@ const UserProvider = ({ children }) => {
         addItemToCart,
         cartItems,
         deleteItemFromCartDB,
-        incrementQty,
-        decrementQty,
+        incrementCartItemQuantity,
+        decrementCartItemQuantity,
         clearCart,
         getCart,
         setCartItem

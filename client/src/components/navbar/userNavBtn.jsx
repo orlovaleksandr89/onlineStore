@@ -39,4 +39,4 @@ function UserNavBtn() {
   )
 }
 
-export default UserNavBtn
+export default React.memo(UserNavBtn)

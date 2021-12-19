@@ -13,14 +13,19 @@ const Cart = () => {
   const {
     cartItems,
     deleteItemFromCartDB,
-    incrementQty,
-    decrementQty,
+    incrementCartItemQuantity,
+    decrementCartItemQuantity,
     clearCart,
-    user
+    user,
+    loading
   } = useUser()
 
   const deleteHandler = (id) => {
     deleteItemFromCartDB(user.id, id)
+  }
+
+  const clearCartHandler = () => {
+    clearCart(user.id)
   }
 
   const totlaPrice = cartItems
@@ -44,7 +49,8 @@ const Cart = () => {
               <Button
                 className='w-100 mb-3 p-0 text-dark'
                 variant={'warning'}
-                onClick={clearCart}>
+                onClick={clearCartHandler}
+                disabled={loading}>
                 Clear Cart
               </Button>
             </Col>
@@ -58,8 +64,10 @@ const Cart = () => {
                       key={item._id}
                       {...item}
                       deleteHandler={deleteHandler}
-                      incrementQty={() => incrementQty(item._id)}
-                      decrementQty={() => decrementQty(item._id)}
+                      userId={user.id}
+                      incrementCartItemQuantity={incrementCartItemQuantity}
+                      decrementCartItemQuantity={decrementCartItemQuantity}
+                      loading={loading}
                     />
                   </Card>
                 )

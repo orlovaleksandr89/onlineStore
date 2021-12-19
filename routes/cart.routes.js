@@ -16,5 +16,15 @@ router.delete(
   authMiddleWare,
   controller.CartController.deleteItemInCart
 )
+router.put(
+  '/:userId/clearcart',
+  authMiddleWare,
+  controller.CartController.clearCart
+)
+router.put(
+  '/:userId/:itemId/update',
+  authMiddleWare,
+  controller.CartController.updateCartItemQuantity
+)
 
 module.exports = router

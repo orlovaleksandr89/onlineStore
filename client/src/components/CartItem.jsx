@@ -10,10 +10,26 @@ function CartItem({
   title,
   deleteHandler,
   quantity,
-  decrementQty,
-  incrementQty
+  decrementCartItemQuantity,
+  incrementCartItemQuantity,
+  loading,
+  userId
 }) {
   const [showModal, setShowModal] = useState(false)
+  const [cartItemQuantity, setCartItemQuantity] = useState(quantity)
+
+  const quantityDecrementChangeHandler = (userId, itemId, quantity) => {
+    if (cartItemQuantity > 1) {
+      setCartItemQuantity((prev) => prev - 1)
+      decrementCartItemQuantity(userId, itemId, quantity)
+    } else {
+      return setShowModal(true)
+    }
+  }
+  const quantityIncrementChangeHandler = async (userId, itemId, quantity) => {
+    setCartItemQuantity((prev) => prev + 1)
+    incrementCartItemQuantity(userId, itemId, quantity)
+  }
 
   return (
     <div className='p-3 shadow'>
@@ -36,20 +52,26 @@ function CartItem({
               Quantity
               <div className='d-flex align-items-center justify-content-between p-2'>
                 <Button
-                  onClick={() => {
-                    decrementQty(_id)
-                  }}
+                  onClick={() =>
+                    quantityDecrementChangeHandler(userId, _id, quantity - 1)
+                  }
                   className='btn btn-secondary'
-                  style={{ width: 50, borderRadius: 25 }}>
+                  style={{ width: 40, height: 40, borderRadius: 20 }}
+                  disabled={loading}>
                   <i className='bi bi-dash'></i>
                 </Button>
-                <Form.Control value={quantity} onChange={() => {}} />
+                <Form.Control
+                  className='text-center w-50'
+                  value={cartItemQuantity}
+                  readOnly
+                />
                 <Button
-                  onClick={() => {
-                    incrementQty(_id)
-                  }}
+                  onClick={() =>
+                    quantityIncrementChangeHandler(userId, _id, quantity + 1)
+                  }
                   className=' btn btn-secondary '
-                  style={{ width: 50, borderRadius: 25 }}>
+                  style={{ width: 40, height: 40, borderRadius: 20 }}
+                  disabled={loading}>
                   <i className='bi bi-plus'></i>
                 </Button>
               </div>

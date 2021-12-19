@@ -6,6 +6,11 @@ function TypeBar({ setType }) {
   const [selectedType, setSelectedType] = useState()
   const { types } = useTypes()
 
+  const typeChangeHandler = (value) => {
+    setSelectedType(value)
+    setType(value)
+  }
+
   return (
     <Container className='px-2'>
       <Row className='w-100 d-flex justify-content-center align-items-center m-0'>
@@ -18,10 +23,7 @@ function TypeBar({ setType }) {
                   action
                   variant='light'
                   className={selectedType === type.value ? 'active' : ''}
-                  onClick={() => {
-                    setSelectedType(type.value)
-                    setType(type.value)
-                  }}
+                  onClick={() => typeChangeHandler(type.value)}
                   key={type._id}>
                   {type.value}
                 </ListGroup.Item>
@@ -33,10 +35,7 @@ function TypeBar({ setType }) {
           <div className='d-flex flex-column my-2'>
             <Button
               variant={'outline-warning'}
-              onClick={() => {
-                setSelectedType(undefined)
-                setType(undefined)
-              }}
+              onClick={() => typeChangeHandler(undefined)}
               className='text-dark w-100'>
               Reset
             </Button>

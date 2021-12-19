@@ -2,7 +2,7 @@ import React from 'react'
 import { Button } from 'react-bootstrap'
 import { NavLink } from 'react-router-dom'
 
-function LogOutNavBtn({ loguotUser, clearCart }) {
+function LogOutNavBtn({ loguotUser }) {
   return (
     <NavLink to='/login'>
       <Button
@@ -10,7 +10,6 @@ function LogOutNavBtn({ loguotUser, clearCart }) {
         variant={'outline-warning'}
         onClick={() => {
           loguotUser()
-          clearCart()
         }}>
         Log out
       </Button>
@@ -18,4 +17,4 @@ function LogOutNavBtn({ loguotUser, clearCart }) {
   )
 }
 
-export default LogOutNavBtn
+export default React.memo(LogOutNavBtn)

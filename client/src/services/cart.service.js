@@ -22,6 +22,19 @@ const cartService = {
       cartEndpoint + '/' + userId + '/delete/' + _id
     )
     return data
+  },
+  clearCart: async (userId) => {
+    const data = await httpService.put(
+      cartEndpoint + '/' + userId + '/clearcart'
+    )
+    return data
+  },
+  updateCartItemQuantity: async (userId, itemId, quantity) => {
+    const data = await httpService.put(
+      cartEndpoint + '/' + userId + '/' + itemId + '/update',
+      { quantity }
+    )
+    return data
   }
 }
 
