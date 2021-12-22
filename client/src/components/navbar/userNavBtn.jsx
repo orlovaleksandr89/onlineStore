@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useUser } from '../../hooks/useUser'
-import { CART_ROUTE, USER_SETTINGS_ROUTE } from '../../utils/consts'
+import { CART_ROUTE } from '../../utils/consts'
 
 function UserNavBtn() {
   const { user, cartItems } = useUser()
@@ -26,11 +26,6 @@ function UserNavBtn() {
           <li>
             <Link className='w-100 dropdown-item' to={CART_ROUTE}>
               Cart
-            </Link>
-          </li>
-          <li>
-            <Link className='w-100 dropdown-item' to={USER_SETTINGS_ROUTE}>
-              Settings
             </Link>
           </li>
         </ul>

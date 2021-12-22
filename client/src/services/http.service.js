@@ -3,10 +3,9 @@ import config from '../config.json'
 
 axios.defaults.baseURL = config.apiEndpoint
 
-const token = localStorage.getItem('token')
-
 axios.interceptors.request.use(
   (config) => {
+    const token = localStorage.getItem('token')
     config.headers.Authorization = `Bearer ${token}`
     return config
   },

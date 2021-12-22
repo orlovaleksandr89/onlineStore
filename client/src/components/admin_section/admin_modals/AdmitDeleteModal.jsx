@@ -12,13 +12,6 @@ function ItemModal({
 }) {
   const { loading, deleteItemFromDB } = useItems()
 
-  const deleteItemHandler = async (id) => {
-    const response = await deleteItemFromDB(id)
-    if (response.status === 200) {
-      setTimeout(() => onHide(), 1000)
-    }
-  }
-
   return (
     <Modal show={show} onHide={onHide}>
       <Modal.Header>
@@ -37,7 +30,8 @@ function ItemModal({
           className='text-dark'
           disabled={loading}
           onClick={() => {
-            deleteItemHandler(id)
+            deleteItemFromDB(id)
+            onHide()
           }}>
           {confirmButtonText}
         </Button>
