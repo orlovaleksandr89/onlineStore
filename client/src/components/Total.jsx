@@ -2,15 +2,31 @@ import React from 'react'
 import { Col, Row, Card, Container } from 'react-bootstrap'
 import PaypalExpressBtn from './CheckoutButton'
 import { currencyFormat } from '../utils/consts'
-import { useItems } from '../hooks/useItems'
+import { useUser } from '../hooks/useUser'
+import orderServise from '../services/order.service'
 
-function Total({ totlaPrice, history, cartItemsForOrder }) {
+function Total({ totlaPrice, history }) {
   const getTax = (totlaPrice) => Math.fround(totlaPrice * 0.08375).toFixed(2)
   const getTotalPrice = (totlaPrice) => {
     return (totlaPrice + Number(getTax(totlaPrice))).toFixed(2)
   }
   const total = Number(getTotalPrice(totlaPrice))
-  const { clearCart } = useItems()
+
+  const { clearCart, user, cartItems } = useUser()
+
+  const clearCartHandler = () => {
+    clearCart(user.id)
+  }
+  const orderItems = cartItems.map((item) => {
+    return { productId: item._id, quantity: item.quantity, title: item.title }
+  })
+  const createOrderHandle = async (paymentId, totalPrice) => {
+    try {
+      await orderServise.create(user.id, orderItems, paymentId, totalPrice)
+    } catch (error) {
+      console.log(error.response.message)
+    }
+  }
 
   return (
     <Card className='shadow d-flex justify-content-center align-items-center'>
@@ -58,9 +74,9 @@ function Total({ totlaPrice, history, cartItemsForOrder }) {
           <PaypalExpressBtn
             total={total}
             history={history}
-            clearCart={clearCart}
+            clearCart={clearCartHandler}
             className='my-3'
-            cartItemsForOrder={cartItemsForOrder}
+            createOrder={createOrderHandle}
           />
         </Row>
 

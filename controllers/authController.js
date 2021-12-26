@@ -6,11 +6,12 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { validationResult } = require('express-validator')
 
-const generateAccessToken = (id, role, email) => {
+const generateAccessToken = (id, role, email, name) => {
   const payload = {
     id,
     role,
-    email
+    email,
+    name
   }
   return jwt.sign(payload, process.env.jwtSecretKey, {
     expiresIn: process.env.expiration
@@ -20,7 +21,7 @@ const generateAccessToken = (id, role, email) => {
 class AuthController {
   async registration(req, res) {
     try {
-      const { email, password } = req.body
+      const { email, password, name } = req.body
 
       const errors = validationResult(req)
 
@@ -43,6 +44,7 @@ class AuthController {
       const userRole = await Role.findOne({ value: process.env.ROLE })
 
       const user = new User({
+        name: name,
         email: email,
         password: hashedPassword,
         roles: userRole.value
@@ -86,15 +88,20 @@ class AuthController {
           .status(400)
           .json({ message: 'Check your password and try again' })
       }
-      console.log(user.roles)
 
       if (user.roles === 'ADMIN') {
         const token = generateAccessToken(user._id, user.roles, user.email)
         return res.json({ token })
       }
 
-      const token = generateAccessToken(user._id, user.roles, user.email)
+      const token = generateAccessToken(
+        user._id,
+        user.roles,
+        user.email,
+        user.name
+      )
       const userCart = await Cart.findOne({ owner: user._id })
+
       return res.json({ token, userCart })
     } catch (error) {
       res.status(500).json({ error, message: 'Something went wrong...' })

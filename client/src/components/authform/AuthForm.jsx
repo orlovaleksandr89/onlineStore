@@ -3,8 +3,9 @@ import { Card, Col, Container, Row } from 'react-bootstrap'
 import { NavLink, useLocation } from 'react-router-dom'
 import { useUser } from '../../hooks/useUser'
 import { LOGIN_ROUTE, REGISTRATION_ROUTE } from '../../utils/consts'
-import FormComponent, { TextField } from '../common/form'
 import Loader from '../common/Loader'
+import LoginForm from './LoginForm'
+import RegisterForm from './RegisterForm'
 
 function AuthForm() {
   const location = useLocation()
@@ -18,6 +19,7 @@ function AuthForm() {
   if (loading) {
     return <Loader />
   }
+
   return (
     <div>
       <Container>
@@ -27,24 +29,12 @@ function AuthForm() {
               <h2 className='m-auto'>{`Please ${
                 isLogin ? 'Login' : 'Sign up'
               }`}</h2>
-              <FormComponent onSubmit={submitHandle}>
-                <TextField label='Your Email' name='email' />
-                <TextField
-                  label='Your Password'
-                  type='password'
-                  name='password'
-                />
-                <div className='d-flex justify-content-center justify-content-sm-end py-2 mt-3'>
-                  <div className='col-12 col-sm-3 ms-auto'>
-                    <button
-                      type='submit'
-                      className='btn btn btn-warning w-100'
-                      disabled={loading}>
-                      {isLogin ? 'Login' : 'Sign Up'}
-                    </button>
-                  </div>
-                </div>
-              </FormComponent>
+
+              {isLogin ? (
+                <LoginForm submitHandle={submitHandle} loading={loading} />
+              ) : (
+                <RegisterForm submitHandle={submitHandle} loading={loading} />
+              )}
               <Row>
                 <div className='d-flex justify-content-center '>
                   <div>

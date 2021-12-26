@@ -14,10 +14,10 @@ import {
   MAIN_ROUTE,
   REGISTRATION_ROUTE,
   THANKYOU_ROUTE,
-  USER_SETTINGS_ROUTE
+  USER_ORDER_ROUTE
 } from './utils/consts'
 import ErrorPage from './pages/ErrorPage'
-import UserSettings from './pages/userSettings'
+import UserOrder from './pages/userOrder'
 
 export const authRoutes = [
   {
@@ -29,8 +29,8 @@ export const authRoutes = [
     Component: ThankYouPage
   },
   {
-    path: USER_SETTINGS_ROUTE,
-    Component: UserSettings
+    path: USER_ORDER_ROUTE,
+    Component: UserOrder
   }
 ]
 export const adminRoutes = [

@@ -1,7 +1,9 @@
 import axios from 'axios'
 import config from '../config.json'
 
-axios.defaults.baseURL = config.apiEndpoint
+axios.defaults.baseURL = config.devFlag
+  ? config.apiEndpoint
+  : config.apiEndpointProduction
 
 axios.interceptors.request.use(
   (config) => {

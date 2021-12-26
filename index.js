@@ -11,6 +11,7 @@ app.use('/auth/admin', require('./routes/admin.routes'))
 app.use('/auth/items', require('./routes/items.routes'))
 app.use('/auth/types', require('./routes/types.routes'))
 app.use('/auth/cart', require('./routes/cart.routes'))
+app.use('/auth/orders', require('./routes/order.routes'))
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '/client/build')))

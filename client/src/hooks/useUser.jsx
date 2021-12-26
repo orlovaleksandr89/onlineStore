@@ -163,7 +163,6 @@ const UserProvider = ({ children }) => {
       const response = await cartService.clearCart(userId)
       if (response.status === 200) {
         setCartItem([])
-        toast.success(response.data.message)
       }
 
       setLoading(false)
