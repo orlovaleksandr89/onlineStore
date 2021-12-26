@@ -11,7 +11,8 @@ import {
   CartNavBtn,
   LogOutNavBtn,
   LoginNavBtn,
-  UserNavBtn
+  UserNavBtn,
+  OrderNavLink
 } from '../navbar'
 
 const AppNavBar = () => {
@@ -44,6 +45,9 @@ const AppNavBar = () => {
               </div>
               <div className='d-flex d-md-none '>
                 {user.role === 'USER' && <CartNavBtn />}
+              </div>
+              <div className='d-flex d-md-none '>
+                {user.role === 'USER' && <OrderNavLink />}
               </div>
 
               <LogOutNavBtn loguotUser={loguotUser} />
