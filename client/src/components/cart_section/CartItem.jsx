@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Row, Col, Image, Form, Button } from 'react-bootstrap'
-import { currencyFormat } from '../utils/consts'
-import ModalWindow from './common/Modal'
+import { currencyFormat } from '../../utils/consts'
+import ModalWindow from '../common/Modal'
 
 function CartItem({
   _id,

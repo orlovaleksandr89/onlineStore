@@ -10,6 +10,7 @@ import './App.css'
 import UserProvider from './hooks/useUser'
 import ItemsProvider from './hooks/useItems'
 import TypesProvider from './hooks/useTypes'
+import CartProvider from './hooks/useCart'
 
 ReactDOM.render(
   <BrowserRouter>
@@ -17,7 +18,9 @@ ReactDOM.render(
       <UserProvider>
         <TypesProvider>
           <ItemsProvider>
-            <App />
+            <CartProvider>
+              <App />
+            </CartProvider>
           </ItemsProvider>
         </TypesProvider>
       </UserProvider>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Button, Container, Row, Col, ListGroup } from 'react-bootstrap'
-import { useTypes } from '../hooks/useTypes'
+import { useTypes } from '../../hooks/useTypes'
 
 function TypeBar({ setType }) {
   const [selectedType, setSelectedType] = useState()

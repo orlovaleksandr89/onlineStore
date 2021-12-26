@@ -91,6 +91,7 @@ const ItemsProvider = ({ children }) => {
       if (response.status === 200) {
         getItems()
       }
+      setLoading(false)
       return response
     } catch (error) {
       errorCatcher(error.response.data.message)
@@ -107,7 +108,6 @@ const ItemsProvider = ({ children }) => {
         getItems()
       }
       setLoading(false)
-      console.log(response)
       return response
     } catch (error) {
       errorCatcher(error.response.data.message)

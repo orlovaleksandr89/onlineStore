@@ -1,8 +1,8 @@
 import React from 'react'
 import { Button, Card, Col, Row } from 'react-bootstrap'
 import { Link, useHistory } from 'react-router-dom'
-import CartItem from '../components/CartItem'
-import Total from '../components/Total'
+import { CartItem, Total } from '../components/cart_section'
+import { useCart } from '../hooks/useCart'
 import { useUser } from '../hooks/useUser'
 
 import { MAIN_ROUTE } from '../utils/consts'
@@ -10,15 +10,15 @@ import { MAIN_ROUTE } from '../utils/consts'
 const Cart = () => {
   const history = useHistory()
 
+  const { user } = useUser()
   const {
     cartItems,
     deleteItemFromCartDB,
     incrementCartItemQuantity,
     decrementCartItemQuantity,
     clearCart,
-    user,
     loading
-  } = useUser()
+  } = useCart()
 
   const deleteHandler = (id) => {
     deleteItemFromCartDB(user.id, id)

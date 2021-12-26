@@ -1,9 +1,9 @@
 import React from 'react'
 import { Col, Row, Card, Container } from 'react-bootstrap'
-import PaypalExpressBtn from './CheckoutButton'
-import { currencyFormat } from '../utils/consts'
-import { useUser } from '../hooks/useUser'
-import orderServise from '../services/order.service'
+import { CheckoutButton } from './index'
+import { currencyFormat } from '../../utils/consts'
+import { useUser } from '../../hooks/useUser'
+import { useCart } from '../../hooks/useCart'
 
 function Total({ totlaPrice, history }) {
   const getTax = (totlaPrice) => Math.fround(totlaPrice * 0.08375).toFixed(2)
@@ -12,7 +12,8 @@ function Total({ totlaPrice, history }) {
   }
   const total = Number(getTotalPrice(totlaPrice))
 
-  const { clearCart, user, cartItems } = useUser()
+  const { user } = useUser()
+  const { clearCart, cartItems, createOrder } = useCart()
 
   const clearCartHandler = () => {
     clearCart(user.id)
@@ -20,12 +21,9 @@ function Total({ totlaPrice, history }) {
   const orderItems = cartItems.map((item) => {
     return { productId: item._id, quantity: item.quantity, title: item.title }
   })
-  const createOrderHandle = async (paymentId, totalPrice) => {
-    try {
-      await orderServise.create(user.id, orderItems, paymentId, totalPrice)
-    } catch (error) {
-      console.log(error.response.message)
-    }
+
+  const createOrderHandle = (orderItems, paymentId, totalPrice) => {
+    createOrder(orderItems, paymentId, totalPrice)
   }
 
   return (
@@ -71,11 +69,12 @@ function Total({ totlaPrice, history }) {
           </Col>
         </Row>
         <Row className='d-flex justify-content-center mt-3'>
-          <PaypalExpressBtn
+          <CheckoutButton
             total={total}
             history={history}
             clearCart={clearCartHandler}
             className='my-3'
+            orderItems={orderItems}
             createOrder={createOrderHandle}
           />
         </Row>

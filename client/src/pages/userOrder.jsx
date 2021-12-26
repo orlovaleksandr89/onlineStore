@@ -1,42 +1,30 @@
 import React, { useEffect, useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
-import { useUser } from '../hooks/useUser'
-import orderServise from '../services/order.service'
+import dateFormatter from '../utils/dateFormatter'
 import Loader from '../components/common/Loader'
 import { currencyFormat } from '../utils/consts'
-import OrderListItems from '../components/account_section/orderListItem'
-import OrderListPayments from '../components/account_section/OrderListPayments'
-import moment from 'moment'
+import {
+  OrderListItems,
+  OrderListPayments
+} from '../components/account_section'
+import { useCart } from '../hooks/useCart'
+import { useUser } from '../hooks/useUser'
 
 function UserOrder() {
-  const [userOrders, setUserOrders] = useState([])
-  const [loading, setLoading] = useState(true)
   const [selected, setSelected] = useState('')
+  const { getUserOrder, userOrders, loading } = useCart()
   const { user } = useUser()
 
-  const getOrdersHandler = async () => {
-    try {
-      setLoading(true)
-      const { data } = await orderServise.get(user.id)
-      setUserOrders(data.userOrders)
-      setSelected(data.userOrders[0]._id)
-      setLoading(false)
-    } catch (error) {
-      setLoading(false)
-      console.log(error)
-    }
-  }
   useEffect(() => {
-    getOrdersHandler()
-
-    return () => {
-      setLoading(false)
-    }
+    getUserOrder()
   }, [])
 
-  const getOerderDateHandler = (date) => {
-    return moment(date).format('dddd, MMMM Do YYYY, HH:mm')
-  }
+  useEffect(() => {
+    setSelected(userOrders[0]._id)
+    return () => {
+      setSelected(null)
+    }
+  }, [userOrders])
 
   if (loading) {
     return <Loader />
@@ -75,9 +63,7 @@ function UserOrder() {
                 </p>
                 <p>
                   Paid on{' '}
-                  <span className='fw-bold'>
-                    {getOerderDateHandler(order.paidAt)}
-                  </span>
+                  <span className='fw-bold'>{dateFormatter(order.paidAt)}</span>
                 </p>
               </div>
             )

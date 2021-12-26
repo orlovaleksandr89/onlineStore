@@ -1,7 +1,6 @@
 import React from 'react'
 import { Col, Row } from 'react-bootstrap'
-import AdminItemsList from '../components/admin_section/AdminItemsList'
-import CreateBar from '../components/admin_section/CreateBar'
+import { AdminItemsList, CreateBar } from '../components/admin_section'
 
 const Admin = () => {
   return (

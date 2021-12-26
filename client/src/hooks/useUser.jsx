@@ -4,7 +4,6 @@ import httpServise from '../services/http.service'
 import { toast } from 'react-toastify'
 import { useHistory } from 'react-router-dom'
 import { LOGIN_ROUTE, MAIN_ROUTE } from '../utils/consts'
-import cartService from '../services/cart.service'
 
 const UserContext = React.createContext()
 
@@ -53,122 +52,6 @@ const UserProvider = ({ children }) => {
     } catch (error) {
       errorCatcher(error)
       setIsAuth(false)
-    }
-  }
-
-  // cart services
-  async function getCart(userId) {
-    try {
-      setLoading(true)
-
-      const response = await cartService.get(userId)
-      setCartItem(response.data.products)
-      setLoading(false)
-    } catch (error) {
-      errorCatcher(error.response.data.message)
-    }
-  }
-
-  async function addItemToCart(userId, data) {
-    try {
-      setLoading(true)
-
-      const response = await cartService.addItem(userId, {
-        _id: data._id,
-        quantity: 1,
-        title: data.title,
-        price: data.price,
-        imgURL: data.imgURL
-      })
-      if (response.status === 200) {
-        await getCart(user.id)
-      }
-      setLoading(false)
-    } catch (error) {
-      errorCatcher(error.response.data.message)
-    }
-  }
-
-  async function deleteItemFromCartDB(userId, id) {
-    try {
-      setLoading(true)
-
-      const response = await cartService.deleteItemFromCart(userId, id)
-
-      if (response.status === 200) {
-        cartItems.filter((item) => item._id !== id)
-        getCart(user.id)
-      }
-
-      setLoading(false)
-      return response
-    } catch (error) {
-      errorCatcher(error.response.data.message)
-    }
-  }
-
-  async function incrementCartItemQuantity(userId, itemId, quantity) {
-    try {
-      setLoading(true)
-      const response = await cartService.updateCartItemQuantity(
-        userId,
-        itemId,
-        quantity
-      )
-      if (response.status === 200) {
-        setCartItem(
-          cartItems.map((item) => {
-            if (item._id === itemId) {
-              return { ...item, quantity: item.quantity + 1 }
-            }
-            return item
-          })
-        )
-        await getCart(userId)
-      }
-      setLoading(false)
-    } catch (error) {
-      errorCatcher(error.response.data.message)
-    }
-  }
-
-  async function decrementCartItemQuantity(userId, itemId, quantity) {
-    try {
-      setLoading(true)
-      const response = await cartService.updateCartItemQuantity(
-        userId,
-        itemId,
-        quantity
-      )
-      if (response.status === 200) {
-        setCartItem(
-          cartItems.map((item) => {
-            if (item._id === itemId) {
-              return { ...item, quantity: item.quantity - 1 }
-            }
-            return item
-          })
-        )
-        await getCart(userId)
-      }
-      setLoading(false)
-    } catch (error) {
-      errorCatcher(error.response.data.message)
-    }
-  }
-
-  async function clearCart(userId) {
-    try {
-      setLoading(true)
-      const response = await cartService.clearCart(userId)
-      if (response.status === 200) {
-        setCartItem([])
-      }
-
-      setLoading(false)
-    } catch (error) {
-      errorCatcher(error.response.data.message)
-      setLoading(false)
     }
   }
 
@@ -251,15 +134,8 @@ const UserProvider = ({ children }) => {
         error,
         checkUser,
         registerUser,
-
-        addItemToCart,
-        cartItems,
-        deleteItemFromCartDB,
-        incrementCartItemQuantity,
-        decrementCartItemQuantity,
-        clearCart,
-        getCart,
-        setCartItem
+        setCartItem,
+        cartItems
       }}>
       {children}
     </UserContext.Provider>

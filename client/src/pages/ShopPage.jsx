@@ -1,42 +1,28 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
-import ItemsList from '../components/itemsList'
-import SearchBar from '../components/SearchBar'
-import TypeBar from '../components/typeBar'
-import { Parallax } from 'react-parallax'
-import macImg from '../assets/mac.jpg'
+import {
+  ItemsList,
+  ParallaxCover,
+  SearchBar,
+  TypeBar
+} from '../components/shopPage_section'
+
 import StoreContext from '../store/store'
 import { useItems } from '../hooks/useItems'
 import Loader from '../components/common/Loader'
 
 function ShopPage() {
   const [type, setType] = useState(undefined)
-  const [showMessage, setShowMessage] = useState(false)
   const storeCtx = useContext(StoreContext)
   const { loading } = useItems()
-  useEffect(() => {
-    let timer
-    timer = setTimeout(() => {
-      setShowMessage(true)
-    }, 500)
-    return () => {
-      clearTimeout(timer)
-    }
-  })
+
   if (loading) {
     return <Loader />
   }
 
   return (
     <div className='shop_page'>
-      <div className='d-none d-lg-block'>
-        <Parallax bgImage={macImg} bgImageAlt='mac' strength={200}>
-          <div className={!showMessage ? 'parallax' : 'parallax hide'}>
-            The power of Mac
-          </div>
-          <div style={{ minHeight: '50vh', width: '100wv' }} />
-        </Parallax>
-      </div>
+      <ParallaxCover />
 
       <Row className='m-0 mt-3 p-2 align-items-center justify-content-center d-flex'>
         <Col md={12}>

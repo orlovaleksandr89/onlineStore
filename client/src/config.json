@@ -1,5 +1,5 @@
 {
   "apiEndpointProduction": "https://redfox-online.herokuapp.com/auth",
   "apiEndpoint": "http://localhost:3000/auth",
-  "devFlag": true
+  "devFlag": false
 }

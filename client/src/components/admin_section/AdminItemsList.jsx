@@ -1,6 +1,6 @@
 import React from 'react'
-import AdminItem from './AdminItem'
-import AdminHeader from './AdminHeader'
+import { AdminItem, AdminHeader } from './index'
+
 import Loader from '../common/Loader'
 import { useItems } from '../../hooks/useItems'
 

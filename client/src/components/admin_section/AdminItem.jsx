@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import { Col, Image, Row, Button } from 'react-bootstrap'
 import { useItems } from '../../hooks/useItems'
-import AdminDeleteModal from './admin_modals/AdmitDeleteModal'
-import ItemModal from './admin_modals/ItemModal'
+import { AdminDeleteModal, ItemModal } from './admin_modals'
 
 function AdminItem({ i, item }) {
   const [showModal, setShowModal] = useState(false)

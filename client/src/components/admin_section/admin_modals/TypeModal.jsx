@@ -38,7 +38,6 @@ function TypeModal({
   useEffect(() => {
     validate(data)
   }, [data, validate])
-  console.log('render')
 
   const isValid = Object.keys(errors).length === 0
   return (

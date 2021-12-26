@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Button } from 'react-bootstrap'
 import { useItems } from '../../hooks/useItems'
 
-import ItemModal from './admin_modals/ItemModal'
+import { ItemModal } from './admin_modals'
 
 function CreateItem() {
   const [showModal, setShowModal] = useState(false)

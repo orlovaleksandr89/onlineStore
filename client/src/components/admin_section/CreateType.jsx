@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Button } from 'react-bootstrap'
-import TypeModal from './admin_modals/TypeModal'
+import { TypeModal } from './admin_modals'
 
 function CreateType() {
   const [showModal, setShowModal] = useState(false)

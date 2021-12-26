@@ -1,30 +1,25 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-  useRef
-} from 'react'
+import React, { useContext, useEffect, useState, useRef } from 'react'
 import { Form, Row, Button, Container } from 'react-bootstrap'
-import StoreContext from '../store/store'
-import { debounce } from '../utils/debounceFunction'
+import StoreContext from '../../store/store'
+import { debounce } from '../../utils/debounceFunction'
 
 function SearchBar() {
   const storeCtx = useContext(StoreContext)
   const [search, setSearch] = useState('')
   const inputRef = useRef()
-  const handleChange = (text) => {
+  const handleChange = (event, text) => {
+    console.log(event)
     setSearch(text)
   }
 
-  const optimizedFn = useCallback(debounce(handleChange, 500), [])
+  const optimizedFn = debounce(handleChange, 500)
 
   useEffect(() => {
     storeCtx.setSearch(search)
     return () => {
       storeCtx.setSearch('')
     }
-  }, [search])
+  }, [search, storeCtx])
   return (
     <>
       <Container className='px-2 position-relative'>

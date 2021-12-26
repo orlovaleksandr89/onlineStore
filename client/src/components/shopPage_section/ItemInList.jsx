@@ -1,7 +1,7 @@
 import React from 'react'
 import { Card, Col, Image, Row } from 'react-bootstrap'
 import { useHistory } from 'react-router-dom'
-import { currencyFormat } from '../utils/consts'
+import { currencyFormat } from '../../utils/consts'
 
 function ItemInList({ title, price, imgURL, _id }) {
   const history = useHistory()

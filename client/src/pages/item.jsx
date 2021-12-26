@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Container, Button, Row, Col, Image, Card } from 'react-bootstrap'
 import { useParams, useHistory } from 'react-router-dom'
 import ModalWindow from '../components/common/Modal'
+import { useCart } from '../hooks/useCart'
 import { useUser } from '../hooks/useUser'
 
 import itemsService from '../services/items.service'
@@ -13,9 +14,10 @@ const ItemPage = () => {
   const [inCart, setInCart] = useState(false)
   const [itemAddedToCart, setItemAddedToCart] = useState(false)
   const [loading, setLoading] = useState(false)
-
-  const { isAuth, addItemToCart, cartItems, user } = useUser()
   const [item, setItem] = useState({})
+
+  const { isAuth, user } = useUser()
+  const { addItemToCart, cartItems } = useCart()
 
   useEffect(() => {
     setLoading(true)

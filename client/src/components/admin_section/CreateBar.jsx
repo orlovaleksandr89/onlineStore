@@ -1,7 +1,6 @@
 import React from 'react'
 import { Col, Row } from 'react-bootstrap'
-import CreateItem from './CreateItem'
-import CreateType from './CreateType'
+import { CreateItem, CreateType } from './index'
 
 function CreateBar() {
   return (

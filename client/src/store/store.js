@@ -5,7 +5,7 @@ const StoreContext = createContext({
   setSearch: (text) => {}
 })
 
-export function StoreContextProvider(props) {
+export function StoreContextProvider({ children }) {
   const [search, setSearch] = useState('')
 
   function setSearchHandler(text) {
@@ -18,9 +18,7 @@ export function StoreContextProvider(props) {
   }
 
   return (
-    <StoreContext.Provider value={context}>
-      {props.children}
-    </StoreContext.Provider>
+    <StoreContext.Provider value={context}>{children}</StoreContext.Provider>
   )
 }
 export default StoreContext

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
-import { useItems } from '../hooks/useItems'
-import ItemInList from './ItemInList'
+import { useItems } from '../../hooks/useItems'
+import { ItemInList } from './index'
 
 function ItemsList({ type, search }) {
   const { items } = useItems()

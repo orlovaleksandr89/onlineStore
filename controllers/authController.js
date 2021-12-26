@@ -52,7 +52,7 @@ class AuthController {
 
       await user.save()
       await Cart.create({ owner: user._id })
-      await Order.create({ owner: user._id })
+      // await Order.create({ owner: user._id })
 
       return res.status(201).json({ message: 'User created successfully' })
     } catch (e) {
