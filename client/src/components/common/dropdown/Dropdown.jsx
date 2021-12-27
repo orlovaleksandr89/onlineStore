@@ -1,12 +1,20 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState
+} from 'react'
 import { Button, Col, Form, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { useItems } from '../../../hooks/useItems'
 import { debounce } from '../../../utils/debounceFunction'
 import styles from './Dropdown.module.css'
+import StoreContext from '../../../store/store'
 
 function DropdownList() {
   const [search, setSearch] = useState('')
+  const storeCtx = useContext(StoreContext)
 
   const [focus, setFocus] = useState(false)
   let { items } = useItems()
@@ -40,6 +48,7 @@ function DropdownList() {
 
   const clearInput = () => {
     setSearch('')
+    storeCtx.setSearch('')
     return (inputRef.current.value = '')
   }
   const closeList = (e) => {

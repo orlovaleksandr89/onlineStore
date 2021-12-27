@@ -1,25 +1,18 @@
-import React, { useContext, useEffect, useState, useRef } from 'react'
+import React, { useContext, useRef } from 'react'
 import { Form, Row, Button, Container } from 'react-bootstrap'
 import StoreContext from '../../store/store'
 import { debounce } from '../../utils/debounceFunction'
 
 function SearchBar() {
   const storeCtx = useContext(StoreContext)
-  const [search, setSearch] = useState('')
   const inputRef = useRef()
-  const handleChange = (event, text) => {
-    console.log(event)
-    setSearch(text)
+
+  const handleChange = (text) => {
+    storeCtx.setSearch(text)
   }
 
   const optimizedFn = debounce(handleChange, 500)
 
-  useEffect(() => {
-    storeCtx.setSearch(search)
-    return () => {
-      storeCtx.setSearch('')
-    }
-  }, [search, storeCtx])
   return (
     <>
       <Container className='px-2 position-relative'>
@@ -35,7 +28,7 @@ function SearchBar() {
               className='btn position-absolute top-50 end-0 translate-middle-y me-3 p-0'
               variant={'outline'}
               onClick={() => {
-                setSearch('')
+                storeCtx.setSearch('')
                 inputRef.current.value = ''
               }}>
               <h2 className='m-0 p-0'>

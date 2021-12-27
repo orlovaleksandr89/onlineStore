@@ -6,19 +6,19 @@ function IconsRow() {
     <Row className='text-center'>
       <Col sm={3}>
         <h5>
-          <i class='bi bi-truck'></i>
+          <i className='bi bi-truck'></i>
         </h5>
         Free shipping
       </Col>
       <Col sm={3}>
         <h5>
-          <i class='bi bi-headset'></i>
+          <i className='bi bi-headset'></i>
         </h5>
         24/7 Costumer Support
       </Col>
       <Col sm={3}>
         <h5>
-          <i class='bi bi-stack'></i>
+          <i className='bi bi-stack'></i>
         </h5>
         MERN Stack
       </Col>
@@ -28,7 +28,7 @@ function IconsRow() {
           target='blank'
           className='link-dark'>
           <h5>
-            <i class='bi bi-github'></i>
+            <i className='bi bi-github'></i>
           </h5>
         </a>{' '}
         Code example
