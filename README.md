@@ -50,5 +50,5 @@ _MERN Stack_
 
 **Database**
 
-A MongoDB Atlas database is used for the data layer. The database schemas are defined with 4 models: userModel, productModel, orderModel and reviewModel.
+A MongoDB Atlas database is used for the data layer. The database schemas are defined with 6 models: USER, ROLE, ORDER, TYPE, ITEM and CART.
 
