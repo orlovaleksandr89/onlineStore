@@ -33,18 +33,16 @@ const Cart = () => {
     .reduce((a, b) => a + b, 0)
 
   return (
-    <div className='text-center mt-3'>
+    <div className='w-100 text-center h-100'>
       {cartItems.length === 0 ? (
-        <div
-          className='d-flex justify-content-center align-items-center h-100'
-          style={{ minHeight: 'calc(100vh - 76px)' }}>
+        <div className=' pt-5'>
           <h2>
             Your cart is empty. Go to <Link to={MAIN_ROUTE}>main page!</Link>
           </h2>
         </div>
       ) : (
         <>
-          <Row className='p-0 m-0 d-flex justifu-content-center align-items-center'>
+          <Row className='p-0 pt-3 m-0 d-flex justifu-content-center align-items-center'>
             <Col md={12}>
               <Button
                 className='w-100 mb-3 p-0 text-dark'

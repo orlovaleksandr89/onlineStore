@@ -113,7 +113,8 @@ class AuthController {
       const token = generateAccessToken(
         req.user.id,
         req.user.role,
-        req.user.email
+        req.user.email,
+        req.user.name
       )
       const userCart = await Cart.findOne({ owner: req.user.id })
       res.json({ token, userCart })

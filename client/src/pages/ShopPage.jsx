@@ -28,7 +28,7 @@ function ShopPage() {
         <Col md={12}>
           <TypeBar setType={(type) => setType(type)} />
         </Col>
-        <Col md={12} style={{ minHeight: '100vh' }}>
+        <Col md={12}>
           <div className='d-md-none'>
             <SearchBar />
           </div>

@@ -20,57 +20,64 @@ function UserOrder() {
   }, [])
 
   useEffect(() => {
-    setSelected(userOrders[0]._id)
+    if (userOrders.length > 0) {
+      setSelected(userOrders[0]._id)
+    }
     return () => {
       setSelected(null)
     }
   }, [userOrders])
 
-  if (loading) {
-    return <Loader />
-  }
   const filteredOrderArray = userOrders.filter(
     (order) => order._id === selected
   )
+  if (loading) {
+    return <Loader />
+  }
 
   return (
     <Container className=' justify-content-center align-items-center p-4  text-center '>
       {user?.name && <h3 className='p-3'>Welcome {user.name}</h3>}
-      <Row className=''>
-        <Col md={5}>
-          <h4>Past orders</h4>
-          <ul className='list-group'>
-            {userOrders.length > 0 && (
-              <OrderListPayments
-                userOrders={userOrders}
-                selected={selected}
-                setSelected={setSelected}
-              />
-            )}
-          </ul>
-        </Col>
-        <Col md={7}>
-          <h4>Order details</h4>
-          {filteredOrderArray.map((order) => {
-            return (
-              <div key={order._id}>
-                <OrderListItems orderItems={order.orderItems} />
-                <p>
-                  Total Price{' '}
-                  <span className='fw-bold'>
-                    {order.totalPrice} {currencyFormat}
-                  </span>
-                </p>
-                <p>
-                  Paid on{' '}
-                  <span className='fw-bold'>{dateFormatter(order.paidAt)}</span>
-                </p>
-              </div>
-            )
-          })}
-        </Col>
-      </Row>
-      {userOrders.length === 0 && <h4>Nothing to display</h4>}
+      {userOrders.length === 0 ? (
+        <p className='text-secondary'>Nothing to display yet</p>
+      ) : (
+        <Row>
+          <Col md={5}>
+            <h4>Past orders</h4>
+            <ul className='list-group'>
+              {userOrders.length > 0 && (
+                <OrderListPayments
+                  userOrders={userOrders}
+                  selected={selected}
+                  setSelected={setSelected}
+                />
+              )}
+            </ul>
+          </Col>
+          <Col md={7}>
+            <h4>Order details</h4>
+            {filteredOrderArray.map((order) => {
+              return (
+                <div key={order._id}>
+                  <OrderListItems orderItems={order.orderItems} />
+                  <p>
+                    Total Price{' '}
+                    <span className='fw-bold'>
+                      {order.totalPrice} {currencyFormat}
+                    </span>
+                  </p>
+                  <p>
+                    Paid on{' '}
+                    <span className='fw-bold'>
+                      {dateFormatter(order.paidAt)}
+                    </span>
+                  </p>
+                </div>
+              )
+            })}
+          </Col>
+        </Row>
+      )}
     </Container>
   )
 }

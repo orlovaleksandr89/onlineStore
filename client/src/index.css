@@ -8,6 +8,8 @@ body {
   padding: 0;
   box-sizing: border-box;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
   height: 100%;
 }
 
@@ -15,7 +17,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-
   height: 100%;
   width: 100%;
 }
