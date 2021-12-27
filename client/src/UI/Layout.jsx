@@ -9,7 +9,7 @@ const Layout = (props) => {
       <AppNavBar />
       <div
         className='d-flex'
-        style={{ minHeight: 'calc(100vh - 76px - 56px)' }}>
+        style={{ minHeight: 'calc(100vh - 76px - 72px)' }}>
         {props.children}
       </div>
 

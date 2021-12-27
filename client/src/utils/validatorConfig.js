@@ -1,86 +1,65 @@
 export const validatorConfig = {
   email: {
     isRequired: {
-      message: 'Электронная почта обязательна для заполнения'
+      message: 'Email field is required'
     },
     isEmail: {
-      message: 'Проверьте правильность вашего email'
+      message: 'Check your email address please'
     }
   },
   password: {
-    isRequired: { message: 'Пароль обязателен для заполнения' },
-    isCapitalLetter: { message: 'Пароль должен содержать загланую букву' },
-    isNumber: { message: 'Пароль должен содержать цыфру' },
+    isRequired: { message: 'Password field is required' },
+    isCapitalLetter: { message: 'Password should contain a capital letter' },
+    isNumber: { message: 'Password should contain a number' },
     min: {
-      message: 'Пароль должен быть не меньше 8 символов',
+      message: 'Password should be at least 8 characters long',
       value: 8
     }
   },
-  profession: {
-    isRequired: { message: 'Профессия обязательна к выбору' }
-  },
-  licence: {
-    isRequired: {
-      message: 'Вы не можете использовать наш сервис без принятия лицензии'
-    }
-  },
+
   name: {
     isRequired: {
-      message: 'Имя обязательно для заполнения'
+      message: 'Name field is required'
     }
   },
-  qualities: {
-    isRequired: {
-      message: 'Выбирете хотя б одно качество'
-    }
-  },
-  userId: {
-    isRequired: {
-      message: 'Выбирете хотя б одного пользователя'
-    }
-  },
-  content: {
-    isRequired: {
-      message: 'Поле обязательно для заполнения'
-    }
-  },
+
   type: {
     isRequired: {
-      message: 'Поле тип обязательно для заполнения'
+      message: 'Type field is required'
     }
   },
   price: {
     isRequired: {
-      message: 'Поле обязательно для заполнения'
+      message: 'Price field is required'
     },
     isNumber: {
-      message: 'Должно быть числом'
+      message: 'Price should be a number'
     }
   },
   title: {
     isRequired: {
-      message: 'Поле обязательно для заполнения'
+      message: 'Title field is required'
     }
   },
   description: {
     isRequired: {
-      message: 'Поле обязательно для заполнения'
+      message: 'Description field is required'
     }
   },
   quantity: {
     isRequired: {
-      message: 'Поле обязательно для заполнения'
+      message: 'Quantity field is required'
     },
     isNumber: {
-      message: 'Должно быть числом'
+      message: 'Quantity should be a number'
     }
   },
   imgURL: {
     isRequired: {
-      message: 'Поле обязательно для заполнения'
+      message: 'Image Url field is required'
     },
     isValidLink: {
-      message: 'Проверьте правильность URL'
+      message: 'Check your URL please'
     }
   }
 }

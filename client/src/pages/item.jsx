@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Container, Button, Row, Col, Image, Card } from 'react-bootstrap'
 import { useParams, useHistory } from 'react-router-dom'
+import Loader from '../components/common/Loader'
 import ModalWindow from '../components/common/Modal'
 import { useCart } from '../hooks/useCart'
 import { useUser } from '../hooks/useUser'
@@ -37,6 +38,9 @@ const ItemPage = () => {
     setItemAddedToCart(true)
   }
 
+  if (loading) {
+    return <Loader />
+  }
   return (
     <Container className='p-4'>
       <Card className=' shadow d-flex flex-column justify-content-center align-items-center'>
