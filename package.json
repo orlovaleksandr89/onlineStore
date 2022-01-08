@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Online store MERN",
   "main": "index.js",
+  "engines": {
+    "node": "16.13.x"
+  },
   "scripts": {
     "start": "cross-env NODE_ENV=production node index.js",
     "server": "nodemon index.js",
