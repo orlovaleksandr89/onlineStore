@@ -9,7 +9,7 @@ function SocialIconsRow() {
           href='https://github.com/orlovaleksandr89/onlineStore'
           target='blank'>
           <h5>
-            <i class='bi bi-github'></i>
+            <i className='bi bi-github'></i>
           </h5>
         </a>{' '}
         See code example on GitHub

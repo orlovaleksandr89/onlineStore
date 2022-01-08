@@ -54,7 +54,7 @@ const Cart = () => {
             </Col>
           </Row>
           <Row className='p-0 m-0 w-100'>
-            <Col md={8} classname='p-0'>
+            <Col md={8} className='p-0'>
               {cartItems.map((item) => {
                 return (
                   <Card key={item._id} className='mb-3'>

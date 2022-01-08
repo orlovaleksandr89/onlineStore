@@ -13,6 +13,7 @@ const TypesProvider = ({ children }) => {
   const [types, setTypes] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+  const [selectedType, setSelectedType] = useState()
 
   useEffect(() => {
     getTypes()
@@ -59,7 +60,6 @@ const TypesProvider = ({ children }) => {
       if (error) {
         setLoading(false)
         errorCatcher(error.response.data.message)
-        console.log(error.response)
       }
     }
   }
@@ -72,7 +72,15 @@ const TypesProvider = ({ children }) => {
   }
 
   return (
-    <TypesContext.Provider value={{ types, loading, createTypeInDB, getTypes }}>
+    <TypesContext.Provider
+      value={{
+        types,
+        loading,
+        createTypeInDB,
+        getTypes,
+        selectedType,
+        setSelectedType
+      }}>
       {children}
     </TypesContext.Provider>
   )

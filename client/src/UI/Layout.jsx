@@ -1,18 +1,16 @@
 import React from 'react'
-
-import AppNavBar from '../components/navbar'
+import NewNavBar from '../components/navbar/NewNavBar'
 import Footer from './Footer'
 
 const Layout = (props) => {
   return (
     <div>
-      <AppNavBar />
+      <NewNavBar />
       <div
-        className='d-flex'
+        className='d-flex w-100'
         style={{ minHeight: 'calc(100vh - 76px - 72px)' }}>
         {props.children}
       </div>
-
       <Footer />
     </div>
   )
