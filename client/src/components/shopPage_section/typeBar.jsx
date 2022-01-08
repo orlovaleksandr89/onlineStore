@@ -1,41 +1,48 @@
-import React, { useState } from 'react'
-import { Button, Container, Row, Col, ListGroup } from 'react-bootstrap'
+import React from 'react'
+import { Button, Container, Row, Col } from 'react-bootstrap'
 import { useTypes } from '../../hooks/useTypes'
+import { CheckField } from '../common/form/'
 
-function TypeBar({ setType }) {
-  const [selectedType, setSelectedType] = useState()
-  const { types } = useTypes()
+function TypeBar() {
+  const { types, setSelectedType, selectedType, loading } = useTypes()
 
-  const typeChangeHandler = (value) => {
-    setSelectedType(value)
-    setType(value)
+  const handleOnChange = (target) => {
+    setSelectedType(target.name)
+  }
+
+  if (loading) {
+    return <p>loading</p>
   }
 
   return (
-    <Container className='px-2'>
+    <Container className='px-2 text-center mt-5'>
       <Row className='w-100 d-flex justify-content-center align-items-center m-0'>
-        <Col md={9} className='d-flex justify-content-between  text-center '>
-          <ListGroup horizontal={'md'} className='w-100'>
+        <h3>Filter by type</h3>
+        <Col md={12} className='d-flex justify-content-start  text-center '>
+          <form>
             {types.map((type) => {
               return (
-                <ListGroup.Item
-                  role='button'
-                  action
-                  variant='light'
-                  className={selectedType === type.value ? 'active' : ''}
-                  onClick={() => typeChangeHandler(type.value)}
-                  key={type._id}>
+                <CheckField
+                  key={type._id}
+                  name={type.value}
+                  onChange={handleOnChange}
+                  data-bs-toggle='offcanvas'
+                  value={selectedType === type.value ? true : false}>
                   {type.value}
-                </ListGroup.Item>
+                </CheckField>
               )
             })}
-          </ListGroup>
+          </form>
         </Col>
-        <Col md={3}>
+      </Row>
+
+      <Row className='w-100 d-flex justify-content-center align-items-center m-0'>
+        <Col md={12}>
           <div className='d-flex flex-column my-2'>
             <Button
               variant={'outline-warning'}
-              onClick={() => typeChangeHandler(undefined)}
+              onClick={() => setSelectedType(undefined)}
+              data-bs-toggle='offcanvas'
               className='text-dark w-100'>
               Reset
             </Button>

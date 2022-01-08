@@ -32,7 +32,6 @@ class ItemController {
 
       return res.status(201).json({ message: 'You successfully created item' })
     } catch (error) {
-      console.log(error.message)
       return res.status(500).json({ message: 'Something went wrong...' })
     }
   }
@@ -54,7 +53,7 @@ class ItemController {
   async getSingleItem(req, res) {
     try {
       const id = req.params.id
-      console.log(req)
+
       const item = await Item.findById(id)
       res.status(200).json(item)
     } catch (error) {

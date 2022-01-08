@@ -70,7 +70,6 @@ const UserProvider = ({ children }) => {
 
       setLoading(false)
     } catch (error) {
-      console.log(error)
       if (error) {
         errorCatcher(error.response.data.message)
         setLoading(false)
@@ -88,7 +87,6 @@ const UserProvider = ({ children }) => {
       loginUser(formData)
       setLoading(false)
     } catch (error) {
-      console.log(error)
       if (error) {
         errorCatcher(error.response.data.message)
         setLoading(false)

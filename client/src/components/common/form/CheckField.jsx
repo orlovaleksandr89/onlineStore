@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-function CheckField({ name, value, onChangeHandle, children, error, ...rest }) {
-  const handleChange = () => {
-    onChangeHandle({ name: name, value: !value })
+function CheckField({ name, value, onChange, children, error, ...rest }) {
+  const handleChange = ({ target }) => {
+    onChange({ name: target.id, value: !target.value })
   }
   const getInputClasses = () => {
     return `${error ? 'form-check-label is-invalid' : 'form-check-label'} `

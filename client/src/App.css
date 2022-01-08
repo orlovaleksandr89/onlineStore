@@ -23,3 +23,10 @@
 .parallax.hide {
   opacity: 1;
 }
+
+.navlist-link:hover {
+  color: #ffc107;
+}
+.navlist-link {
+  transition: all 0.15s ease-in-out;
+}

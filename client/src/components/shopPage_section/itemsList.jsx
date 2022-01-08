@@ -1,10 +1,12 @@
 import React from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import { useItems } from '../../hooks/useItems'
+import { useTypes } from '../../hooks/useTypes'
 import { ItemInList } from './index'
 
-function ItemsList({ type, search }) {
+function ItemsList({ search }) {
   const { items } = useItems()
+  const { selectedType } = useTypes()
 
   const getSearchResult = (search) => {
     const result = items.filter((item) =>
@@ -23,10 +25,10 @@ function ItemsList({ type, search }) {
       <Row>
         {fileterdItems.length === 0 ? (
           <h2>'No items found'</h2>
-        ) : type ? (
+        ) : selectedType ? (
           fileterdItems
             .filter((item) =>
-              item.itemType.toLowerCase().includes(type.toLowerCase())
+              item.itemType.toLowerCase().includes(selectedType.toLowerCase())
             )
             .map((item) => {
               return (
