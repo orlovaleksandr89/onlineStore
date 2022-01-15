@@ -30,14 +30,12 @@ function ItemModal({
   const [errors, setErrors] = useState({})
   const { types } = useTypes()
 
-  const onSubmitHandler = async (data) => {
-    const response = await sumbitHandler(data)
+  const onSubmitHandler = (data) => {
+    sumbitHandler(data)
 
-    if (response.status === 201 || response.status === 200) {
-      setTimeout(() => {
-        onHide(false)
-      }, 500)
-    }
+    setTimeout(() => {
+      onHide(false)
+    }, 500)
   }
 
   const onChangeHandle = ({ name, value }) => {

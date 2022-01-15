@@ -1,17 +1,17 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Col, Row } from 'react-bootstrap'
-import { ItemsList, SearchBar } from '.'
-import StoreContext from '../../store/store'
+import { ItemsList } from '.'
+
+import DropdownList from '../common/dropdown/Dropdown'
 
 const ShopPageList = () => {
-  const storeCtx = useContext(StoreContext)
   return (
     <Row className='m-0 mt-3 p-2 align-items-center justify-content-center d-flex w-100'>
+      <Col xs={10} className='d-md-none d-block'>
+        <DropdownList />
+      </Col>
       <Col md={12}>
-        <div className='d-md-none'>
-          <SearchBar />
-        </div>
-        <ItemsList search={storeCtx.search} />
+        <ItemsList />
       </Col>
     </Row>
   )

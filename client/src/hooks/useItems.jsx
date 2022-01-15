@@ -66,7 +66,7 @@ const ItemsProvider = ({ children }) => {
   async function createItemInDB(data) {
     try {
       setLoading(true)
-      const response = await adminService.post('/createitem', { ...data })
+      const response = await adminService.post(data)
       toast.success(response.data.message)
       if (response.status === 201) {
         getItems()

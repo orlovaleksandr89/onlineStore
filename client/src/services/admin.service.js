@@ -7,8 +7,8 @@ const adminService = {
     const { data } = await httpServise.get(adminEndpoint)
     return data
   },
-  post: async (url, item) => {
-    const data = await httpServise.post(adminEndpoint + url, item)
+  create: async (item) => {
+    const data = await httpServise.post(adminEndpoint + '/createitem', item)
     return data
   },
   delete: async (id) => {
