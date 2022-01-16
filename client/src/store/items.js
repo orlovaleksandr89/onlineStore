@@ -3,12 +3,14 @@ import adminService from '../services/admin.service'
 import itemsService from '../services/items.service'
 import { toast } from 'react-toastify'
 import createError from '../utils/createErrorMessage'
+import isOutDated from '../utils/isOutDated'
 
 const initialState = {
   entities: null,
   isLoading: true,
   adminLoading: false,
-  error: null
+  error: null,
+  lastFetch: null
 }
 
 const itemsSlice = createSlice({
@@ -24,6 +26,7 @@ const itemsSlice = createSlice({
     },
     itemsRecievedSuccessfully(state, action) {
       state.entities = action.payload
+      state.lastFetch = Date.now()
       state.isLoading = false
     },
     newItemActionRequested(state) {
@@ -69,13 +72,16 @@ const {
 } = actions
 
 /* Functions to dispatch state changes */
-export const loadItemsList = () => async (dispatch) => {
-  dispatch(itemsRequested())
-  try {
-    const items = await itemsService.get()
-    dispatch(itemsRecievedSuccessfully(items))
-  } catch (error) {
-    dispatch(itemsRequestFailed(error.response.data.message))
+export const loadItemsList = () => async (dispatch, getState) => {
+  const { lastFetch } = getState().items
+  if (isOutDated(lastFetch)) {
+    dispatch(itemsRequested())
+    try {
+      const items = await itemsService.get()
+      dispatch(itemsRecievedSuccessfully(items))
+    } catch (error) {
+      dispatch(itemsRequestFailed(error.response.data.message))
+    }
   }
 }
 

@@ -1,31 +1,31 @@
 import React from 'react'
 import { Button, Card, Col, Row } from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link, useHistory } from 'react-router-dom'
 import { CartItem, Total } from '../components/cart_section'
-import { useCart } from '../hooks/useCart'
 import { useUser } from '../hooks/useUser'
+import {
+  clearCart,
+  deleteItemFromCart,
+  getCartItems,
+  getCartLoadingStatus
+} from '../store/cart'
 
 import { MAIN_ROUTE } from '../utils/consts'
 
 const Cart = () => {
   const history = useHistory()
-
+  const dispatch = useDispatch()
   const { user } = useUser()
-  const {
-    cartItems,
-    deleteItemFromCartDB,
-    incrementCartItemQuantity,
-    decrementCartItemQuantity,
-    clearCart,
-    loading
-  } = useCart()
+  const cartItems = useSelector(getCartItems())
+  const cartLoadingStatus = useSelector(getCartLoadingStatus())
 
   const deleteHandler = (id) => {
-    deleteItemFromCartDB(user.id, id)
+    dispatch(deleteItemFromCart(user.id, id))
   }
 
   const clearCartHandler = () => {
-    clearCart(user.id)
+    dispatch(clearCart(user.id))
   }
 
   const totlaPrice = cartItems
@@ -48,7 +48,7 @@ const Cart = () => {
                 className='w-100 mb-3 p-0 text-dark'
                 variant={'warning'}
                 onClick={clearCartHandler}
-                disabled={loading}>
+                disabled={cartLoadingStatus}>
                 Clear Cart
               </Button>
             </Col>
@@ -63,9 +63,7 @@ const Cart = () => {
                       {...item}
                       deleteHandler={deleteHandler}
                       userId={user.id}
-                      incrementCartItemQuantity={incrementCartItemQuantity}
-                      decrementCartItemQuantity={decrementCartItemQuantity}
-                      loading={loading}
+                      loading={cartLoadingStatus}
                     />
                   </Card>
                 )

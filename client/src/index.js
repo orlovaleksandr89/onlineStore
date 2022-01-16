@@ -7,8 +7,6 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css'
 import UserProvider from './hooks/useUser'
-
-import CartProvider from './hooks/useCart'
 import createStore from './store/createStore'
 import { Provider } from 'react-redux'
 
@@ -18,9 +16,7 @@ ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
       <UserProvider>
-        <CartProvider>
-          <App />
-        </CartProvider>
+        <App />
       </UserProvider>
     </BrowserRouter>
   </Provider>,

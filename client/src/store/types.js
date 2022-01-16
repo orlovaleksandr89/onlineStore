@@ -3,11 +3,13 @@ import { toast } from 'react-toastify'
 import adminService from '../services/admin.service'
 import typesService from '../services/types.service'
 import createError from '../utils/createErrorMessage'
+import isOutDated from '../utils/isOutDated'
 const initialState = {
   entities: null,
   isLoading: true,
   error: null,
-  selectedType: null
+  selectedType: null,
+  lastFetch: null
 }
 
 const typesSlice = createSlice({
@@ -24,6 +26,7 @@ const typesSlice = createSlice({
     },
     typesRequestSuccess(state, action) {
       state.entities = action.payload
+      state.lastFetch = Date.now()
       state.isLoading = false
     },
     typeSelected(state, action) {
@@ -45,15 +48,18 @@ const {
   typeCreatedSuccessfully
 } = actions
 /* Functions to dispatch changes to state */
-export const loadTypesList = () => async (dispatch) => {
-  dispatch(typesRequested())
-  try {
-    const types = await typesService.get()
+export const loadTypesList = () => async (dispatch, getState) => {
+  const { lastFetch } = getState().types
+  if (isOutDated(lastFetch)) {
+    dispatch(typesRequested())
+    try {
+      const types = await typesService.get()
 
-    dispatch(typesRequestSuccess(types))
-  } catch (error) {
-    const message = createError(error)
-    dispatch(typesRequestFailed(message))
+      dispatch(typesRequestSuccess(types))
+    } catch (error) {
+      const message = createError(error)
+      dispatch(typesRequestFailed(message))
+    }
   }
 }
 export const selectType = (type) => (dispatch) => {

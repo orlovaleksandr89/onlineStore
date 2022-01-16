@@ -1,5 +1,10 @@
 import React, { useState } from 'react'
 import { Row, Col, Image, Form, Button } from 'react-bootstrap'
+import { useDispatch } from 'react-redux'
+import {
+  decrementCartItemQuantity,
+  incrementCartItemQuantity
+} from '../../store/cart'
 import { currencyFormat } from '../../utils/consts'
 import ModalWindow from '../common/Modal'
 
@@ -10,25 +15,25 @@ function CartItem({
   title,
   deleteHandler,
   quantity,
-  decrementCartItemQuantity,
-  incrementCartItemQuantity,
+
   loading,
   userId
 }) {
   const [showModal, setShowModal] = useState(false)
   const [cartItemQuantity, setCartItemQuantity] = useState(quantity)
+  const dispatch = useDispatch()
 
   const quantityDecrementChangeHandler = (userId, itemId, quantity) => {
     if (cartItemQuantity > 1) {
       setCartItemQuantity((prev) => prev - 1)
-      decrementCartItemQuantity(userId, itemId, quantity)
+      dispatch(decrementCartItemQuantity(userId, itemId, quantity))
     } else {
       return setShowModal(true)
     }
   }
   const quantityIncrementChangeHandler = async (userId, itemId, quantity) => {
     setCartItemQuantity((prev) => prev + 1)
-    incrementCartItemQuantity(userId, itemId, quantity)
+    dispatch(incrementCartItemQuantity(userId, itemId, quantity))
   }
 
   return (

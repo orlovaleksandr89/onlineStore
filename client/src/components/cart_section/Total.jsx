@@ -3,9 +3,13 @@ import { Col, Row, Card, Container } from 'react-bootstrap'
 import { CheckoutButton } from './index'
 import { currencyFormat } from '../../utils/consts'
 import { useUser } from '../../hooks/useUser'
-import { useCart } from '../../hooks/useCart'
+import { useDispatch, useSelector } from 'react-redux'
+import { clearCart, getCartItems } from '../../store/cart'
+import { createOrder } from '../../store/orders'
 
 function Total({ totlaPrice, history }) {
+  const dispatch = useDispatch()
+
   const getTax = (totlaPrice) => Math.fround(totlaPrice * 0.08375).toFixed(2)
   const getTotalPrice = (totlaPrice) => {
     return (totlaPrice + Number(getTax(totlaPrice))).toFixed(2)
@@ -13,17 +17,17 @@ function Total({ totlaPrice, history }) {
   const total = Number(getTotalPrice(totlaPrice))
 
   const { user } = useUser()
-  const { clearCart, cartItems, createOrder } = useCart()
+  const cartItems = useSelector(getCartItems())
 
   const clearCartHandler = () => {
-    clearCart(user.id)
+    dispatch(clearCart(user.id))
   }
   const orderItems = cartItems.map((item) => {
     return { productId: item._id, quantity: item.quantity, title: item.title }
   })
 
   const createOrderHandle = (orderItems, paymentId, totalPrice) => {
-    createOrder(orderItems, paymentId, totalPrice)
+    dispatch(createOrder(user.id, orderItems, paymentId, totalPrice))
   }
 
   return (

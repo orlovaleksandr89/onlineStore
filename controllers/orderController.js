@@ -14,7 +14,7 @@ class OrderController {
       })
       const userOrder = order.save()
 
-      res.status(201).json(userOrder)
+      res.status(201).json({ message: 'Order created successfully' })
     } catch (error) {
       return res.status(500).json({ message: 'Something went wrong...' })
     }
