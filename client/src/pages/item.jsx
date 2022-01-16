@@ -3,18 +3,24 @@ import { Container, Button, Row, Col, Image, Card } from 'react-bootstrap'
 import { useParams, useHistory } from 'react-router-dom'
 import { getItemById, getItemsLoadingStatus } from '../store/items'
 import ModalWindow from '../components/common/Modal'
-import { useCart } from '../hooks/useCart'
 import { useUser } from '../hooks/useUser'
 
 import { CART_ROUTE, currencyFormat, LOGIN_ROUTE } from '../utils/consts'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/common/Loader'
+import {
+  addItemToCart,
+  getCartItems,
+  getCartLoadingStatus
+} from '../store/cart'
 
 const ItemPage = () => {
+  const dispatch = useDispatch()
+  const cartLoadingStatus = useSelector(getCartLoadingStatus())
+  const cartItems = useSelector(getCartItems())
   const { id } = useParams()
 
   const { isAuth, user } = useUser()
-  const { addItemToCart, cartItems, loading } = useCart()
   const history = useHistory()
   const [inCart, setInCart] = useState(false)
   const [itemAddedToCart, setItemAddedToCart] = useState(false)
@@ -26,7 +32,7 @@ const ItemPage = () => {
     if (cartItems.find((i) => i._id === item._id)) {
       return setInCart(true)
     }
-    addItemToCart(user.id, item)
+    dispatch(addItemToCart(user.id, item))
     setItemAddedToCart(true)
   }
 
@@ -84,7 +90,7 @@ const ItemPage = () => {
             <Button
               variant={'outline-warning'}
               className='text-dark w-100 mb-3'
-              disabled={loading}
+              disabled={cartLoadingStatus}
               onClick={() => {
                 isAuth ? addToCartHandle(item) : history.push(LOGIN_ROUTE)
               }}>

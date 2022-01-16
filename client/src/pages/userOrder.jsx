@@ -7,20 +7,27 @@ import {
   OrderListItems,
   OrderListPayments
 } from '../components/account_section'
-import { useCart } from '../hooks/useCart'
 import { useUser } from '../hooks/useUser'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  getOrdersLoadingStatus,
+  getUserOrdersList,
+  loadUserOrdersList
+} from '../store/orders'
 
 function UserOrder() {
-  const [selected, setSelected] = useState('')
-  const { getUserOrder, userOrders, loading } = useCart()
+  const dispatch = useDispatch()
+  const userOrders = useSelector(getUserOrdersList())
+  const [selected, setSelected] = useState(null)
+  const loading = useSelector(getOrdersLoadingStatus())
   const { user } = useUser()
 
   useEffect(() => {
-    getUserOrder()
+    dispatch(loadUserOrdersList(user.id))
   }, [])
 
   useEffect(() => {
-    if (userOrders.length > 0) {
+    if (userOrders) {
       setSelected(userOrders[0]._id)
     }
     return () => {
@@ -28,12 +35,12 @@ function UserOrder() {
     }
   }, [userOrders])
 
-  const filteredOrderArray = userOrders.filter(
-    (order) => order._id === selected
-  )
   if (loading) {
     return <Loader />
   }
+  const filteredOrderArray = userOrders.filter(
+    (order) => order._id === selected
+  )
 
   return (
     <Container className=' justify-content-center align-items-center p-4  text-center '>

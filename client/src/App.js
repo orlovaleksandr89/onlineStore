@@ -7,13 +7,20 @@ import 'react-toastify/dist/ReactToastify.css'
 import { useDispatch } from 'react-redux'
 import { loadItemsList } from './store/items'
 import { loadTypesList } from './store/types'
+import { useUser } from './hooks/useUser'
+import { loadCart } from './store/cart'
 
 function App() {
+  const { user } = useUser()
+
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(loadItemsList())
     dispatch(loadTypesList())
-  }, [])
+    if (user.id && user.role === 'USER') {
+      dispatch(loadCart(user.id))
+    }
+  }, [user])
 
   return (
     <>
