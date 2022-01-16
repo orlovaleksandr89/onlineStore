@@ -1,34 +1,26 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Container, Button, Row, Col, Image, Card } from 'react-bootstrap'
 import { useParams, useHistory } from 'react-router-dom'
-import Loader from '../components/common/Loader'
+import { getItemById, getItemsLoadingStatus } from '../store/items'
 import ModalWindow from '../components/common/Modal'
 import { useCart } from '../hooks/useCart'
 import { useUser } from '../hooks/useUser'
 
-import itemsService from '../services/items.service'
 import { CART_ROUTE, currencyFormat, LOGIN_ROUTE } from '../utils/consts'
+import { useSelector } from 'react-redux'
+import Loader from '../components/common/Loader'
 
 const ItemPage = () => {
   const { id } = useParams()
+
+  const { isAuth, user } = useUser()
+  const { addItemToCart, cartItems, loading } = useCart()
   const history = useHistory()
   const [inCart, setInCart] = useState(false)
   const [itemAddedToCart, setItemAddedToCart] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [item, setItem] = useState({})
 
-  const { isAuth, user } = useUser()
-  const { addItemToCart, cartItems } = useCart()
-
-  useEffect(() => {
-    setLoading(true)
-    itemsService.getItemById(id).then((item) => {
-      setItem(item)
-      setLoading(false)
-    })
-
-    return () => setLoading(false)
-  }, [id])
+  const item = useSelector(getItemById(id))
+  const itemLoadingStatus = useSelector(getItemsLoadingStatus())
 
   const addToCartHandle = (item) => {
     if (cartItems.find((i) => i._id === item._id)) {
@@ -38,9 +30,10 @@ const ItemPage = () => {
     setItemAddedToCart(true)
   }
 
-  if (loading) {
+  if (itemLoadingStatus) {
     return <Loader />
   }
+
   return (
     <Container className='p-4'>
       <Card className=' shadow d-flex flex-column justify-content-center align-items-center'>

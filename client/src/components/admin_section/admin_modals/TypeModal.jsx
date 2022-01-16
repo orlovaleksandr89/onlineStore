@@ -3,7 +3,8 @@ import { Modal, Button } from 'react-bootstrap'
 import { validatorConfig } from '../../../utils/validatorConfig'
 import { validator } from '../../../utils/validator'
 import TextField from '../../common/form/TextField'
-import { useTypes } from '../../../hooks/useTypes'
+import { useDispatch, useSelector } from 'react-redux'
+import { createTypeInDb, getTypesLoadingStatus } from '../../../store/types'
 
 function TypeModal({
   show,
@@ -14,25 +15,24 @@ function TypeModal({
 }) {
   const [data, setData] = useState({ type: '' })
   const [errors, setErrors] = useState({})
-
-  const { loading, createTypeInDB } = useTypes()
+  const dispatch = useDispatch()
+  const loading = useSelector(getTypesLoadingStatus())
 
   const onChangeHandle = useCallback((target) => {
     setData((prev) => ({ ...prev, [target.name]: target.value }))
   }, [])
+
   const validate = useCallback((data) => {
     const errors = validator(data, validatorConfig)
     setErrors(errors)
 
     return Object.keys(errors).length === 0
   }, [])
-  const createTypeHandle = async (data) => {
-    const response = await createTypeInDB(data)
-    if (response.status === 201) {
-      setTimeout(() => {
-        onHide()
-      }, 700)
-    }
+
+  const submitHandler = (data) => {
+    const type = data.trim()
+    dispatch(createTypeInDb(type))
+    onHide()
   }
 
   useEffect(() => {
@@ -64,7 +64,7 @@ function TypeModal({
           variant='outline-success'
           className='text-dark'
           disabled={!isValid || loading}
-          onClick={() => createTypeHandle(data.type)}>
+          onClick={() => submitHandler(data.type)}>
           {confirmButtonText}
         </Button>
       </Modal.Footer>

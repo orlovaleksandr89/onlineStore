@@ -5,7 +5,8 @@ import { validator } from '../../../utils/validator'
 import TextField from '../../common/form/TextField'
 import TextArea from '../../common/form/TextArea'
 import SelectField from '../../common/form/SelectField'
-import { useTypes } from '../../../hooks/useTypes'
+import { getTypesList } from '../../../store/types'
+import { useSelector } from 'react-redux'
 
 function ItemModal({
   show,
@@ -28,16 +29,14 @@ function ItemModal({
     }
   )
   const [errors, setErrors] = useState({})
-  const { types } = useTypes()
+  const types = useSelector(getTypesList())
 
-  const onSubmitHandler = async (data) => {
-    const response = await sumbitHandler(data)
+  const onSubmitHandler = (data) => {
+    sumbitHandler(data)
 
-    if (response.status === 201 || response.status === 200) {
-      setTimeout(() => {
-        onHide(false)
-      }, 500)
-    }
+    setTimeout(() => {
+      onHide(false)
+    }, 500)
   }
 
   const onChangeHandle = ({ name, value }) => {

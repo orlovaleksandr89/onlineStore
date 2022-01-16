@@ -8,11 +8,11 @@ import {
   MAIN_ROUTE,
   USER_ORDER_ROUTE
 } from '../../utils/consts'
-import DropdownList from '../common/dropdown'
 import logo from '../../assets/logo.png'
 import { useUser } from '../../hooks/useUser'
 import NavLinkList from './NavLinkList'
 import { TypeBar } from '../shopPage_section/'
+import DropdownList from '../common/dropdown/Dropdown'
 
 function NewNavBar() {
   const { user, isAuth, loguotUser } = useUser()
@@ -49,14 +49,16 @@ function NewNavBar() {
       <Navbar bg='dark' variant='dark' expand='md' className='p-0 '>
         <Container className='justify-content-between '>
           <Row className='d-flex justify-content-center align-items-center my-2 w-50'>
-            <Col md={2}>
+            <Col
+              md={2}
+              className='d-flex align-items-center justify-content-start'>
               <NavLink
                 to={MAIN_ROUTE}
                 style={{ color: 'orange', textDecoration: 'none' }}>
                 <Image src={logo} style={{ height: '60px' }}></Image>
               </NavLink>
             </Col>
-            <Col md={10} className=' d-none d-md-block  '>
+            <Col md={10} className=' d-none d-md-block '>
               <DropdownList />
             </Col>
           </Row>

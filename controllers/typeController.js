@@ -14,8 +14,10 @@ class TypeController {
         value: itemType
       })
 
-      await newType.save()
-      return res.status(201).json({ message: 'You successfully created type' })
+      const doc = await newType.save()
+      return res
+        .status(201)
+        .json({ message: 'You successfully created type', doc })
     } catch (error) {
       return res.status(500).json({ message: 'Something went wrong...' })
     }

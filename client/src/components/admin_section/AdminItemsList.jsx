@@ -2,12 +2,14 @@ import React from 'react'
 import { AdminItem, AdminHeader } from './index'
 
 import Loader from '../common/Loader'
-import { useItems } from '../../hooks/useItems'
+import { getItemsList, getItemsLoadingStatus } from '../../store/items'
+import { useSelector } from 'react-redux'
 
 function AdminItemsList() {
-  const { items, loading } = useItems()
+  const items = useSelector(getItemsList())
+  const itemsLoadingStatus = useSelector(getItemsLoadingStatus())
 
-  if (loading) {
+  if (itemsLoadingStatus) {
     return <Loader />
   }
   return (

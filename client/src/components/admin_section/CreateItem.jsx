@@ -1,20 +1,16 @@
 import React, { useState } from 'react'
 import { Button } from 'react-bootstrap'
-import { useItems } from '../../hooks/useItems'
-
+import { useDispatch, useSelector } from 'react-redux'
+import { createItemInDB, getAdminLoadingStatus } from '../../store/items'
 import { ItemModal } from './admin_modals'
 
 function CreateItem() {
   const [showModal, setShowModal] = useState(false)
-  const { createItemInDB, loading } = useItems()
+  const dispatch = useDispatch()
+  const adminLoadingStatus = useSelector(getAdminLoadingStatus())
 
-  const createItemInDBHandler = async (item) => {
-    try {
-      const response = await createItemInDB(item)
-      return response
-    } catch (error) {
-      console.log(error)
-    }
+  const createItemInDBHandler = (item) => {
+    dispatch(createItemInDB(item))
   }
 
   return (
@@ -28,7 +24,7 @@ function CreateItem() {
           onHide={() => {
             setShowModal(false)
           }}
-          loading={loading}
+          loading={adminLoadingStatus}
           sumbitHandler={createItemInDBHandler}
           title={'Create a new item in store'}
           cancelButtonText={'Cancel'}
