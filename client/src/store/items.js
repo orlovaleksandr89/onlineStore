@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import adminService from '../services/admin.service'
 import itemsService from '../services/items.service'
 import { toast } from 'react-toastify'
+import createError from '../utils/createErrorMessage'
 
 const initialState = {
   entities: null,
@@ -25,7 +26,7 @@ const itemsSlice = createSlice({
       state.entities = action.payload
       state.isLoading = false
     },
-    newItemRequested(state) {
+    newItemActionRequested(state) {
       state.error = null
       state.adminLoading = true
     },
@@ -35,6 +36,20 @@ const itemsSlice = createSlice({
     },
     newItemCreatedSuccessfully(state, action) {
       state.entities.push(action.payload)
+      state.adminLoading = false
+    },
+    updateItemRequestedSuccessfully(state, action) {
+      state.entities[
+        state.entities.indexOf(
+          state.entities.find((item) => item._id === action.payload._id)
+        )
+      ] = action.payload
+      state.adminLoading = false
+    },
+    itemInDbDeleted(state, action) {
+      state.entities = state.entities.filter(
+        (item) => item._id !== action.payload
+      )
       state.adminLoading = false
     }
   }
@@ -46,9 +61,11 @@ const {
   itemsRequested,
   itemsRequestFailed,
   itemsRecievedSuccessfully,
-  newItemRequested,
+  newItemActionRequested,
   newItemRequestFailed,
-  newItemCreatedSuccessfully
+  newItemCreatedSuccessfully,
+  updateItemRequestedSuccessfully,
+  itemInDbDeleted
 } = actions
 
 /* Functions to dispatch state changes */
@@ -63,19 +80,41 @@ export const loadItemsList = () => async (dispatch) => {
 }
 
 export const createItemInDB = (payload) => async (dispatch) => {
-  dispatch(newItemRequested())
+  dispatch(newItemActionRequested())
   try {
-    const { data } = await adminService.create(payload)
-    toast.success(data.message)
+    const { data } = await adminService.createItem(payload)
 
     dispatch(newItemCreatedSuccessfully(data.itemFromDb))
+    toast.success(data.message)
   } catch (error) {
-    console.log(error)
-    dispatch(newItemRequestFailed(error.message))
-    toast.error(error.response.data.message)
+    const message = createError(error)
+    dispatch(newItemRequestFailed(message))
   }
 }
 
+export const updateItemInDb = (id, payload) => async (dispatch) => {
+  dispatch(newItemActionRequested())
+  try {
+    const { data } = await adminService.update(id, payload)
+    dispatch(updateItemRequestedSuccessfully(data.doc))
+    toast.success(data.message)
+  } catch (error) {
+    const message = createError(error)
+    dispatch(newItemRequestFailed(message))
+  }
+}
+
+export const deleteItemInDb = (id) => async (dispatch) => {
+  dispatch(newItemActionRequested())
+  try {
+    const { data } = await adminService.delete(id)
+    dispatch(itemInDbDeleted(id))
+    toast.success(data.message)
+  } catch (error) {
+    const message = createError(error)
+    dispatch(newItemRequestFailed(message))
+  }
+}
 /* Selectors */
 
 export const getItemsList = () => (state) => state.items.entities

@@ -1,15 +1,15 @@
 import React from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
-import { useTypes } from '../../hooks/useTypes'
 import { getItemsList, getItemsLoadingStatus } from '../../store/items'
+import { getSelectedType } from '../../store/types'
 import Loader from '../common/Loader'
 import { ItemInList } from './index'
 
 function ItemsList() {
   const items = useSelector(getItemsList())
   const loading = useSelector(getItemsLoadingStatus())
-  const { selectedType } = useTypes()
+  const selectedType = useSelector(getSelectedType())
 
   if (loading) {
     return <Loader />

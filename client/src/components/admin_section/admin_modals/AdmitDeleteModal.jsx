@@ -1,6 +1,8 @@
 import React from 'react'
 import { Modal, Button } from 'react-bootstrap'
-import { useItems } from '../../../hooks/useItems'
+import { useDispatch, useSelector } from 'react-redux'
+import { deleteItemInDb, getAdminLoadingStatus } from '../../../store/items'
+
 function ItemModal({
   show,
   onHide,
@@ -10,7 +12,13 @@ function ItemModal({
   confirmButtonText,
   id
 }) {
-  const { loading, deleteItemFromDB } = useItems()
+  const dispatch = useDispatch()
+  const adminLoadingStatus = useSelector(getAdminLoadingStatus())
+
+  const deleteHandler = () => {
+    dispatch(deleteItemInDb(id))
+    onHide()
+  }
 
   return (
     <Modal show={show} onHide={onHide}>
@@ -28,11 +36,8 @@ function ItemModal({
         <Button
           variant='outline-danger'
           className='text-dark'
-          disabled={loading}
-          onClick={() => {
-            deleteItemFromDB(id)
-            onHide()
-          }}>
+          disabled={adminLoadingStatus}
+          onClick={deleteHandler}>
           {confirmButtonText}
         </Button>
       </Modal.Footer>

@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
 import { Col, Image, Row, Button } from 'react-bootstrap'
-import { useItems } from '../../hooks/useItems'
+import { useDispatch, useSelector } from 'react-redux'
+import { getAdminLoadingStatus, updateItemInDb } from '../../store/items'
 import { AdminDeleteModal, ItemModal } from './admin_modals'
 
 function AdminItem({ i, item }) {
   const [showModal, setShowModal] = useState(false)
   const [showItemModal, setShowItemModal] = useState(false)
   const { _id, price, imgURL, quantity, title, itemType } = item
-  const { updateItemInDB, loading } = useItems()
+  const dispatch = useDispatch()
+  const adminLoadingStatus = useSelector(getAdminLoadingStatus())
 
   const defaultItemData = {
     ...item,
@@ -15,14 +17,10 @@ function AdminItem({ i, item }) {
     quantity: String(item.quantity)
   }
 
-  const updateHandler = async (data) => {
-    try {
-      const response = await updateItemInDB(_id, data)
-      return response
-    } catch (error) {
-      console.log(error.response)
-    }
+  const updateHandler = (data) => {
+    dispatch(updateItemInDb(_id, data))
   }
+
   return (
     <Row
       key={_id}
@@ -93,7 +91,7 @@ function AdminItem({ i, item }) {
           confirmButtonText={'Update'}
           defaultData={defaultItemData}
           sumbitHandler={updateHandler}
-          loading={loading}
+          loading={adminLoadingStatus}
         />
       )}
     </Row>

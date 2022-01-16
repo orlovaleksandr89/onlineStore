@@ -28,9 +28,11 @@ class ItemController {
         itemType: typeOfItem.value
       })
 
-      await newItem.save()
+      const itemFromDb = await newItem.save()
 
-      return res.status(201).json({ message: 'You successfully created item' })
+      return res
+        .status(201)
+        .json({ message: 'You successfully created item', itemFromDb })
     } catch (error) {
       return res.status(500).json({ message: 'Something went wrong...' })
     }
@@ -38,13 +40,20 @@ class ItemController {
 
   async updateItem(req, res) {
     try {
-      const { id, data } = req.body
-      const doc = await Item.findByIdAndUpdate(id, { ...data }, { new: true })
+      const { id, payload } = req.body
+
+      const doc = await Item.findByIdAndUpdate(
+        id,
+        { ...payload },
+        { new: true }
+      )
       if (!doc) {
         return res.status(400).json({ message: 'There is no item' })
       }
 
-      return res.status(200).json({ message: 'You updeted item successfully' })
+      return res
+        .status(200)
+        .json({ message: 'You updeted item successfully', doc })
     } catch (error) {
       return res.status(500).json({ message: 'Something went wrong...' })
     }
