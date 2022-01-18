@@ -6,14 +6,22 @@ import jwt_decode from 'jwt-decode'
 import { localStorageServise } from '../services/localStorage.service'
 import history from '../utils/history'
 import { toast } from 'react-toastify'
-import dateFormatter from '../utils/dateFormatter'
-const initialState = {
-  auth: null,
-  loggedIn: false,
-  isLoading: false,
-  error: null,
-  isAdmin: false
-}
+
+const initialState = localStorageServise.getToken()
+  ? {
+      auth: { ...JSON.parse(localStorageServise.getUser()) },
+      loggedIn: true,
+      isLoading: false,
+      error: null,
+      isAdmin: false
+    }
+  : {
+      auth: null,
+      loggedIn: false,
+      isLoading: false,
+      error: null,
+      isAdmin: false
+    }
 const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -53,8 +61,11 @@ const { authRequested, authReceived, authRequestFailed, authLoggedOut } =
 export const checkUser = () => async (dispatch) => {
   const token = localStorageServise.getToken()
   if (token) {
-    const response = await httpServise.get()
-    console.log(response)
+    try {
+      await httpServise.get()
+    } catch (error) {
+      dispatch(authRequestFailed('Your session expired. Please login'))
+    }
   }
 }
 
@@ -66,13 +77,12 @@ export const logIn =
       const { data } = await httpServise.post(LOGIN_ROUTE, { ...formData })
       const { token } = data
       const user = jwt_decode(token)
-      console.log(dateFormatter(user.exp), dateFormatter(Date.now()))
 
       localStorageServise.setToken(token)
+      localStorageServise.setUser(JSON.stringify(user))
       dispatch(authReceived(user))
       history.push(redirect)
     } catch (error) {
-      console.log(error)
       const message = createError(error) // доработать
       dispatch(authRequestFailed(message))
     }
@@ -91,11 +101,13 @@ export const registerUser = (payload) => async (dispatch) => {
     const { token, message } = data
     const user = jwt_decode(token)
     localStorageServise.setToken(token)
+    localStorageServise.setUser(user)
     toast.success(message)
     dispatch(authReceived(user))
     history.push(MAIN_ROUTE)
   } catch (error) {
-    dispatch(authRequestFailed(error.data.message))
+    const message = createError(error) // доработать
+    dispatch(authRequestFailed(message))
   }
 }
 

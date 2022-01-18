@@ -1,11 +1,23 @@
 const TOKEN_KEY = 'jwt_token'
-
-export const setToken = (token) => {
+const USER_KEY = 'jwt_user'
+const setToken = (token) => {
   localStorage.setItem(TOKEN_KEY, token)
 }
+const setUser = (user) => {
+  localStorage.setItem(USER_KEY, user)
+}
+const getToken = () => localStorage.getItem(TOKEN_KEY)
+const getUser = () => localStorage.getItem(USER_KEY)
 
-export const getToken = () => localStorage.getItem(TOKEN_KEY)
+const removeAuthData = () => {
+  localStorage.removeItem(TOKEN_KEY)
+  localStorage.removeItem(USER_KEY)
+}
 
-export const removeAuthData = () => localStorage.removeItem(TOKEN_KEY)
-
-export const localStorageServise = { setToken, getToken, removeAuthData }
+export const localStorageServise = {
+  setToken,
+  getToken,
+  removeAuthData,
+  setUser,
+  getUser
+}

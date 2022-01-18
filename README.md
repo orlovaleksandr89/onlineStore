@@ -1,18 +1,13 @@
 ## RedFox Online - eCommerce Shop Pet Project
 
-**Website URL**
-https://redfox-online.herokuapp.com/
-
-
+**Website URL** https://redfox-online.herokuapp.com/
 
 **Testing Admin Login credentials:**
 
 - email: admin@mail.com
 - password: Admin1234
 
-**Project Overview:** 
-StoreFront/eCommerce application for business to deliver brand identity and to sell products to retail consumers. Built in a way that is flexible/reusable.
-
+**Project Overview:** StoreFront/eCommerce application for business to deliver brand identity and to sell products to retail consumers. Built in a way that is flexible/reusable.
 
 **Application Features**
 
@@ -36,19 +31,16 @@ _MERN Stack_
 - toast for dynamic messaging
 - moment.js to display past order dates
 - mongoose for defining MongoDB schema
-
+- react-redux, rtk for state managment
 
 **API**
 
 - react-paypal-express-checkout for payment
 
-
 **Deployment**
 
 - Backend and Frontend: heroku
 
-
 **Database**
 
 A MongoDB Atlas database is used for the data layer. The database schemas are defined with 6 models: USER, ROLE, ORDER, TYPE, ITEM and CART.
-
