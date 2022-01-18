@@ -7,28 +7,27 @@ import {
   OrderListItems,
   OrderListPayments
 } from '../components/account_section'
-import { useUser } from '../hooks/useUser'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   getOrdersLoadingStatus,
   getUserOrdersList,
   loadUserOrdersList
 } from '../store/orders'
+import { getUser } from '../store/user'
 
 function UserOrder() {
   const dispatch = useDispatch()
   const userOrders = useSelector(getUserOrdersList())
   const [selected, setSelected] = useState(null)
   const loading = useSelector(getOrdersLoadingStatus())
-  const { user } = useUser()
-
+  const user = useSelector(getUser())
   useEffect(() => {
     dispatch(loadUserOrdersList(user.id))
   }, [])
 
   useEffect(() => {
     if (userOrders) {
-      setSelected(userOrders[0]._id)
+      setSelected(userOrders[0]?._id)
     }
     return () => {
       setSelected(null)

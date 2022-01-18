@@ -24,7 +24,7 @@ const typesSlice = createSlice({
       state.error = action.payload
       state.isLoading = false
     },
-    typesRequestSuccess(state, action) {
+    typesReceived(state, action) {
       state.entities = action.payload
       state.lastFetch = Date.now()
       state.isLoading = false
@@ -43,7 +43,7 @@ const { actions, reducer: typesReducer } = typesSlice
 const {
   typesRequested,
   typesRequestFailed,
-  typesRequestSuccess,
+  typesReceived,
   typeSelected,
   typeCreatedSuccessfully
 } = actions
@@ -55,7 +55,7 @@ export const loadTypesList = () => async (dispatch, getState) => {
     try {
       const types = await typesService.get()
 
-      dispatch(typesRequestSuccess(types))
+      dispatch(typesReceived(types))
     } catch (error) {
       const message = createError(error)
       dispatch(typesRequestFailed(message))

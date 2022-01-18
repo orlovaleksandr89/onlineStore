@@ -1,10 +1,9 @@
 import React from 'react'
 import { Card, Col, Image, Row } from 'react-bootstrap'
-import { useHistory } from 'react-router-dom'
 import { currencyFormat } from '../../utils/consts'
+import history from '../../utils/history'
 
 function ItemInList({ title, price, imgURL, _id }) {
-  const history = useHistory()
   return (
     <Card
       className='d-flex h-100 w-100  justify-content-center align-items-center shadow border border-2 item_in_list'

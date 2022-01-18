@@ -1,22 +1,22 @@
 import React from 'react'
 import { Button, Card, Col, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import history from '../utils/history'
 import { CartItem, Total } from '../components/cart_section'
-import { useUser } from '../hooks/useUser'
 import {
   clearCart,
   deleteItemFromCart,
   getCartItems,
   getCartLoadingStatus
 } from '../store/cart'
+import { getUser } from '../store/user'
 
 import { MAIN_ROUTE } from '../utils/consts'
 
 const Cart = () => {
-  const history = useHistory()
   const dispatch = useDispatch()
-  const { user } = useUser()
+  const user = useSelector(getUser())
   const cartItems = useSelector(getCartItems())
   const cartLoadingStatus = useSelector(getCartLoadingStatus())
 

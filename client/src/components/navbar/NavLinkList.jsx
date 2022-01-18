@@ -1,22 +1,19 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { getCartItems, getCartLoadingStatus } from '../../store/cart'
+import { getCartItems } from '../../store/cart'
 
 function NavLinkList({ links, role }) {
   let linkToMap = []
 
   const cartItems = useSelector(getCartItems())
-  const cartLoadingStatus = useSelector(getCartLoadingStatus())
 
   for (let key in links) {
     if (key.toUpperCase() === role) {
       linkToMap = links[key]
     }
   }
-  if (cartLoadingStatus) {
-    return <p>loading...</p>
-  }
+
   return (
     <>
       {linkToMap.map((link) => (

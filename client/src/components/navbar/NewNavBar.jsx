@@ -9,13 +9,19 @@ import {
   USER_ORDER_ROUTE
 } from '../../utils/consts'
 import logo from '../../assets/logo.png'
-import { useUser } from '../../hooks/useUser'
 import NavLinkList from './NavLinkList'
 import { TypeBar } from '../shopPage_section/'
 import DropdownList from '../common/dropdown/Dropdown'
+import { useDispatch, useSelector } from 'react-redux'
+import { getUser, getUserIsLoggedIn, logOut } from '../../store/user'
 
 function NewNavBar() {
-  const { user, isAuth, loguotUser } = useUser()
+  const dispatch = useDispatch()
+  const user = useSelector(getUser())
+  const isLoggedIn = useSelector(getUserIsLoggedIn())
+  const logOutHandler = () => {
+    dispatch(logOut())
+  }
 
   const links = {
     user: [
@@ -30,7 +36,7 @@ function NewNavBar() {
         title: 'Log Out',
         route: LOGIN_ROUTE,
         badge: 'bi bi bi-box-arrow-right',
-        handler: loguotUser
+        handler: logOutHandler
       }
     ],
     admin: [
@@ -39,7 +45,7 @@ function NewNavBar() {
         title: 'Log Out',
         route: LOGIN_ROUTE,
         badge: 'bi bi bi-box-arrow-right',
-        handler: loguotUser
+        handler: logOutHandler
       }
     ]
   }
@@ -92,7 +98,7 @@ function NewNavBar() {
         </div>
         <div className='offcanvas-body text-dark'>
           <div>
-            {isAuth ? (
+            {isLoggedIn ? (
               <ul>
                 <NavLinkList links={links} role={user.role} />
               </ul>
@@ -114,7 +120,7 @@ function NewNavBar() {
               </ul>
             )}
 
-            <TypeBar></TypeBar>
+            <TypeBar />
           </div>
         </div>
       </div>

@@ -10,7 +10,7 @@ const ordersSlice = createSlice({
     ordersRequested(state) {
       state.isLoading = true
     },
-    ordersRecieved(state, action) {
+    ordersReceived(state, action) {
       state.entities = action.payload
       state.isLoading = false
     },
@@ -23,7 +23,7 @@ const ordersSlice = createSlice({
 
 const { actions, reducer: ordersReducer } = ordersSlice
 
-const { ordersRequested, ordersRecieved, ordersRequestFailed } = actions
+const { ordersRequested, ordersReceived, ordersRequestFailed } = actions
 const orderCreated = createAction('orders/orderCreated')
 
 export const loadUserOrdersList = (userId) => async (dispatch) => {
@@ -32,7 +32,7 @@ export const loadUserOrdersList = (userId) => async (dispatch) => {
   try {
     const { data } = await orderServise.get(userId)
 
-    dispatch(ordersRecieved(data.userOrders))
+    dispatch(ordersReceived(data.userOrders))
   } catch (error) {
     dispatch(ordersRequestFailed(error.response.data.message))
   }

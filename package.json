@@ -7,8 +7,8 @@
     "node": "16.13.x"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV=production node index.js",
-    "server": "nodemon index.js",
+    "start": "cross-env NODE_ENV=production node backend/index.js",
+    "server": "nodemon backend/index.js",
     "client": "npm run start --prefix client",
     "client:install": "npm install --prefix client",
     "client:build": "npm run build --prefix client",

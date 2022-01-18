@@ -9,13 +9,17 @@ module.exports = function (req, res, next) {
     const token = req.headers.authorization.split(' ')[1]
 
     if (!token) {
-      return res.status(403).json({ message: 'Not authorized' })
+      return res
+        .status(403)
+        .json({ message: 'Your session has expired. Please login' })
     }
     const decodedData = jwt.verify(token, process.env.jwtSecretKey)
     req.user = decodedData
 
     next()
   } catch (error) {
-    return res.status(403).json({ message: 'Not authorized' })
+    return res
+      .status(403)
+      .json({ message: 'Your session has expired. Please login' })
   }
 }

@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { Container, Button, Row, Col, Image, Card } from 'react-bootstrap'
-import { useParams, useHistory } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
+import history from '../utils/history'
 import { getItemById, getItemsLoadingStatus } from '../store/items'
 import ModalWindow from '../components/common/Modal'
-import { useUser } from '../hooks/useUser'
 
 import { CART_ROUTE, currencyFormat, LOGIN_ROUTE } from '../utils/consts'
 import { useDispatch, useSelector } from 'react-redux'
@@ -13,15 +13,16 @@ import {
   getCartItems,
   getCartLoadingStatus
 } from '../store/cart'
+import { getUser, getUserIsLoggedIn } from '../store/user'
 
 const ItemPage = () => {
   const dispatch = useDispatch()
   const cartLoadingStatus = useSelector(getCartLoadingStatus())
   const cartItems = useSelector(getCartItems())
+  const user = useSelector(getUser())
+  const isLoggedIn = useSelector(getUserIsLoggedIn())
   const { id } = useParams()
 
-  const { isAuth, user } = useUser()
-  const history = useHistory()
   const [inCart, setInCart] = useState(false)
   const [itemAddedToCart, setItemAddedToCart] = useState(false)
 
@@ -92,7 +93,7 @@ const ItemPage = () => {
               className='text-dark w-100 mb-3'
               disabled={cartLoadingStatus}
               onClick={() => {
-                isAuth ? addToCartHandle(item) : history.push(LOGIN_ROUTE)
+                isLoggedIn ? addToCartHandle(item) : history.push(LOGIN_ROUTE)
               }}>
               Add to cart
             </Button>

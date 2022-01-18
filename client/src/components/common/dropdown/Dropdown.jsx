@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Select from 'react-select'
 import { getItemsList, getItemsLoadingStatus } from '../../../store/items'
+import history from '../../../utils/history'
 
 function DropdownList() {
   const items = useSelector(getItemsList())
   const [options, setOptions] = useState([])
   const itemsLoadingStatus = useSelector(getItemsLoadingStatus())
-  const history = useHistory()
 
   useEffect(() => {
     if (!itemsLoadingStatus) {

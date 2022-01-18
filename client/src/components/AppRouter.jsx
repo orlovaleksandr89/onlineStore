@@ -3,13 +3,15 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import { adminRoutes, authRoutes, publicRoutes } from '../routes'
 import { ERROR_ROUTE } from '../utils/consts'
 import ErrorPage from '../pages/ErrorPage'
-import { useUser } from '../hooks/useUser'
+import { useSelector } from 'react-redux'
+import { getIsAdmin, getUserIsLoggedIn } from '../store/user'
 
 const AppRouter = () => {
-  const { isAuth, user } = useUser()
+  const isLoggedIn = useSelector(getUserIsLoggedIn())
+  const isAdmin = useSelector(getIsAdmin())
   return (
     <Switch>
-      {isAuth &&
+      {isLoggedIn &&
         authRoutes.map(({ path, Component }) => (
           <Route key={path} path={path} exact>
             <Component />
@@ -21,8 +23,8 @@ const AppRouter = () => {
         </Route>
       ))}
 
-      {isAuth &&
-        user.role === 'ADMIN' &&
+      {isLoggedIn &&
+        isAdmin &&
         adminRoutes.map(({ path, Component }) => (
           <Route key={path} path={path} exact>
             <Component />

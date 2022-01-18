@@ -1,5 +1,6 @@
 import axios from 'axios'
 import config from '../config.json'
+import { localStorageServise } from './localStorage.service'
 
 axios.defaults.baseURL = config.devFlag
   ? config.apiEndpoint
@@ -7,7 +8,7 @@ axios.defaults.baseURL = config.devFlag
 
 axios.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token')
+    const token = localStorageServise.getToken()
     config.headers.Authorization = `Bearer ${token}`
     return config
   },

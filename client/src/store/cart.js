@@ -1,6 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 import cartService from '../services/cart.service'
-
+import { LOGIN_ROUTE } from '../utils/consts'
+import createError from '../utils/createErrorMessage'
+import history from '../utils/history'
+import { logOut } from './user'
 const initialState = {
   entities: null,
   itemInCart: null,
@@ -14,7 +17,7 @@ const cartSlice = createSlice({
     cartRequested(state) {
       state.isLoading = true
     },
-    cartRequestSuccess(state, action) {
+    cartReceived(state, action) {
       state.entities = action.payload
       state.isLoading = false
     },
@@ -58,7 +61,7 @@ const cartSlice = createSlice({
 const { actions, reducer: cartReducer } = cartSlice
 const {
   cartRequested,
-  cartRequestSuccess,
+  cartReceived,
   cartRequestFailed,
   itemAddedToCart,
   itemRemovedFromCart,
@@ -71,9 +74,12 @@ export const loadCart = (userId) => async (dispatch) => {
   dispatch(cartRequested())
   try {
     const { data } = await cartService.get(userId)
-    dispatch(cartRequestSuccess(data.products))
+    dispatch(cartReceived(data.products))
   } catch (error) {
-    dispatch(cartRequestFailed(error.response.data.message))
+    const message = createError(error)
+    dispatch(cartRequestFailed(message))
+    dispatch(logOut())
+    history.push(LOGIN_ROUTE)
   }
 }
 
@@ -90,7 +96,10 @@ export const addItemToCart = (userId, product) => async (dispatch) => {
     await cartService.addItem(userId, cartItem)
     dispatch(itemAddedToCart(cartItem))
   } catch (error) {
-    dispatch(cartRequestFailed(error.response.data.message))
+    const message = createError(error)
+    dispatch(cartRequestFailed(message))
+    dispatch(logOut())
+    history.push(LOGIN_ROUTE)
   }
 }
 export const deleteItemFromCart = (userId, productId) => async (dispatch) => {
@@ -100,7 +109,10 @@ export const deleteItemFromCart = (userId, productId) => async (dispatch) => {
 
     dispatch(itemRemovedFromCart(productId))
   } catch (error) {
-    dispatch(cartRequestFailed(error.response.data.message))
+    const message = createError(error)
+    dispatch(cartRequestFailed(message))
+    dispatch(logOut())
+    history.push(LOGIN_ROUTE)
   }
 }
 
@@ -110,36 +122,56 @@ export const clearCart = (userId) => async (dispatch) => {
     await cartService.clearCart(userId)
     dispatch(cartCleared())
   } catch (error) {
-    dispatch(cartRequestFailed(error.response.data.message))
+    const message = createError(error)
+    dispatch(cartRequestFailed(message))
+    dispatch(logOut())
+    history.push(LOGIN_ROUTE)
   }
 }
 
 export const decrementCartItemQuantity =
-  (userId, itemId, quantity) => async (dispatch) => {
+  (userId, itemId) => async (dispatch, getState) => {
+    const { quantity } = getState().cart.entities.find(
+      (entity) => entity._id === itemId
+    )
     dispatch(cartRequested())
     try {
-      await cartService.updateCartItemQuantity(userId, itemId, quantity)
+      await cartService.updateCartItemQuantity(userId, itemId, quantity - 1)
 
       dispatch(itemQuantityDecremented(itemId))
     } catch (error) {
-      dispatch(cartRequestFailed(error.response.data.message))
+      const message = createError(error)
+      dispatch(cartRequestFailed(message))
+      dispatch(logOut())
+      history.push(LOGIN_ROUTE)
     }
   }
 export const incrementCartItemQuantity =
-  (userId, itemId, quantity) => async (dispatch) => {
+  (userId, itemId) => async (dispatch, getState) => {
+    const { quantity } = getState().cart.entities.find(
+      (entity) => entity._id === itemId
+    )
+
     dispatch(cartRequested())
     try {
-      await cartService.updateCartItemQuantity(userId, itemId, quantity)
-
+      await cartService.updateCartItemQuantity(userId, itemId, quantity + 1)
       dispatch(itemQuantityIncremented(itemId))
     } catch (error) {
-      dispatch(cartRequestFailed(error.response.data.message))
+      const message = createError(error)
+      dispatch(cartRequestFailed(message))
+      dispatch(logOut())
+      history.push(LOGIN_ROUTE)
     }
   }
 
 /* Selectors */
 
-export const getCartItems = () => (state) => state.cart.entities
+export const getCartItems = () => (state) => {
+  if (state.cart.entities) {
+    return state.cart.entities
+  }
+  return []
+}
 export const getCartLoadingStatus = () => (state) => state.cart.isLoading
 
 export default cartReducer

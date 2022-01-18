@@ -20,20 +20,17 @@ function CartItem({
   userId
 }) {
   const [showModal, setShowModal] = useState(false)
-  const [cartItemQuantity, setCartItemQuantity] = useState(quantity)
   const dispatch = useDispatch()
-
-  const quantityDecrementChangeHandler = (userId, itemId, quantity) => {
-    if (cartItemQuantity > 1) {
-      setCartItemQuantity((prev) => prev - 1)
-      dispatch(decrementCartItemQuantity(userId, itemId, quantity))
-    } else {
-      return setShowModal(true)
+  console.log(quantity)
+  const quantityDecrementChangeHandler = (userId, itemId) => {
+    if (quantity > 1) {
+      dispatch(decrementCartItemQuantity(userId, itemId))
+      return
     }
+    return setShowModal(true)
   }
-  const quantityIncrementChangeHandler = async (userId, itemId, quantity) => {
-    setCartItemQuantity((prev) => prev + 1)
-    dispatch(incrementCartItemQuantity(userId, itemId, quantity))
+  const quantityIncrementChangeHandler = async (userId, itemId) => {
+    dispatch(incrementCartItemQuantity(userId, itemId))
   }
 
   return (
@@ -57,9 +54,7 @@ function CartItem({
               Quantity
               <div className='d-flex align-items-center justify-content-between p-2'>
                 <Button
-                  onClick={() =>
-                    quantityDecrementChangeHandler(userId, _id, quantity - 1)
-                  }
+                  onClick={() => quantityDecrementChangeHandler(userId, _id)}
                   className='btn btn-secondary'
                   style={{ width: 40, height: 40, borderRadius: 20 }}
                   disabled={loading}>
@@ -67,13 +62,11 @@ function CartItem({
                 </Button>
                 <Form.Control
                   className='text-center w-50'
-                  value={cartItemQuantity}
+                  value={quantity}
                   readOnly
                 />
                 <Button
-                  onClick={() =>
-                    quantityIncrementChangeHandler(userId, _id, quantity + 1)
-                  }
+                  onClick={() => quantityIncrementChangeHandler(userId, _id)}
                   className=' btn btn-secondary '
                   style={{ width: 40, height: 40, borderRadius: 20 }}
                   disabled={loading}>

@@ -24,7 +24,7 @@ const itemsSlice = createSlice({
       state.error = action.payload
       state.isLoading = false
     },
-    itemsRecievedSuccessfully(state, action) {
+    itemsReceived(state, action) {
       state.entities = action.payload
       state.lastFetch = Date.now()
       state.isLoading = false
@@ -63,7 +63,7 @@ const { actions, reducer: itemsReducer } = itemsSlice
 const {
   itemsRequested,
   itemsRequestFailed,
-  itemsRecievedSuccessfully,
+  itemsReceived,
   newItemActionRequested,
   newItemRequestFailed,
   newItemCreatedSuccessfully,
@@ -78,7 +78,7 @@ export const loadItemsList = () => async (dispatch, getState) => {
     dispatch(itemsRequested())
     try {
       const items = await itemsService.get()
-      dispatch(itemsRecievedSuccessfully(items))
+      dispatch(itemsReceived(items))
     } catch (error) {
       dispatch(itemsRequestFailed(error.response.data.message))
     }

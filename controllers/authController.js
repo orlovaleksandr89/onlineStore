@@ -52,9 +52,17 @@ class AuthController {
 
       await user.save()
       await Cart.create({ owner: user._id })
-      // await Order.create({ owner: user._id })
 
-      return res.status(201).json({ message: 'User created successfully' })
+      const token = generateAccessToken(
+        user._id,
+        user.roles,
+        user.email,
+        user.name
+      )
+
+      return res
+        .status(201)
+        .json({ message: 'User created successfully', token })
     } catch (e) {
       res.status(500).json({ message: 'Something went wrong...' })
     }
@@ -99,9 +107,8 @@ class AuthController {
         user.email,
         user.name
       )
-      const userCart = await Cart.findOne({ owner: user._id })
 
-      return res.json({ token, userCart })
+      return res.json({ token })
     } catch (error) {
       res.status(500).json({ error, message: 'Something went wrong...' })
     }

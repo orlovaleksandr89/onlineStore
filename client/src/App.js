@@ -4,24 +4,30 @@ import AppRouter from './components/AppRouter'
 import Layout from './UI/Layout'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { loadItemsList } from './store/items'
 import { loadTypesList } from './store/types'
-import { useUser } from './hooks/useUser'
+
 import { loadCart } from './store/cart'
+import { checkUser, getIsAdmin, getUser, getUserIsLoggedIn } from './store/user'
 
 function App() {
-  const { user } = useUser()
-
+  const loggedIn = useSelector(getUserIsLoggedIn())
+  const user = useSelector(getUser())
+  const isAdmin = useSelector(getIsAdmin())
   const dispatch = useDispatch()
+
   useEffect(() => {
     dispatch(loadItemsList())
     dispatch(loadTypesList())
-    if (user.id && user.role === 'USER') {
+    if (loggedIn && !isAdmin) {
       dispatch(loadCart(user.id))
     }
-  }, [user])
+  }, [loggedIn, isAdmin])
 
+  useEffect(() => {
+    dispatch(checkUser())
+  }, [])
   return (
     <>
       <Layout>

@@ -1,22 +1,34 @@
 import React from 'react'
 import { Card, Col, Container, Row } from 'react-bootstrap'
-import { NavLink, useLocation } from 'react-router-dom'
-import { useUser } from '../../hooks/useUser'
-import { LOGIN_ROUTE, REGISTRATION_ROUTE } from '../../utils/consts'
+import { NavLink } from 'react-router-dom'
+import { LOGIN_ROUTE, MAIN_ROUTE, REGISTRATION_ROUTE } from '../../utils/consts'
 import Loader from '../common/Loader'
 import LoginForm from './LoginForm'
 import RegisterForm from './RegisterForm'
+import { useDispatch, useSelector } from 'react-redux'
+import { getUserLoadingStatus, logIn, registerUser } from '../../store/user'
+import history from '../../utils/history'
 
 function AuthForm() {
-  const location = useLocation()
+  const dispatch = useDispatch()
+  const userLoadingStatus = useSelector(getUserLoadingStatus())
 
-  const { loginUser, registerUser, loading } = useUser()
-  const isLogin = location.pathname === '/login'
+  const redirect = history.location.state
+    ? history.location.state.from.pathname
+    : MAIN_ROUTE
+
+  const isLogin = history.location.pathname === '/login'
+  const loginHandle = (formData) => {
+    dispatch(logIn({ formData, redirect }))
+  }
+  const registerHandle = (formData) => {
+    dispatch(registerUser(formData))
+  }
   const submitHandle = (data) => {
-    isLogin ? loginUser(data) : registerUser(data)
+    isLogin ? loginHandle(data) : registerHandle(data)
   }
 
-  if (loading) {
+  if (userLoadingStatus) {
     return <Loader />
   }
 
@@ -31,9 +43,15 @@ function AuthForm() {
               }`}</h2>
 
               {isLogin ? (
-                <LoginForm submitHandle={submitHandle} loading={loading} />
+                <LoginForm
+                  submitHandle={submitHandle}
+                  loading={userLoadingStatus}
+                />
               ) : (
-                <RegisterForm submitHandle={submitHandle} loading={loading} />
+                <RegisterForm
+                  submitHandle={submitHandle}
+                  loading={userLoadingStatus}
+                />
               )}
               <Row>
                 <div className='d-flex justify-content-center '>

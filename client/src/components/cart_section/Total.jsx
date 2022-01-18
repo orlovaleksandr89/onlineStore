@@ -2,10 +2,10 @@ import React from 'react'
 import { Col, Row, Card, Container } from 'react-bootstrap'
 import { CheckoutButton } from './index'
 import { currencyFormat } from '../../utils/consts'
-import { useUser } from '../../hooks/useUser'
 import { useDispatch, useSelector } from 'react-redux'
 import { clearCart, getCartItems } from '../../store/cart'
 import { createOrder } from '../../store/orders'
+import { getUser } from '../../store/user'
 
 function Total({ totlaPrice, history }) {
   const dispatch = useDispatch()
@@ -16,7 +16,7 @@ function Total({ totlaPrice, history }) {
   }
   const total = Number(getTotalPrice(totlaPrice))
 
-  const { user } = useUser()
+  const user = useSelector(getUser())
   const cartItems = useSelector(getCartItems())
 
   const clearCartHandler = () => {
