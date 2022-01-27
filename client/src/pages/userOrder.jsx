@@ -42,7 +42,7 @@ function UserOrder() {
   )
 
   return (
-    <Container className=' justify-content-center align-items-center p-4  text-center '>
+    <Container className=' justify-content-center align-items-center p-4 text-center '>
       {user?.name && <h3 className='p-3'>Welcome {user.name}</h3>}
       {userOrders.length === 0 ? (
         <p className='text-secondary'>Nothing to display yet</p>

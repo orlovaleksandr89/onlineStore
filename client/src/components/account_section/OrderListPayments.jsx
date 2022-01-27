@@ -15,7 +15,8 @@ function OrderListPayments({ userOrders, setSelected, selected }) {
               selected === order._id
                 ? 'list-group-item active'
                 : 'list-group-item'
-            }>
+            }
+            style={{ zIndex: 0 }}>
             {order.paymentId}
           </li>
         )
