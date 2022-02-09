@@ -14,5 +14,9 @@ const rootReducer = combineReducers({
 })
 
 export default function createStore() {
-  return configureStore({ reducer: rootReducer })
+  return configureStore({
+    reducer: rootReducer,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
+    devTools: process.env.NODE_ENV !== 'production'
+  })
 }
