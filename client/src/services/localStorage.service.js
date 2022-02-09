@@ -4,7 +4,7 @@ const setToken = (token) => {
   localStorage.setItem(TOKEN_KEY, token)
 }
 const setUser = (user) => {
-  localStorage.setItem(USER_KEY, user)
+  localStorage.setItem(USER_KEY, JSON.stringify(user))
 }
 const getToken = () => localStorage.getItem(TOKEN_KEY)
 const getUser = () => localStorage.getItem(USER_KEY)

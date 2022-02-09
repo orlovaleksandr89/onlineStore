@@ -79,7 +79,7 @@ export const logIn =
       const user = jwt_decode(token)
 
       localStorageServise.setToken(token)
-      localStorageServise.setUser(JSON.stringify(user))
+      localStorageServise.setUser(user)
       dispatch(authReceived(user))
       history.push(redirect)
     } catch (error) {
