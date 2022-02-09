@@ -1,11 +1,12 @@
 const express = require('express')
 const path = require('path')
 const mongoose = require('mongoose')
+const cors = require('cors')
 require('dotenv').config()
 
 const app = express()
-
 app.use(express.json({ extended: true }))
+app.use(cors())
 app.use('/auth', require('./routes/auth.routes'))
 app.use('/auth/admin', require('./routes/admin.routes'))
 app.use('/auth/items', require('./routes/items.routes'))
